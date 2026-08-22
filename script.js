@@ -567,7 +567,7 @@ function ssApplyLanguage(lang){
 
 function cleanLegacyCustomerText(){
   const s=data.settings||{};
-  if(s.services && s.services.text === "Services can be updated from the Admin Panel without changing the website code."){
+  if(s.services && s.services.text === "Professional services for tender work, project execution, manpower coordination and reliable field support."){
     s.services.text = "Professional services for tender work, project execution, manpower coordination and reliable field support.";
   }
   if(Array.isArray(data.projects)){
@@ -580,6 +580,9 @@ function cleanLegacyCustomerText(){
 }
 
 function applyAll(){
+  // Remove old technical/customer-facing Admin Panel text before rendering.
+  // This also fixes legacy content already stored in Supabase without deleting user data.
+  cleanLegacyCustomerText();
   renderHomepage();
   renderAbout();
   renderServices();

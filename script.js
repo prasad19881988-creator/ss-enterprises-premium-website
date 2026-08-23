@@ -1,16 +1,8 @@
 /* =========================================================
-   SS ENTERPRISES - COMPLETE SCRIPT
-   Language system + Supabase data + rendering
-   IMPORTANT:
-   - Existing Supabase data is NOT deleted.
-   - Existing projects/team/gallery/photos/URLs are preserved.
-   - English is the default language.
-   - Hindi is shown through the translation layer.
-   ========================================================= */
-
-
-/* =========================================================
-   DEFAULT DATA
+   SS ENTERPRISES
+   FINAL SCRIPT.JS
+   English / Hindi Language Support
+   Existing Supabase data preserved
    ========================================================= */
 
 const DEFAULT_DATA = {
@@ -214,7 +206,7 @@ const DEFAULT_DATA = {
 
 
 /* =========================================================
-   WORKING DATA
+   GLOBAL STATE
    ========================================================= */
 
 let data = JSON.parse(
@@ -239,7 +231,6 @@ const hasConfig =
   window.SS_CONFIG.SUPABASE_URL.startsWith("http") &&
   !window.SS_CONFIG.SUPABASE_URL.includes("PASTE_");
 
-
 if (
   hasConfig &&
   window.supabase
@@ -251,7 +242,7 @@ if (
     );
   } catch (e) {
     console.warn(
-      "Supabase client creation failed:",
+      "Supabase client could not be created:",
       e
     );
     sb = null;
@@ -260,57 +251,58 @@ if (
 
 
 /* =========================================================
-   BASIC HELPERS
+   HELPERS
    ========================================================= */
 
 const $ = selector =>
   document.querySelector(selector);
 
 
-const escapeHtml = (value = "") =>
-  String(value).replace(
-    /[&<>"']/g,
-    match =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[match])
-  );
-
-
-const safeUrl = (value = "") => {
-  const text = String(value).trim();
-
-  return /^(https?:\/\/|mailto:|tel:)/i.test(
-    text
-  )
-    ? text
-    : "";
-};
-
-
-const statusLabel = status =>
-  status === "ongoing" ||
-  status === "active"
-    ? "Ongoing"
-    : status === "upcoming"
-      ? "Upcoming"
-      : "Completed";
-
-
-function escapeRegExp(value = "") {
+function escapeHtml(value = "") {
   return String(value).replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&"
+    /[&<>"']/g,
+    char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char])
   );
 }
 
 
+function safeUrl(value = "") {
+  const url = String(value || "").trim();
+
+  return /^(https?:\/\/|mailto:|tel:)/i.test(url)
+    ? url
+    : "";
+}
+
+
+function statusLabel(status) {
+  if (
+    status === "ongoing" ||
+    status === "active"
+  ) {
+    return "Ongoing";
+  }
+
+  if (status === "upcoming") {
+    return "Upcoming";
+  }
+
+  if (status === "completed") {
+    return "Completed";
+  }
+
+  return status || "";
+}
+
+
 /* =========================================================
-   TRANSLATIONS
+   TRANSLATION DATABASE
    ========================================================= */
 
 const I18N = {
@@ -330,17 +322,10 @@ const I18N = {
 
   /* Buttons */
 
-  "Explore Our Work":
-    "हमारा कार्य देखें",
-
-  "Contact Us":
-    "संपर्क करें",
-
-  "Learn More":
-    "और जानें",
-
-  "Open Portal ↗":
-    "पोर्टल खोलें ↗",
+  "Explore Our Work": "हमारा कार्य देखें",
+  "Contact Us": "संपर्क करें",
+  "Learn More": "और जानें",
+  "Open Portal ↗": "पोर्टल खोलें ↗",
 
 
   /* Registration */
@@ -480,9 +465,6 @@ const I18N = {
 
   /* Common */
 
-  "📍":
-    "📍",
-
   "Aapki Seva Mein Hamari Khushi":
     "आपकी सेवा में हमारी खुशी",
 
@@ -490,7 +472,16 @@ const I18N = {
     "सर्वाधिकार सुरक्षित।",
 
 
-  /* Services / About */
+  /* About */
+
+  "ABOUT SS ENTERPRISES":
+    "SS ENTERPRISES के बारे में",
+
+  "People, projects &":
+    "लोग, प्रोजेक्ट और",
+
+  "professional execution.":
+    "पेशेवर कार्यान्वयन।",
 
   "Tender Work":
     "टेंडर कार्य",
@@ -504,6 +495,48 @@ const I18N = {
   "Workforce Expansion":
     "कार्यबल विस्तार",
 
+  "Responsible execution of awarded and contracted work with clear coordination.":
+    "प्राप्त एवं अनुबंधित कार्य का स्पष्ट समन्वय के साथ जिम्मेदार कार्यान्वयन।",
+
+  "Organised manpower, supervision and on-ground coordination for project delivery.":
+    "प्रोजेक्ट पूरा करने के लिए व्यवस्थित जनशक्ति, निगरानी और जमीनी समन्वय।",
+
+  "Building dependable teams suited to the requirements of each project.":
+    "प्रत्येक प्रोजेक्ट की आवश्यकताओं के अनुसार भरोसेमंद टीम तैयार करना।",
+
+  "Scalable staffing as project volume and operational requirements increase.":
+    "प्रोजेक्ट और संचालन की आवश्यकताओं के बढ़ने के साथ कार्यबल का विस्तार।",
+
+  "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.":
+    "हम उपयुक्त अनुबंधित और टेंडर आधारित कार्य लेते हैं तथा जवाबदेही, समन्वय और सेवा भावना के साथ उसे पूरा करने के लिए भरोसेमंद टीम तैयार करते हैं।",
+
+
+  /* Services */
+
+  "OUR SERVICES":
+    "हमारी सेवाएँ",
+
+  "What we":
+    "हम",
+
+  "do best.":
+    "सबसे अच्छा क्या करते हैं।",
+
+  "What We":
+    "हम",
+
+  "Do Best":
+    "सबसे अच्छा क्या करते हैं",
+
+  "What We Do Best":
+    "हमारी सेवाएँ",
+
+  "WHAT WE DO BEST":
+    "हमारी सेवाएँ",
+
+  "Professional services for tender work, project execution, manpower coordination and reliable field support.":
+    "टेंडर कार्य, प्रोजेक्ट कार्यान्वयन, जनशक्ति समन्वय और विश्वसनीय फील्ड सहायता के लिए पेशेवर सेवाएँ।",
+
   "Tender & Contract Work":
     "टेंडर एवं अनुबंध कार्य",
 
@@ -512,6 +545,57 @@ const I18N = {
 
   "Digital Service Projects":
     "डिजिटल सेवा प्रोजेक्ट्स",
+
+  "Execution support for awarded tenders and contracted assignments.":
+    "प्राप्त टेंडर और अनुबंधित कार्यों के लिए कार्यान्वयन सहायता।",
+
+  "Reliable staffing, supervision and field coordination for active projects.":
+    "चल रहे प्रोजेक्ट्स के लिए भरोसेमंद स्टाफ, निगरानी और फील्ड समन्वय।",
+
+  "Operational support for digital service workflows and citizen-facing projects.":
+    "डिजिटल सेवा प्रक्रियाओं और नागरिक-केंद्रित प्रोजेक्ट्स के लिए संचालन सहायता।",
+
+
+  /* Hero */
+
+  "PROJECT EXECUTION • TENDER WORK • MANPOWER":
+    "प्रोजेक्ट कार्यान्वयन • टेंडर कार्य • जनशक्ति",
+
+  "Building Work.":
+    "निर्माण कार्य।",
+
+  "Delivering Trust.":
+    "विश्वास के साथ कार्य।",
+
+  "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination.":
+    "SS Enterprises भरोसेमंद जनशक्ति, अनुशासित निगरानी और जिम्मेदार समन्वय के साथ अनुबंधित एवं टेंडर आधारित प्रोजेक्ट्स के पेशेवर कार्यान्वयन पर केंद्रित है।",
+
+
+  /* Projects information */
+
+  "Health / Digital Health Services":
+    "स्वास्थ्य / डिजिटल स्वास्थ्य सेवाएँ",
+
+  "Ayushman Bharat":
+    "आयुष्मान भारत",
+
+  "Bihar":
+    "बिहार",
+
+  "Donar Road, Darbhanga":
+    "डोनार रोड, दरभंगा",
+
+  "ABHA Card Project":
+    "आभा कार्ड प्रोजेक्ट",
+
+  "Ayushman Card KYC Project":
+    "आयुष्मान कार्ड KYC प्रोजेक्ट",
+
+  "ABHA Card service work through the existing SS Enterprises digital service workflow.":
+    "SS Enterprises की मौजूदा डिजिटल सेवा प्रक्रिया के माध्यम से आभा कार्ड सेवा कार्य।",
+
+  "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.":
+    "आयुष्मान कार्ड KYC से संबंधित प्रोजेक्ट, जिसमें प्रोजेक्ट की आवश्यकताओं के अनुसार फील्ड समन्वय और सेवा कार्य शामिल हैं।",
 
 
   /* Team roles */
@@ -550,105 +634,6 @@ const I18N = {
     "टीम सदस्य",
 
 
-  /* Project information */
-
-  "Health / Digital Health Services":
-    "स्वास्थ्य / डिजिटल स्वास्थ्य सेवाएँ",
-
-  "Ayushman Bharat":
-    "आयुष्मान भारत",
-
-  "Bihar":
-    "बिहार",
-
-  "Donar Road, Darbhanga":
-    "डोनार रोड, दरभंगा",
-
-
-  /* Projects */
-
-  "ABHA Card Project":
-    "आभा कार्ड प्रोजेक्ट",
-
-  "Ayushman Card KYC Project":
-    "आयुष्मान कार्ड KYC प्रोजेक्ट",
-
-  "ABHA Card service work through the existing SS Enterprises digital service workflow.":
-    "SS Enterprises की मौजूदा डिजिटल सेवा प्रक्रिया के माध्यम से आभा कार्ड सेवा कार्य।",
-
-  "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.":
-    "आयुष्मान कार्ड KYC से संबंधित प्रोजेक्ट, जिसमें प्रोजेक्ट की आवश्यकताओं के अनुसार फील्ड समन्वय और सेवा कार्य शामिल हैं।",
-
-
-  /* About */
-
-  "ABOUT SS ENTERPRISES":
-    "SS ENTERPRISES के बारे में",
-
-  "People, projects &":
-    "लोग, प्रोजेक्ट और",
-
-  "professional execution.":
-    "पेशेवर कार्यान्वयन।",
-
-  "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.":
-    "हम उपयुक्त अनुबंधित और टेंडर आधारित कार्य लेते हैं तथा जवाबदेही, समन्वय और सेवा भावना के साथ उसे पूरा करने के लिए भरोसेमंद टीम तैयार करते हैं।",
-
-
-  /* About cards */
-
-  "Responsible execution of awarded and contracted work with clear coordination.":
-    "प्राप्त एवं अनुबंधित कार्य का स्पष्ट समन्वय के साथ जिम्मेदार कार्यान्वयन।",
-
-  "Organised manpower, supervision and on-ground coordination for project delivery.":
-    "प्रोजेक्ट पूरा करने के लिए व्यवस्थित जनशक्ति, निगरानी और जमीनी समन्वय।",
-
-  "Building dependable teams suited to the requirements of each project.":
-    "प्रत्येक प्रोजेक्ट की आवश्यकताओं के अनुसार भरोसेमंद टीम तैयार करना।",
-
-  "Scalable staffing as project volume and operational requirements increase.":
-    "प्रोजेक्ट और संचालन की आवश्यकताओं के बढ़ने के साथ कार्यबल का विस्तार।",
-
-
-  /* Services */
-
-  "OUR SERVICES":
-    "हमारी सेवाएँ",
-
-  "What we":
-    "हम",
-
-  "do best.":
-    "सबसे अच्छा क्या करते हैं।",
-
-  "Professional services for tender work, project execution, manpower coordination and reliable field support.":
-    "टेंडर कार्य, प्रोजेक्ट एक्जीक्यूशन, मैनपावर समन्वय और विश्वसनीय फील्ड सहायता के लिए पेशेवर सेवाएँ।",
-
-  "Execution support for awarded tenders and contracted assignments.":
-    "प्राप्त टेंडर और अनुबंधित कार्यों के लिए कार्यान्वयन सहायता।",
-
-  "Reliable staffing, supervision and field coordination for active projects.":
-    "चल रहे प्रोजेक्ट्स के लिए भरोसेमंद स्टाफ, निगरानी और फील्ड समन्वय।",
-
-  "Operational support for digital service workflows and citizen-facing projects.":
-    "डिजिटल सेवा प्रक्रियाओं और नागरिक-केंद्रित प्रोजेक्ट्स के लिए संचालन सहायता।",
-
-
-  /* Hero */
-
-  "PROJECT EXECUTION • TENDER WORK • MANPOWER":
-    "प्रोजेक्ट कार्यान्वयन • टेंडर कार्य • जनशक्ति",
-
-  "Building Work.":
-    "निर्माण कार्य।",
-
-  "Delivering Trust.":
-    "विश्वास के साथ कार्य।",
-
-  "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination.":
-    "SS Enterprises भरोसेमंद जनशक्ति, अनुशासित निगरानी और जिम्मेदार समन्वय के साथ अनुबंधित एवं टेंडर आधारित प्रोजेक्ट्स के पेशेवर कार्यान्वयन पर केंद्रित है।",
-
-
   /* Team responsibilities */
 
   "Overall vision, strategic decisions, business direction and major operations.":
@@ -661,258 +646,134 @@ const I18N = {
     "राज्य स्तर पर प्रोजेक्ट समन्वय, फील्ड संचालन और जिला टीमों की निगरानी।",
 
   "District project implementation, field staff coordination and monitoring of assigned work.":
-    "जिला स्तर पर प्रोजेक्ट कार्यान्वयन, फील्ड स्टाफ समन्वय और सौंपे गए कार्य की निगरानी।"
-};
+    "जिला स्तर पर प्रोजेक्ट कार्यान्वयन, फील्ड स्टाफ समन्वय और सौंपे गए कार्य की निगरानी।",
 
 
-/* =========================================================
-   IMPORTANT:
-   OLD / MIXED CONTENT NORMALISATION
-   =========================================================
-
-   यह हिस्सा आपकी screenshot वाली problem के लिए है।
-
-   अगर Supabase में पहले से:
-   "People, प्रोजेक्ट्स &"
-   "What We Do Best Professional सेवाएं."
-   जैसा mixed content पड़ा है,
-   तो पहले उसे clean English base में बदला जाएगा।
-
-   इससे Supabase data delete नहीं होता।
-   सिर्फ display के समय सही text दिखाया जाता है.
-   ========================================================= */
-
-const CANONICAL_TEXT = {
-
-  /* About heading variants */
-
-  "People, प्रोजेक्ट्स &":
-    "People, projects &",
-
-  "People, प्रोजेक्ट्स & professional execution.":
-    "People, projects & professional execution.",
-
-  "People, projects & Professional execution.":
-    "People, projects & professional execution.",
-
-  "People, projects & professional execution":
-    "People, projects & professional execution.",
-
-
-  /* Services heading variants */
-
-  "What We Do Best Professional सेवाएं.":
-    "What we do best.",
-
-  "What We Do Best Professional सेवाएं":
-    "What we do best.",
-
-  "What We Do Best":
-    "What we do best.",
-
-  "What we Do Best":
-    "What we do best.",
-
-  "What we do Best":
-    "What we do best.",
-
-
-  /* Common mixed phrases */
+  /* Mixed / old content */
 
   "Professional सेवाएं.":
-    "Professional services.",
+    "पेशेवर सेवाएँ।",
 
   "Professional सेवाएं":
-    "Professional services.",
+    "पेशेवर सेवाएँ।",
 
-  "पेशेवर execution.":
-    "professional execution.",
+  "Professional Services":
+    "पेशेवर सेवाएँ",
 
-  "professional Execution.":
-    "professional execution.",
+  "Professional services.":
+    "पेशेवर सेवाएँ।",
 
-  "टेंडर Work":
-    "Tender Work",
+  "What we do best.":
+    "हमारी सेवाएँ।",
 
-  "Project कार्यान्वयन":
-    "Project Execution",
+  "What we do":
+    "हम क्या करते हैं",
 
-  "Skilled जनशक्ति":
-    "Skilled Manpower",
-
-  "कार्यबल Expansion":
-    "Workforce Expansion",
-
-
-  /* Project mixed variants */
-
-  "ABHA Card प्रोजेक्ट":
-    "ABHA Card Project",
-
-  "आभा Card Project":
-    "ABHA Card Project",
-
-  "Ayushman Card KYC प्रोजेक्ट":
-    "Ayushman Card KYC Project",
-
-  "आयुष्मान Card KYC Project":
-    "Ayushman Card KYC Project",
-
-
-  /* Service mixed variants */
-
-  "Tender एवं Contract Work":
-    "Tender & Contract Work",
-
-  "Tender & Contract कार्य":
-    "Tender & Contract Work",
-
-  "Project जनशक्ति":
-    "Project Manpower",
-
-  "Digital Service प्रोजेक्ट्स":
-    "Digital Service Projects"
+  "what we do best":
+    "हमारी सेवाएँ"
 };
 
 
 /* =========================================================
-   CANONICAL TEXT FUNCTION
+   CASE-INSENSITIVE TRANSLATION
    ========================================================= */
 
-function canonicalText(original = "") {
+function translateLookup(text) {
 
-  if (
-    original === null ||
-    original === undefined
-  ) {
+  const value = String(text ?? "").trim();
+
+  if (!value) {
     return "";
   }
 
-  let text = String(original);
-
-  /*
-    Exact known mixed text.
-  */
-
-  if (
-    CANONICAL_TEXT[text] !== undefined
-  ) {
-    return CANONICAL_TEXT[text];
+  if (I18N[value] !== undefined) {
+    return I18N[value];
   }
 
+  const lower =
+    value.toLowerCase();
 
-  /*
-    Replace known mixed phrases inside
-    larger sentences.
-  */
-
-  Object.entries(
-    CANONICAL_TEXT
-  ).forEach(([mixed, english]) => {
-
-    if (
-      !mixed ||
-      !english ||
-      !text.includes(mixed)
-    ) {
-      return;
-    }
-
-    text = text.replace(
-      new RegExp(
-        escapeRegExp(mixed),
-        "g"
-      ),
-      english
+  const exact =
+    Object.keys(I18N).find(
+      key =>
+        key.toLowerCase() === lower
     );
 
-  });
+  if (exact) {
+    return I18N[exact];
+  }
 
-
-  return text;
+  return null;
 }
 
 
-/* =========================================================
-   AUTO TRANSLATION
-   ========================================================= */
+function escapeRegExp(value = "") {
+  return String(value).replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
+}
 
-function autoTranslate(original = "") {
+
+function autoTranslate(text = "") {
 
   if (
-    original === null ||
-    original === undefined
+    text === null ||
+    text === undefined
   ) {
     return "";
   }
 
-  /*
-    Always clean known old/mixed content first.
-  */
+  const original =
+    String(text);
 
-  const canonical =
-    canonicalText(original);
-
-
-  /*
-    English mode:
-    return clean English where known.
-  */
-
-  if (
-    currentLang !== "hi"
-  ) {
-    return canonical;
+  if (currentLang !== "hi") {
+    return original;
   }
 
+  const exact =
+    translateLookup(original);
 
-  /*
-    Hindi mode:
-    exact translation first.
-  */
-
-  if (
-    I18N[canonical] !== undefined
-  ) {
-    return I18N[canonical];
+  if (exact !== null) {
+    return exact;
   }
 
+  let result =
+    original;
 
   /*
-    If exact text is not in dictionary,
-    replace known English phrases inside it.
+    Longest phrases first.
+    इससे "What We Do Best" पहले translate होगा
+    और बाद में उसके छोटे हिस्से अलग से नहीं टूटेंगे।
   */
 
-  let result = canonical;
+  const entries =
+    Object.entries(I18N)
+      .sort(
+        (a,b) =>
+          b[0].length - a[0].length
+      );
 
+  entries.forEach(
+    ([english, hindi]) => {
 
-  Object.entries(I18N)
-    .sort(
-      (a, b) =>
-        b[0].length - a[0].length
-    )
-    .forEach(
-      ([english, hindi]) => {
+      if (!english) {
+        return;
+      }
 
-        if (
-          !english ||
-          !hindi ||
-          !result.includes(english)
-        ) {
-          return;
-        }
-
-        result = result.replace(
-          new RegExp(
-            escapeRegExp(english),
-            "g"
-          ),
-          hindi
+      const regex =
+        new RegExp(
+          escapeRegExp(english),
+          "gi"
         );
 
-      }
-    );
-
+      result =
+        result.replace(
+          regex,
+          hindi
+        );
+    }
+  );
 
   return result;
 }
@@ -924,159 +785,124 @@ function t(text = "") {
 
 
 function displayText(text = "") {
-  return autoTranslate(text);
-}
-
-
-function translateRole(role) {
-  return t(role);
-}
-
-
-function translateStatus(status) {
-  return t(
-    statusLabel(status)
-  );
+  return currentLang === "hi"
+    ? autoTranslate(text)
+    : String(text ?? "");
 }
 
 
 /* =========================================================
-   NORMALISE DATA STRUCTURE
+   NORMALISE DATA
    ========================================================= */
 
 function normalise(raw) {
 
   const source =
-    raw &&
-    typeof raw === "object"
-      ? raw
-      : {};
+    raw || {};
 
-
-  const merged = {
+  const result = {
     ...JSON.parse(
-      JSON.stringify(
-        DEFAULT_DATA
-      )
+      JSON.stringify(DEFAULT_DATA)
     ),
     ...source
   };
 
-
-  merged.settings = {
+  result.settings = {
     ...DEFAULT_DATA.settings,
     ...(source.settings || {})
   };
 
-
-  merged.settings.homepage = {
+  result.settings.homepage = {
     ...DEFAULT_DATA.settings.homepage,
     ...(source.settings?.homepage || {})
   };
 
-
-  merged.settings.announcement = {
+  result.settings.announcement = {
     ...DEFAULT_DATA.settings.announcement,
     ...(source.settings?.announcement || {})
   };
 
-
-  merged.settings.sections = {
+  result.settings.sections = {
     ...DEFAULT_DATA.settings.sections,
     ...(source.settings?.sections || {})
   };
 
-
-  merged.settings.about = {
+  result.settings.about = {
     ...DEFAULT_DATA.settings.about,
     ...(source.settings?.about || {})
   };
 
-
-  merged.settings.services = {
+  result.settings.services = {
     ...DEFAULT_DATA.settings.services,
     ...(source.settings?.services || {})
   };
 
-
-  merged.settings.contact = {
+  result.settings.contact = {
     ...DEFAULT_DATA.settings.contact,
     ...(source.settings?.contact || {})
   };
 
-
-  merged.settings.gallery =
+  result.settings.gallery =
     Array.isArray(
       source.settings?.gallery
     )
       ? source.settings.gallery
       : [];
 
-
-  merged.settings.about.cards =
+  result.settings.about.cards =
     Array.isArray(
-      merged.settings.about.cards
+      result.settings.about.cards
     )
-      ? merged.settings.about.cards
+      ? result.settings.about.cards
       : DEFAULT_DATA.settings.about.cards;
 
-
-  merged.settings.services.cards =
+  result.settings.services.cards =
     Array.isArray(
-      merged.settings.services.cards
+      result.settings.services.cards
     )
-      ? merged.settings.services.cards
+      ? result.settings.services.cards
       : DEFAULT_DATA.settings.services.cards;
 
-
-  merged.settings.contact.socials =
+  result.settings.contact.socials =
     Array.isArray(
-      merged.settings.contact.socials
+      result.settings.contact.socials
     )
-      ? merged.settings.contact.socials
+      ? result.settings.contact.socials
       : DEFAULT_DATA.settings.contact.socials;
 
-
-  merged.projects =
+  result.projects =
     Array.isArray(source.projects)
       ? source.projects
       : DEFAULT_DATA.projects;
 
-
-  merged.team =
+  result.team =
     Array.isArray(source.team)
       ? source.team
       : DEFAULT_DATA.team;
 
+  result.projects =
+    result.projects.map(
+      project => ({
+        ...project,
 
-  /*
-    IMPORTANT:
-    Existing project fields are preserved.
-    We only provide missing defaults.
-  */
+        location:
+          project.location ||
+          "Bihar",
 
-  merged.projects =
-    merged.projects.map(project => ({
-      ...project,
+        published:
+          project.published !== false,
 
-      location:
-        project.location ||
-        "Bihar",
+        status:
+          project.status === "active"
+            ? "ongoing"
+            : (
+                project.status ||
+                "upcoming"
+              )
+      })
+    );
 
-      published:
-        project.published !== false,
-
-      status:
-        project.status === "active"
-          ? "ongoing"
-          : (
-              project.status ||
-              "upcoming"
-            )
-    }));
-
-
-  return merged;
+  return result;
 }
 
 
@@ -1084,10 +910,7 @@ function normalise(raw) {
    SECTION VISIBILITY
    ========================================================= */
 
-function setSection(
-  id,
-  enabled
-) {
+function setSection(id, visible) {
 
   const element =
     document.getElementById(id);
@@ -1097,7 +920,7 @@ function setSection(
   }
 
   element.style.display =
-    enabled
+    visible
       ? ""
       : "none";
 }
@@ -1110,8 +933,7 @@ function setSection(
 function renderAnnouncement() {
 
   const settings =
-    data.settings.announcement ||
-    {};
+    data.settings.announcement || {};
 
   const element =
     $("#announcement");
@@ -1120,7 +942,6 @@ function renderAnnouncement() {
     return;
   }
 
-
   if (
     !settings.enabled ||
     (
@@ -1128,17 +949,17 @@ function renderAnnouncement() {
       !settings.text
     )
   ) {
-
     element.style.display =
       "none";
 
     return;
   }
 
-
   element.style.display =
     "";
 
+  const link =
+    safeUrl(settings.link);
 
   element.innerHTML = `
     <div>
@@ -1160,15 +981,11 @@ function renderAnnouncement() {
     </div>
 
     ${
-      safeUrl(settings.link)
+      link
         ? `
           <a
             class="btn ghost"
-            href="${escapeHtml(
-              safeUrl(
-                settings.link
-              )
-            )}"
+            href="${escapeHtml(link)}"
             target="_blank"
             rel="noopener"
           >
@@ -1177,8 +994,7 @@ function renderAnnouncement() {
                 settings.linkLabel ||
                 "Learn More"
               )
-            )}
-            ↗
+            )} ↗
           </a>
         `
         : ""
@@ -1194,49 +1010,35 @@ function renderAnnouncement() {
 function renderHomepage() {
 
   const homepage =
-    data.settings.homepage ||
-    {};
-
+    data.settings.homepage || {};
 
   if ($("#heroEyebrow")) {
-    $("#heroEyebrow")
-      .textContent =
+    $("#heroEyebrow").textContent =
       displayText(
-        homepage.eyebrow ||
-        ""
+        homepage.eyebrow || ""
       );
   }
-
 
   if ($("#heroTitle")) {
-    $("#heroTitle")
-      .textContent =
+    $("#heroTitle").textContent =
       displayText(
-        homepage.title ||
-        ""
+        homepage.title || ""
       );
   }
-
 
   if ($("#heroAccent")) {
-    $("#heroAccent")
-      .textContent =
+    $("#heroAccent").textContent =
       displayText(
-        homepage.accent ||
-        ""
+        homepage.accent || ""
       );
   }
-
 
   if ($("#heroLead")) {
-    $("#heroLead")
-      .textContent =
+    $("#heroLead").textContent =
       displayText(
-        homepage.lead ||
-        ""
+        homepage.lead || ""
       );
   }
-
 
   renderAnnouncement();
 }
@@ -1248,89 +1050,58 @@ function renderHomepage() {
 
 function renderAbout() {
 
-  const settings =
-    data.settings.about ||
-    {};
-
   const section =
-    $("#about");
-
-  if (!section) {
-    return;
-  }
-
+    data.settings.about || {};
 
   setSection(
     "about",
     data.settings.sections.about
   );
 
-
   if ($("#aboutEyebrow")) {
-    $("#aboutEyebrow")
-      .textContent =
+    $("#aboutEyebrow").textContent =
       displayText(
-        settings.eyebrow ||
-        ""
+        section.eyebrow || ""
       );
   }
-
 
   if ($("#aboutTitle")) {
-    $("#aboutTitle")
-      .textContent =
+    $("#aboutTitle").textContent =
       displayText(
-        settings.title ||
-        ""
+        section.title || ""
       );
   }
-
 
   if ($("#aboutAccent")) {
-    $("#aboutAccent")
-      .textContent =
+    $("#aboutAccent").textContent =
       displayText(
-        settings.accent ||
-        ""
+        section.accent || ""
       );
   }
-
 
   if ($("#aboutText")) {
-    $("#aboutText")
-      .textContent =
+    $("#aboutText").textContent =
       displayText(
-        settings.text ||
-        ""
+        section.text || ""
       );
   }
-
 
   if ($("#aboutGrid")) {
 
     $("#aboutGrid").innerHTML =
-      (
-        settings.cards ||
-        []
-      )
+      (section.cards || [])
         .map(
           (card, index) => `
             <article>
 
               <div class="icon">
-                ${String(
-                  index + 1
-                ).padStart(
-                  2,
-                  "0"
-                )}
+                ${String(index + 1).padStart(2, "0")}
               </div>
 
               <h3>
                 ${escapeHtml(
                   displayText(
-                    card.title ||
-                    ""
+                    card.title
                   )
                 )}
               </h3>
@@ -1338,8 +1109,7 @@ function renderAbout() {
               <p>
                 ${escapeHtml(
                   displayText(
-                    card.text ||
-                    ""
+                    card.text
                   )
                 )}
               </p>
@@ -1358,89 +1128,64 @@ function renderAbout() {
 
 function renderServices() {
 
-  const settings =
-    data.settings.services ||
-    {};
-
   const section =
-    $("#services");
-
-  if (!section) {
-    return;
-  }
-
+    data.settings.services || {};
 
   setSection(
     "services",
     data.settings.sections.services
   );
 
-
   if ($("#servicesEyebrow")) {
-    $("#servicesEyebrow")
-      .textContent =
+    $("#servicesEyebrow").textContent =
       displayText(
-        settings.eyebrow ||
-        ""
+        section.eyebrow || ""
       );
   }
 
+  /*
+    Important:
+    If Supabase has one combined title such as
+    "What We Do Best", it will now translate correctly.
+  */
 
   if ($("#servicesTitle")) {
-    $("#servicesTitle")
-      .textContent =
+    $("#servicesTitle").textContent =
       displayText(
-        settings.title ||
-        ""
+        section.title || ""
       );
   }
-
 
   if ($("#servicesAccent")) {
-    $("#servicesAccent")
-      .textContent =
+    $("#servicesAccent").textContent =
       displayText(
-        settings.accent ||
-        ""
+        section.accent || ""
       );
   }
-
 
   if ($("#servicesText")) {
-    $("#servicesText")
-      .textContent =
+    $("#servicesText").textContent =
       displayText(
-        settings.text ||
-        ""
+        section.text || ""
       );
   }
-
 
   if ($("#servicesGrid")) {
 
     $("#servicesGrid").innerHTML =
-      (
-        settings.cards ||
-        []
-      )
+      (section.cards || [])
         .map(
           (card, index) => `
             <article>
 
               <div class="icon">
-                ${String(
-                  index + 1
-                ).padStart(
-                  2,
-                  "0"
-                )}
+                ${String(index + 1).padStart(2, "0")}
               </div>
 
               <h3>
                 ${escapeHtml(
                   displayText(
-                    card.title ||
-                    ""
+                    card.title
                   )
                 )}
               </h3>
@@ -1448,8 +1193,7 @@ function renderServices() {
               <p>
                 ${escapeHtml(
                   displayText(
-                    card.text ||
-                    ""
+                    card.text
                   )
                 )}
               </p>
@@ -1477,205 +1221,53 @@ function renderProjects(
     return;
   }
 
-
   setSection(
     "projects",
     data.settings.sections.projects
   );
 
-
-  const allProjects =
+  let projects =
     Array.isArray(data.projects)
       ? data.projects
       : [];
 
+  if (filter !== "all") {
 
-  const filtered =
-    filter === "all"
-      ? allProjects
-      : allProjects.filter(
-          project => {
+    projects =
+      projects.filter(
+        project => {
 
-            if (
-              filter ===
-              "ongoing"
-            ) {
-
-              return (
-                project.status ===
-                  "ongoing" ||
-                project.status ===
-                  "active"
-              );
-            }
-
+          if (
+            filter === "ongoing"
+          ) {
             return (
               project.status ===
-              filter
+                "ongoing" ||
+              project.status ===
+                "active"
             );
           }
-        );
 
+          return (
+            project.status ===
+            filter
+          );
+        }
+      );
+  }
 
-  const list =
-    filtered.filter(
+  projects =
+    projects.filter(
       project =>
         project.published !== false
     );
 
-
   const featuredId =
-    data.settings
-      .featuredProjectId;
+    data.settings.featuredProjectId;
 
+  if (!projects.length) {
 
-  grid.innerHTML =
-    list
-      .map(project => {
-
-        const link =
-          safeUrl(
-            project.link
-          );
-
-
-        const featured =
-          project.id ===
-          featuredId;
-
-
-        return `
-          <article
-            class="project-card ${
-              featured
-                ? "featured"
-                : ""
-            }"
-          >
-
-            ${
-              safeUrl(
-                project.photo
-              )
-                ? `
-                  <img
-                    class="project-photo"
-                    src="${escapeHtml(
-                      safeUrl(
-                        project.photo
-                      )
-                    )}"
-                    alt="${escapeHtml(
-                      project.name ||
-                      "SS Enterprises"
-                    )}"
-                  >
-                `
-                : ""
-            }
-
-
-            <span>
-              ${escapeHtml(
-                t("PROJECT")
-              )}
-
-              •
-
-              ${escapeHtml(
-                translateStatus(
-                  project.status
-                ).toUpperCase()
-              )}
-            </span>
-
-
-            <h3>
-              ${escapeHtml(
-                displayText(
-                  project.name ||
-                  ""
-                )
-              )}
-            </h3>
-
-
-            <p class="project-meta">
-
-              <strong>
-                ${escapeHtml(
-                  displayText(
-                    project.department ||
-                    ""
-                  )
-                )}
-              </strong>
-
-              <br>
-
-              📍
-              ${escapeHtml(
-                displayText(
-                  project.location ||
-                  "Bihar"
-                )
-              )}
-
-            </p>
-
-
-            <p>
-              ${escapeHtml(
-                displayText(
-                  project.description ||
-                  ""
-                )
-              )}
-            </p>
-
-
-            <div class="project-bottom">
-
-              <b>
-                ${escapeHtml(
-                  displayText(
-                    project.date ||
-                    ""
-                  )
-                )}
-              </b>
-
-
-              ${
-                link
-                  ? `
-                    <a
-                      class="project-link"
-                      href="${escapeHtml(
-                        link
-                      )}"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      ${escapeHtml(
-                        t(
-                          "Open Portal ↗"
-                        )
-                      )}
-                    </a>
-                  `
-                  : ""
-              }
-
-            </div>
-
-          </article>
-        `;
-
-      })
-      .join("")
-    ||
-    `
+    grid.innerHTML = `
       <div class="empty">
         ${escapeHtml(
           t(
@@ -1685,77 +1277,209 @@ function renderProjects(
       </div>
     `;
 
+  } else {
+
+    grid.innerHTML =
+      projects
+        .map(
+          project => {
+
+            const link =
+              safeUrl(
+                project.link
+              );
+
+            const featured =
+              project.id ===
+              featuredId;
+
+            return `
+              <article
+                class="project-card ${
+                  featured
+                    ? "featured"
+                    : ""
+                }"
+              >
+
+                ${
+                  safeUrl(
+                    project.photo
+                  )
+                    ? `
+                      <img
+                        class="project-photo"
+                        src="${escapeHtml(
+                          safeUrl(
+                            project.photo
+                          )
+                        )}"
+                        alt="${escapeHtml(
+                          project.name ||
+                          "SS Enterprises"
+                        )}"
+                        loading="lazy"
+                      >
+                    `
+                    : ""
+                }
+
+                <span>
+                  ${escapeHtml(
+                    t("PROJECT")
+                  )}
+                  •
+                  ${escapeHtml(
+                    translateStatus(
+                      project.status
+                    ).toUpperCase()
+                  )}
+                </span>
+
+                <h3>
+                  ${escapeHtml(
+                    displayText(
+                      project.name ||
+                      ""
+                    )
+                  )}
+                </h3>
+
+                <p class="project-meta">
+
+                  <strong>
+                    ${escapeHtml(
+                      displayText(
+                        project.department ||
+                        ""
+                      )
+                    )}
+                  </strong>
+
+                  <br>
+
+                  📍
+                  ${escapeHtml(
+                    displayText(
+                      project.location ||
+                      "Bihar"
+                    )
+                  )}
+
+                </p>
+
+                <p>
+                  ${escapeHtml(
+                    displayText(
+                      project.description ||
+                      ""
+                    )
+                  )}
+                </p>
+
+                <div class="project-bottom">
+
+                  <b>
+                    ${escapeHtml(
+                      displayText(
+                        project.date ||
+                        ""
+                      )
+                    )}
+                  </b>
+
+                  ${
+                    link
+                      ? `
+                        <a
+                          class="project-link"
+                          href="${escapeHtml(
+                            link
+                          )}"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          ${escapeHtml(
+                            t(
+                              "Open Portal ↗"
+                            )
+                          )}
+                        </a>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+              </article>
+            `;
+          }
+        )
+        .join("");
+  }
+
 
   const featured =
-    allProjects.find(
+    data.projects.find(
       project =>
         project.id ===
           featuredId &&
         project.published !== false
     );
 
-
   const panel =
     $("#portalPanel");
 
+  if (!panel) {
+    return;
+  }
 
-  if (panel) {
+  panel.style.display =
+    featured?.link
+      ? ""
+      : "none";
 
-    panel.style.display =
-      featured?.link
-        ? ""
-        : "none";
+  if (
+    featured &&
+    safeUrl(featured.link)
+  ) {
 
+    if ($("#portalTitle")) {
+      $("#portalTitle").textContent =
+        displayText(
+          featured.name ||
+          "Featured Project"
+        );
+    }
 
-    if (
-      featured?.link
-    ) {
+    if ($("#portalText")) {
+      $("#portalText").textContent =
+        displayText(
+          featured.description ||
+          "Open the featured digital service portal directly from SS Enterprises."
+        );
+    }
 
-      if (
-        $("#portalTitle")
-      ) {
+    if ($("#portalLink")) {
 
-        $("#portalTitle")
-          .textContent =
-          displayText(
-            featured.name ||
-            ""
-          );
-      }
+      $("#portalLink").href =
+        safeUrl(
+          featured.link
+        );
 
-
-      if (
-        $("#portalText")
-      ) {
-
-        $("#portalText")
-          .textContent =
-          displayText(
-            featured.description ||
-            "Open the featured digital service portal directly from SS Enterprises."
-          );
-      }
-
-
-      if (
-        $("#portalLink")
-      ) {
-
-        $("#portalLink")
-          .href =
-          safeUrl(
-            featured.link
-          ) || "#";
-
-
-        $("#portalLink")
-          .textContent =
-          t(
-            "Open Portal ↗"
-          );
-      }
+      $("#portalLink").textContent =
+        t(
+          "Open Portal ↗"
+        );
     }
   }
+}
+
+
+function translateStatus(status) {
+  return t(
+    statusLabel(status)
+  );
 }
 
 
@@ -1772,27 +1496,16 @@ function renderTeam() {
     return;
   }
 
-
   setSection(
     "team",
     data.settings.sections.team
   );
 
-
-  const members =
-    Array.isArray(data.team)
-      ? data.team
-      : [];
-
-
   grid.innerHTML =
-    members
+    (data.team || [])
       .map(
         member => `
-
-          <article
-            class="person-card"
-          >
+          <article class="person-card">
 
             ${
               safeUrl(
@@ -1809,29 +1522,26 @@ function renderTeam() {
                       member.name ||
                       "SS Enterprises"
                     )}"
+                    loading="lazy"
                   >
                 `
                 : `
-                  <div
-                    class="person-placeholder"
-                  >
+                  <div class="person-placeholder">
                     ♙
                   </div>
                 `
             }
 
-
             <div>
 
               <span class="role">
                 ${escapeHtml(
-                  translateRole(
+                  t(
                     member.role ||
                     ""
                   )
                 )}
               </span>
-
 
               <h3>
                 ${escapeHtml(
@@ -1841,7 +1551,6 @@ function renderTeam() {
                   )
                 )}
               </h3>
-
 
               <p>
                 📍
@@ -1853,7 +1562,6 @@ function renderTeam() {
                 )}
               </p>
 
-
               <p>
                 ${escapeHtml(
                   displayText(
@@ -1862,7 +1570,6 @@ function renderTeam() {
                   )
                 )}
               </p>
-
 
               ${
                 member.contact
@@ -1885,7 +1592,6 @@ function renderTeam() {
             </div>
 
           </article>
-
         `
       )
       .join("");
@@ -1925,61 +1631,42 @@ function renderVision() {
 function renderContact() {
 
   const settings =
-    data.settings.contact ||
-    {};
-
+    data.settings.contact || {};
 
   setSection(
     "contact",
     data.settings.sections.contact
   );
 
-
-  if (
-    $("#contactEyebrow")
-  ) {
-
-    $("#contactEyebrow")
-      .textContent =
+  if ($("#contactEyebrow")) {
+    $("#contactEyebrow").textContent =
       displayText(
         settings.eyebrow ||
         ""
       );
   }
 
-
-  if (
-    $("#contactTitle")
-  ) {
-
-    $("#contactTitle")
-      .textContent =
+  if ($("#contactTitle")) {
+    $("#contactTitle").textContent =
       displayText(
         settings.title ||
         ""
       );
   }
 
-
-  if (
-    $("#contactText")
-  ) {
-
-    $("#contactText")
-      .textContent =
+  if ($("#contactText")) {
+    $("#contactText").textContent =
       displayText(
         settings.text ||
         ""
       );
   }
 
-
   const phone =
     String(
       settings.phone ||
       ""
     ).trim();
-
 
   const whatsapp =
     String(
@@ -1988,13 +1675,11 @@ function renderContact() {
       ""
     ).trim();
 
-
   const email =
     String(
       settings.email ||
       ""
     ).trim();
-
 
   const links = [];
 
@@ -2071,19 +1756,21 @@ function renderContact() {
     []
   )
     .filter(
-      item =>
-        item &&
-        item.label &&
-        safeUrl(item.url)
+      social =>
+        social &&
+        social.label &&
+        safeUrl(
+          social.url
+        )
     )
     .forEach(
-      item => {
+      social => {
 
         links.push(`
           <a
             href="${escapeHtml(
               safeUrl(
-                item.url
+                social.url
               )
             )}"
             target="_blank"
@@ -2092,22 +1779,18 @@ function renderContact() {
             🔗
             ${escapeHtml(
               displayText(
-                item.label
+                social.label
               )
             )}
           </a>
         `);
-
       }
     );
 
 
-  if (
-    $("#contactCard")
-  ) {
+  if ($("#contactCard")) {
 
-    $("#contactCard")
-      .innerHTML =
+    $("#contactCard").innerHTML =
       links.join("");
   }
 }
@@ -2126,12 +1809,17 @@ function renderGallery() {
     return;
   }
 
-
   setSection(
     "gallery",
     data.settings.sections.gallery
   );
 
+  const grid =
+    $("#galleryGrid");
+
+  if (!grid) {
+    return;
+  }
 
   const items =
     (
@@ -2139,70 +1827,128 @@ function renderGallery() {
       []
     ).filter(
       item =>
-        item &&
-        safeUrl(item.url)
+        safeUrl(
+          item.url
+        )
     );
 
 
-  if (
-    !$("#galleryGrid")
-  ) {
+  if (!items.length) {
+
+    grid.innerHTML = `
+      <div class="empty">
+        ${escapeHtml(
+          t(
+            "Gallery photos will appear here."
+          )
+        )}
+      </div>
+    `;
+
     return;
   }
 
 
-  $("#galleryGrid")
-    .innerHTML =
-      items.length
+  grid.innerHTML =
+    items
+      .map(
+        item => `
+          <figure>
 
-        ? items
-            .map(
-              item => `
-
-                <figure>
-
-                  <img
-                    src="${escapeHtml(
-                      safeUrl(
-                        item.url
-                      )
-                    )}"
-                    alt="${escapeHtml(
-                      item.caption ||
-                      "SS Enterprises"
-                    )}"
-                    loading="lazy"
-                  >
-
-                  ${
-                    item.caption
-                      ? `
-                        <figcaption>
-                          ${escapeHtml(
-                            displayText(
-                              item.caption
-                            )
-                          )}
-                        </figcaption>
-                      `
-                      : ""
-                  }
-
-                </figure>
-
-              `
-            )
-            .join("")
-
-        : `
-            <div class="empty">
-              ${escapeHtml(
-                t(
-                  "Gallery photos will appear here."
+            <img
+              src="${escapeHtml(
+                safeUrl(
+                  item.url
                 )
-              )}
-            </div>
-          `;
+              )}"
+              alt="${escapeHtml(
+                item.caption ||
+                "SS Enterprises"
+              )}"
+              loading="lazy"
+            >
+
+            ${
+              item.caption
+                ? `
+                  <figcaption>
+                    ${escapeHtml(
+                      displayText(
+                        item.caption
+                      )
+                    )}
+                  </figcaption>
+                `
+                : ""
+            }
+
+          </figure>
+        `
+      )
+      .join("");
+}
+
+
+/* =========================================================
+   STATIC HTML TRANSLATION
+   ========================================================= */
+
+function applyStaticTranslations() {
+
+  /*
+    1. data-i18n elements
+  */
+
+  document
+    .querySelectorAll(
+      "[data-i18n]"
+    )
+    .forEach(
+      element => {
+
+        const key =
+          element.getAttribute(
+            "data-i18n"
+          ) || "";
+
+        if (
+          !element.dataset.ssOriginal
+        ) {
+          element.dataset.ssOriginal =
+            key;
+        }
+
+        const original =
+          element.dataset.ssOriginal;
+
+        element.textContent =
+          currentLang === "hi"
+            ? autoTranslate(
+                original
+              )
+            : original;
+      }
+    );
+
+
+  /*
+    2. Language buttons
+  */
+
+  document
+    .querySelectorAll(
+      "[data-lang]"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.lang ===
+            currentLang
+        );
+      }
+    );
 }
 
 
@@ -2212,349 +1958,42 @@ function renderGallery() {
 
 function createLanguageSwitcher() {
 
-  const wrappers =
-    document.querySelectorAll(
-      ".lang-switch, #ss-language-switcher"
-    );
-
-
-  if (!wrappers.length) {
-    return;
-  }
-
-
-  wrappers.forEach(
-    wrapper => {
-
-      wrapper
-        .querySelectorAll(
-          "[data-lang], .lang-btn, .ss-lang-btn"
-        )
-        .forEach(button => {
-
-          if (
-            button.dataset.ssBound ===
-            "1"
-          ) {
-            return;
-          }
-
-
-          button.dataset.ssBound =
-            "1";
-
-
-          button.addEventListener(
-            "click",
-            event => {
-
-              event.preventDefault();
-
-              ssApplyLanguage(
-                button.dataset.lang ||
-                "en"
-              );
-            }
-          );
-
-        });
-
-    }
-  );
-
-
   document
     .querySelectorAll(
-      "[data-lang], .lang-btn, .ss-lang-btn"
-    )
-    .forEach(button => {
-
-      button.classList.toggle(
-        "active",
-        (
-          button.dataset.lang ||
-          "en"
-        ) === currentLang
-      );
-
-    });
-}
-
-
-/* =========================================================
-   STATIC HTML TRANSLATION
-   ========================================================= */
-
-function applyLanguageToStaticHTML() {
-
-  /*
-    First handle elements with data-i18n.
-  */
-
-  document
-    .querySelectorAll(
-      "[data-i18n]"
+      ".lang-btn, .ss-lang-btn"
     )
     .forEach(
-      element => {
-
-        const key =
-          element.getAttribute(
-            "data-i18n"
-          );
-
+      button => {
 
         if (
-          !element.dataset.ssEn
+          button.dataset.ssBound ===
+          "1"
         ) {
-
-          element.dataset.ssEn =
-            key;
+          return;
         }
 
+        button.dataset.ssBound =
+          "1";
 
-        const original =
-          element.dataset.ssEn;
+        button.addEventListener(
+          "click",
+          event => {
 
+            event.preventDefault();
 
-        element.textContent =
-          currentLang === "hi"
-            ? autoTranslate(
-                original
-              )
-            : canonicalText(
-                original
-              );
-
-      }
-    );
-
-
-  /*
-    Fallback for buttons and filters
-    from older HTML versions.
-  */
-
-  document
-    .querySelectorAll(
-      ".filter, .actions .btn, #portalLink"
-    )
-    .forEach(
-      element => {
-
-        if (
-          !element.dataset.ssEn
-        ) {
-
-          element.dataset.ssEn =
-            element.textContent.trim();
-        }
-
-
-        const english =
-          element.dataset.ssEn;
-
-
-        element.textContent =
-          currentLang === "hi"
-            ? autoTranslate(
-                english
-              )
-            : canonicalText(
-                english
-              );
-
-      }
-    );
-
-
-  /*
-    Older HTML without data-i18n.
-  */
-
-  const staticSelectors = [
-
-    "#heroEyebrow",
-    "#heroTitle",
-    "#heroAccent",
-    "#heroLead",
-
-    "#aboutEyebrow",
-    "#aboutTitle",
-    "#aboutAccent",
-    "#aboutText",
-
-    "#servicesEyebrow",
-    "#servicesTitle",
-    "#servicesAccent",
-    "#servicesText",
-
-    "#contactEyebrow",
-    "#contactTitle",
-    "#contactText"
-  ];
-
-
-  staticSelectors.forEach(
-    selector => {
-
-      document
-        .querySelectorAll(
-          selector
-        )
-        .forEach(
-          element => {
-
-            /*
-              Dynamic render functions already
-              put the current language here.
-
-              We store the clean English source
-              only once when it is not available.
-            */
-
-            if (
-              !element.dataset.ssEn
-            ) {
-
-              const current =
-                element.textContent.trim();
-
-              const clean =
-                canonicalText(
-                  current
-                );
-
-              element.dataset.ssEn =
-                clean;
-            }
-
+            ssApplyLanguage(
+              button.dataset.lang ||
+              "en"
+            );
           }
         );
-
-    }
-  );
-}
-
-
-/* =========================================================
-   RESET STATIC HTML TO ENGLISH
-   ========================================================= */
-
-function resetStaticHTMLToEnglish() {
-
-  document
-    .querySelectorAll(
-      "[data-i18n]"
-    )
-    .forEach(
-      element => {
-
-        const key =
-          element.getAttribute(
-            "data-i18n"
-          );
-
-
-        if (
-          !element.dataset.ssEn
-        ) {
-
-          element.dataset.ssEn =
-            key;
-        }
-
-
-        element.textContent =
-          canonicalText(
-            element.dataset.ssEn
-          );
       }
     );
 
 
   document
     .querySelectorAll(
-      ".filter, .actions .btn, #portalLink"
-    )
-    .forEach(
-      element => {
-
-        if (
-          !element.dataset.ssEn
-        ) {
-
-          element.dataset.ssEn =
-            element.textContent.trim();
-        }
-
-
-        element.textContent =
-          canonicalText(
-            element.dataset.ssEn
-          );
-      }
-    );
-}
-
-
-/* =========================================================
-   APPLY LANGUAGE
-   ========================================================= */
-
-function ssApplyLanguage(
-  language
-) {
-
-  currentLang =
-    language === "hi"
-      ? "hi"
-      : "en";
-
-
-  localStorage.setItem(
-    "ss_language",
-    currentLang
-  );
-
-
-  document.documentElement.lang =
-    currentLang;
-
-
-  /*
-    First restore static text.
-  */
-
-  if (
-    currentLang === "en"
-  ) {
-
-    resetStaticHTMLToEnglish();
-  }
-
-
-  /*
-    Re-render every dynamic section.
-  */
-
-  applyAll();
-
-
-  /*
-    Static data-i18n content.
-  */
-
-  applyLanguageToStaticHTML();
-
-
-  /*
-    Active button state.
-  */
-
-  document
-    .querySelectorAll(
-      "[data-lang], .lang-btn, .ss-lang-btn"
+      ".lang-btn, .ss-lang-btn"
     )
     .forEach(
       button => {
@@ -2566,38 +2005,70 @@ function ssApplyLanguage(
             "en"
           ) === currentLang
         );
-
       }
     );
 }
 
 
 /* =========================================================
-   LEGACY DATA CLEANUP
-   =========================================================
+   LANGUAGE APPLY
+   ========================================================= */
 
-   IMPORTANT:
-   This DOES NOT write anything to Supabase.
-   It only makes old legacy text display correctly.
+function ssApplyLanguage(
+  language
+) {
 
-   Existing user data is preserved.
+  currentLang =
+    language === "hi"
+      ? "hi"
+      : "en";
+
+  localStorage.setItem(
+    "ss_language",
+    currentLang
+  );
+
+  document.documentElement.lang =
+    currentLang;
+
+  applyAll();
+
+  applyStaticTranslations();
+
+  createLanguageSwitcher();
+}
+
+
+/* =========================================================
+   OLD / LEGACY CONTENT CLEANUP
    ========================================================= */
 
 function cleanLegacyCustomerText() {
 
+  /*
+    यह केवल पुराने गलत/default text को
+    सही करता है।
+
+    Existing user data, photos, URLs,
+    projects और team members delete नहीं होते।
+  */
+
   const settings =
-    data.settings ||
-    {};
+    data.settings || {};
 
 
   /*
-    Old service text.
+    पुराने Services description
   */
 
   if (
     settings.services &&
-    settings.services.text ===
-      "Professional services for tender work, project execution, manpower coordination and reliable field support."
+    (
+      settings.services.text ===
+        "Professional services for tender work, project execution, manpower coordination and reliable field support." ||
+      settings.services.text ===
+        "Professional सेवाएं."
+    )
   ) {
 
     settings.services.text =
@@ -2606,7 +2077,7 @@ function cleanLegacyCustomerText() {
 
 
   /*
-    Old project description.
+    पुराने Ayushman description
   */
 
   if (
@@ -2626,7 +2097,6 @@ function cleanLegacyCustomerText() {
           project.description =
             "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.";
         }
-
       }
     );
   }
@@ -2634,20 +2104,12 @@ function cleanLegacyCustomerText() {
 
 
 /* =========================================================
-   RENDER ALL
+   ALL RENDER
    ========================================================= */
 
 function applyAll() {
 
-  /*
-    IMPORTANT:
-    Nothing is deleted from Supabase here.
-
-    This only changes the in-memory display data.
-  */
-
   cleanLegacyCustomerText();
-
 
   renderHomepage();
 
@@ -2669,13 +2131,12 @@ function applyAll() {
 
 
   /*
-    Address fields.
+    Address attributes
   */
 
   const address =
     data.settings.address ||
     "Donar Road, Darbhanga";
-
 
   document
     .querySelectorAll(
@@ -2693,7 +2154,7 @@ function applyAll() {
 
 
   /*
-    Project filters.
+    Project filters
   */
 
   document
@@ -2717,29 +2178,25 @@ function applyAll() {
                   )
               );
 
-
             button.classList.add(
               "active"
             );
-
 
             renderProjects(
               button.dataset.filter ||
               "all"
             );
           };
-
       }
     );
 
 
   /*
-    Footer year.
+    Current year
   */
 
   const year =
     $("#year");
-
 
   if (year) {
 
@@ -2749,39 +2206,25 @@ function applyAll() {
   }
 
 
-  createLanguageSwitcher();
-
-
   /*
-    Keep active language button correct.
+    Static HTML
   */
 
-  document
-    .querySelectorAll(
-      ".ss-lang-btn, .lang-btn"
-    )
-    .forEach(
-      button => {
+  applyStaticTranslations();
 
-        button.classList.toggle(
-          "active",
-          button.dataset.lang ===
-            currentLang
-        );
-
-      }
-    );
+  createLanguageSwitcher();
 }
 
 
 /* =========================================================
-   LOAD DATA FROM SUPABASE
+   LOAD FROM SUPABASE
    ========================================================= */
 
 async function loadData() {
 
   /*
-    Start with safe default data.
+    Default data पहले से मौजूद है।
+    इसलिए Supabase fail होने पर भी website blank नहीं होगी।
   */
 
   data =
@@ -2790,16 +2233,11 @@ async function loadData() {
     );
 
 
-  /*
-    If Supabase is configured,
-    load existing data.
-  */
-
   if (sb) {
 
     try {
 
-      const result =
+      const response =
         await sb
           .from("site_data")
           .select("content")
@@ -2808,11 +2246,10 @@ async function loadData() {
 
 
       const row =
-        result?.data;
-
+        response?.data;
 
       const error =
-        result?.error;
+        response?.error;
 
 
       if (
@@ -2822,72 +2259,132 @@ async function loadData() {
       ) {
 
         /*
-          Existing Supabase content is preserved.
-
-          normalise() only fills missing
-          structures. It does NOT delete fields.
+          Existing Supabase content preserved.
         */
 
         data =
           normalise(
             row.content
           );
-
-      } else {
-
-        data =
-          normalise(
-            DEFAULT_DATA
-          );
       }
 
     } catch (error) {
 
       console.warn(
-        "Supabase load failed:",
+        "Supabase load failed. Default data will be used:",
         error
       );
-
-
-      /*
-        Keep the site working even if
-        Supabase temporarily fails.
-      */
 
       data =
         normalise(
           DEFAULT_DATA
         );
     }
-
-  } else {
-
-    data =
-      normalise(
-        DEFAULT_DATA
-      );
   }
 
 
   /*
-    Render website.
+    Website render
   */
 
   applyAll();
 
 
   /*
-    If Hindi was selected previously,
-    ensure static HTML is translated.
+    Saved language
   */
 
   if (
     currentLang === "hi"
   ) {
-
-    applyLanguageToStaticHTML();
+    applyStaticTranslations();
   }
 }
+
+
+/* =========================================================
+   DOM READY
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    /*
+      Language switch
+    */
+
+    createLanguageSwitcher();
+
+
+    /*
+      Mobile menu
+    */
+
+    const menu =
+      $(".menu");
+
+    if (menu) {
+
+      menu.addEventListener(
+        "click",
+        () => {
+
+          const nav =
+            document.querySelector(
+              "nav"
+            );
+
+          if (nav) {
+            nav.classList.toggle(
+              "open"
+            );
+          }
+        }
+      );
+    }
+
+
+    /*
+      Close mobile menu after navigation
+    */
+
+    document
+      .querySelectorAll(
+        "nav a"
+      )
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              document
+                .querySelector(
+                  "nav"
+                )
+                ?.classList.remove(
+                  "open"
+                );
+            }
+          );
+        }
+      );
+
+
+    /*
+      Saved language
+    */
+
+    currentLang =
+      localStorage.getItem(
+        "ss_language"
+      ) === "hi"
+        ? "hi"
+        : "en";
+  }
+);
 
 
 /* =========================================================
@@ -2901,119 +2398,17 @@ window.addEventListener(
     setTimeout(
       () => {
 
-        const intro =
-          $("#intro");
-
-        if (intro) {
-          intro.remove();
-        }
+        $("#intro")?.remove();
 
       },
       3200
     );
-
   }
 );
 
 
 /* =========================================================
-   DOM READY
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    /*
-      Language switcher.
-    */
-
-    createLanguageSwitcher();
-
-
-    /*
-      Mobile menu.
-    */
-
-    const menu =
-      $(".menu");
-
-
-    if (menu) {
-
-      menu.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelector("nav")
-            ?.classList.toggle(
-              "open"
-            );
-
-        }
-      );
-    }
-
-
-    /*
-      Close menu after navigation.
-    */
-
-    document
-      .querySelectorAll(
-        "nav a"
-      )
-      .forEach(
-        anchor => {
-
-          anchor.addEventListener(
-            "click",
-            () => {
-
-              document
-                .querySelector("nav")
-                ?.classList.remove(
-                  "open"
-                );
-
-            }
-          );
-
-        }
-      );
-
-
-    /*
-      Restore saved language.
-
-      English is default.
-    */
-
-    currentLang =
-      localStorage.getItem(
-        "ss_language"
-      ) === "hi"
-        ? "hi"
-        : "en";
-
-
-    document.documentElement.lang =
-      currentLang;
-
-
-    /*
-      Do not render here.
-      loadData() handles rendering
-      after Supabase data is loaded.
-    */
-
-  }
-);
-
-
-/* =========================================================
-   START WEBSITE
+   START
    ========================================================= */
 
 loadData();
@@ -3021,16 +2416,25 @@ loadData();
 
 /* =========================================================
    LANGUAGE SWITCHER STYLE
-   No styles.css modification required.
    ========================================================= */
 
-(function () {
+(function addLanguageStyles() {
+
+  if (
+    document.getElementById(
+      "ss-language-style"
+    )
+  ) {
+    return;
+  }
 
   const style =
     document.createElement(
       "style"
     );
 
+  style.id =
+    "ss-language-style";
 
   style.textContent = `
 
@@ -3043,55 +2447,67 @@ loadData();
     }
 
     .ss-lang-btn {
-      border: 1px solid
-        rgba(255,255,255,.28);
-
+      border: 1px solid rgba(255,255,255,.28);
       background: transparent;
-
       color: inherit;
-
       padding: 7px 10px;
-
       border-radius: 999px;
-
       font: inherit;
-
       font-size: 12px;
-
       line-height: 1;
-
       cursor: pointer;
-
       white-space: nowrap;
     }
 
     .ss-lang-btn.active {
       background: #b7df73;
-
       color: #071a3a;
-
       border-color: #b7df73;
+      font-weight: 700;
+    }
 
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .lang-btn {
+      border: 1px solid rgba(255,255,255,.28);
+      background: transparent;
+      color: inherit;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .lang-btn.active {
+      background: #b7df73;
+      color: #071a3a;
+      border-color: #b7df73;
       font-weight: 700;
     }
 
     @media (max-width: 760px) {
 
+      .lang-switch,
       .ss-language-switcher {
         margin: 12px 0 0;
-
         justify-content: flex-start;
       }
 
-      header.nav nav.open
-      .ss-language-switcher {
+      nav.open .lang-switch,
+      nav.open .ss-language-switcher {
         display: flex;
       }
-
     }
 
   `;
-
 
   document.head.appendChild(
     style

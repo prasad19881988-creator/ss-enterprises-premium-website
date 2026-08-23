@@ -513,7 +513,11 @@ const I18N = {
 
 "Professional Execution Building Trust Through Responsible Work.":
   "पेशेवर कार्यान्वयन और जिम्मेदार कार्य के साथ विश्वास का निर्माण।",
+"Professional Execution":
+  "पेशेवर कार्यान्वयन",
 
+"Building Trust Through Responsible Work.":
+  "जिम्मेदार कार्य के साथ विश्वास का निर्माण",
 
   /* Services */
 

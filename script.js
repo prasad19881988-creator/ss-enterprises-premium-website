@@ -1138,37 +1138,104 @@ function renderServices() {
 
   if ($("#servicesEyebrow")) {
     $("#servicesEyebrow").textContent =
-      displayText(
-        section.eyebrow || ""
-      );
+      currentLang === "hi"
+        ? "हमारी सेवाएँ"
+        : displayText(
+            section.eyebrow || "OUR SERVICES"
+          );
   }
 
   /*
-    Important:
-    If Supabase has one combined title such as
-    "What We Do Best", it will now translate correctly.
+    SERVICES TITLE
+    -------------------------
+    Hindi:
+      केवल "हमारी सेवाएँ"
+
+    English:
+      "What We Do Best"
+
+    अगर Supabase में पुराना combined
+    "What We Do Best Professional Services"
+    पड़ा है तो उसे भी साफ कर दिया जाएगा।
   */
 
   if ($("#servicesTitle")) {
-    $("#servicesTitle").textContent =
-      displayText(
+
+    let title =
+      String(
         section.title || ""
-      );
+      ).trim();
+
+    if (currentLang === "hi") {
+
+      $("#servicesTitle").textContent =
+        "हमारी सेवाएँ";
+
+    } else {
+
+      if (
+        title.toLowerCase().includes(
+          "what we do best"
+        )
+      ) {
+        $("#servicesTitle").textContent =
+          "What We Do Best";
+      } else {
+        $("#servicesTitle").textContent =
+          title || "What We Do Best";
+      }
+    }
   }
+
+
+  /*
+    ACCENT
+    -------------------------
+    Hindi में पुराने
+    "Professional Services"
+    को बिल्कुल नहीं दिखाना है।
+  */
 
   if ($("#servicesAccent")) {
-    $("#servicesAccent").textContent =
-      displayText(
-        section.accent || ""
-      );
+
+    if (currentLang === "hi") {
+
+      $("#servicesAccent").textContent =
+        "";
+
+      $("#servicesAccent").style.display =
+        "none";
+
+    } else {
+
+      $("#servicesAccent").style.display =
+        "";
+
+      $("#servicesAccent").textContent =
+        "Professional Services.";
+    }
   }
 
+
+  /*
+    SERVICES DESCRIPTION
+  */
+
   if ($("#servicesText")) {
+
     $("#servicesText").textContent =
-      displayText(
-        section.text || ""
-      );
+      currentLang === "hi"
+        ? "टेंडर कार्य, प्रोजेक्ट कार्यान्वयन, जनशक्ति समन्वय और विश्वसनीय फील्ड सहायता के लिए पेशेवर सेवाएँ।"
+        : (
+            section.text ||
+            "Professional services for tender work, project execution, manpower coordination and reliable field support."
+          );
   }
+
+
+  /*
+    SERVICE CARDS
+  */
 
   if ($("#servicesGrid")) {
 
@@ -1185,7 +1252,7 @@ function renderServices() {
               <h3>
                 ${escapeHtml(
                   displayText(
-                    card.title
+                    card.title || ""
                   )
                 )}
               </h3>
@@ -1193,7 +1260,7 @@ function renderServices() {
               <p>
                 ${escapeHtml(
                   displayText(
-                    card.text
+                    card.text || ""
                   )
                 )}
               </p>
@@ -1204,6 +1271,8 @@ function renderServices() {
         .join("");
   }
 }
+
+            
 
 
 /* =========================================================

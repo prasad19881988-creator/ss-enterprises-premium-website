@@ -2,186 +2,160 @@ const DEFAULT_DATA = {
   settings: {
     locationLabel: "Bihar",
     address: "Donar Road, Darbhanga",
-
     homepage: {
       eyebrow: "PROJECT EXECUTION • TENDER WORK • MANPOWER",
       title: "Building Work.",
       accent: "Delivering Trust.",
       lead: "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination."
     },
-
     announcement: {
-      enabled: false,
-      title: "",
-      text: "",
-      link: "",
-      linkLabel: "Learn More"
+      enabled:false,
+      title:"",
+      text:"",
+      link:"",
+      linkLabel:"Learn More"
     },
-
     featuredProjectId: "abha",
-
     sections: {
-      about: true,
-      services: true,
-      projects: true,
-      team: true,
-      credentials: true,
-      vision: true,
-      gallery: true,
-      contact: true
+      about:true,
+      services:true,
+      projects:true,
+      team:true,
+      credentials:true,
+      vision:true,
+      gallery:true,
+      contact:true
     },
-
     about: {
-      eyebrow: "ABOUT SS ENTERPRISES",
-      title: "People, projects &",
-      accent: "professional execution.",
-      text: "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.",
-
-      cards: [
+      eyebrow:"ABOUT SS ENTERPRISES",
+      title:"People, projects &",
+      accent:"professional execution.",
+      text:"We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.",
+      cards:[
         {
-          title: "Tender Work",
-          text: "Responsible execution of awarded and contracted work with clear coordination."
+          title:"Tender Work",
+          text:"Responsible execution of awarded and contracted work with clear coordination."
         },
         {
-          title: "Project Execution",
-          text: "Organised manpower, supervision and on-ground coordination for project delivery."
+          title:"Project Execution",
+          text:"Organised manpower, supervision and on-ground coordination for project delivery."
         },
         {
-          title: "Skilled Manpower",
-          text: "Building dependable teams suited to the requirements of each project."
+          title:"Skilled Manpower",
+          text:"Building dependable teams suited to the requirements of each project."
         },
         {
-          title: "Workforce Expansion",
-          text: "Scalable staffing as project volume and operational requirements increase."
+          title:"Workforce Expansion",
+          text:"Scalable staffing as project volume and operational requirements increase."
         }
       ]
     },
-
     services: {
-      eyebrow: "OUR SERVICES",
-      title: "What we",
-      accent: "do best.",
-      text: "Professional services for tender work, project execution, manpower coordination and reliable field support.",
-
-      cards: [
+      eyebrow:"OUR SERVICES",
+      title:"What we",
+      accent:"do best.",
+      text:"Professional services for tender work, project execution, manpower coordination and reliable field support.",
+      cards:[
         {
-          title: "Tender & Contract Work",
-          text: "Execution support for awarded tenders and contracted assignments."
+          title:"Tender & Contract Work",
+          text:"Execution support for awarded tenders and contracted assignments."
         },
         {
-          title: "Project Manpower",
-          text: "Reliable staffing, supervision and field coordination for active projects."
+          title:"Project Manpower",
+          text:"Reliable staffing, supervision and field coordination for active projects."
         },
         {
-          title: "Digital Service Projects",
-          text: "Operational support for digital service workflows and citizen-facing projects."
+          title:"Digital Service Projects",
+          text:"Operational support for digital service workflows and citizen-facing projects."
         }
       ]
     },
-
     contact: {
-      eyebrow: "LET'S WORK TOGETHER",
-      title: "Have a project in mind?",
-      text: "For business enquiries, project discussions and work opportunities, contact SS Enterprises directly.",
-
-      phone: "+91 73600 25302",
-      whatsapp: "+91 73600 25302",
-      email: "ssenterprisesservice@poton.me",
-
-      address: "Donar Road, Darbhanga",
-
-      socials: [
-        {
-          label: "Facebook",
-          url: ""
-        },
-        {
-          label: "Instagram",
-          url: ""
-        },
-        {
-          label: "YouTube",
-          url: ""
-        }
+      eyebrow:"LET'S WORK TOGETHER",
+      title:"Have a project in mind?",
+      text:"For business enquiries, project discussions and work opportunities, contact SS Enterprises directly.",
+      phone:"+91 73600 25302",
+      whatsapp:"+91 73600 25302",
+      email:"ssenterprisesservice@poton.me",
+      address:"Donar Road, Darbhanga",
+      socials:[
+        {label:"Facebook",url:""},
+        {label:"Instagram",url:""},
+        {label:"YouTube",url:""}
       ]
     },
-
     gallery: []
   },
 
-  projects: [
+  projects:[
     {
-      id: "abha",
-      name: "ABHA Card Project",
-      department: "Health / Digital Health Services",
-      location: "Bihar",
-      status: "ongoing",
-      description: "ABHA Card service work through the existing SS Enterprises digital service workflow.",
-      date: "Active",
-      link: "https://ss-enterprises-abha-app-2026.onrender.com/",
-      photo: "",
-      published: true
+      id:"abha",
+      name:"ABHA Card Project",
+      department:"Health / Digital Health Services",
+      location:"Bihar",
+      status:"ongoing",
+      description:"ABHA Card service work through the existing SS Enterprises digital service workflow.",
+      date:"Active",
+      link:"https://ss-enterprises-abha-app-2026.onrender.com/",
+      photo:"",
+      published:true
     },
-
     {
-      id: "ayushman",
-      name: "Ayushman Card KYC Project",
-      department: "Ayushman Bharat",
-      location: "Bihar",
-      status: "upcoming",
-      description: "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.",
-      date: "Upcoming",
-      link: "",
-      photo: "",
-      published: true
+      id:"ayushman",
+      name:"Ayushman Card KYC Project",
+      department:"Ayushman Bharat",
+      location:"Bihar",
+      status:"upcoming",
+      description:"Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.",
+      date:"Upcoming",
+      link:"",
+      photo:"",
+      published:true
     }
   ],
 
-  team: [
+  team:[
     {
-      id: "founder",
-      role: "Founder",
-      name: "Founder",
-      location: "Darbhanga, Bihar",
-      responsibilities: "Overall vision, strategic decisions, business direction and major operations.",
-      photo: "",
-      contact: ""
+      id:"founder",
+      role:"Founder",
+      name:"Founder",
+      location:"Darbhanga, Bihar",
+      responsibilities:"Overall vision, strategic decisions, business direction and major operations.",
+      photo:"",
+      contact:""
     },
-
     {
-      id: "ceo",
-      role: "CEO & Managing Director",
-      name: "CEO & Managing Director",
-      location: "Darbhanga, Bihar",
-      responsibilities: "Day-to-day operations, project and tender coordination, team management and organisational growth.",
-      photo: "",
-      contact: ""
+      id:"ceo",
+      role:"CEO & Managing Director",
+      name:"CEO & Managing Director",
+      location:"Darbhanga, Bihar",
+      responsibilities:"Day-to-day operations, project and tender coordination, team management and organisational growth.",
+      photo:"",
+      contact:""
     },
-
     {
-      id: "state-head",
-      role: "State Head",
-      name: "State Head",
-      location: "Bihar",
-      responsibilities: "State-level project coordination, field operations and monitoring of district teams.",
-      photo: "",
-      contact: ""
+      id:"state-head",
+      role:"State Head",
+      name:"State Head",
+      location:"Bihar",
+      responsibilities:"State-level project coordination, field operations and monitoring of district teams.",
+      photo:"",
+      contact:""
     },
-
     {
-      id: "district-coordinator",
-      role: "District Coordinator",
-      name: "District Coordinator",
-      location: "Darbhanga, Bihar",
-      responsibilities: "District project implementation, field staff coordination and monitoring of assigned work.",
-      photo: "",
-      contact: ""
+      id:"district-coordinator",
+      role:"District Coordinator",
+      name:"District Coordinator",
+      location:"Darbhanga, Bihar",
+      responsibilities:"District project implementation, field staff coordination and monitoring of assigned work.",
+      photo:"",
+      contact:""
     }
   ]
 };
 
-
 let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+
 let sb = null;
 
 let currentLang =
@@ -189,214 +163,238 @@ let currentLang =
     ? "hi"
     : "en";
 
-
-/* =========================================================
-   SUPABASE
-   ========================================================= */
-
 const hasConfig =
   window.SS_CONFIG &&
   window.SS_CONFIG.SUPABASE_URL &&
   window.SS_CONFIG.SUPABASE_URL.startsWith("http") &&
   !window.SS_CONFIG.SUPABASE_URL.includes("PASTE_");
 
-
-if (hasConfig && window.supabase) {
+if(hasConfig && window.supabase){
   sb = window.supabase.createClient(
     window.SS_CONFIG.SUPABASE_URL,
     window.SS_CONFIG.SUPABASE_ANON_KEY
   );
 }
 
+const $ = s => document.querySelector(s);
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
+const escapeHtml = (s="") =>
+  String(s).replace(/[&<>"']/g,m=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[m]));
 
-const $ = selector => document.querySelector(selector);
-
-
-const escapeHtml = (value = "") =>
-  String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[char]));
-
-
-const safeUrl = (value = "") => {
-  const text = String(value).trim();
-
-  return /^(https?:\/\/|mailto:|tel:)/i.test(text)
-    ? text
+const safeUrl = (s="") =>
+  /^(https?:\/\/|mailto:|tel:)/i.test(String(s).trim())
+    ? String(s).trim()
     : "";
-};
 
-
-const statusLabel = status =>
-  status === "ongoing" || status === "active"
+const statusLabel = s =>
+  s==="ongoing" || s==="active"
     ? "Ongoing"
-    : status === "upcoming"
+    : s==="upcoming"
       ? "Upcoming"
       : "Completed";
 
 
-const markAuto = element => {
-  if (element) {
-    element.setAttribute("data-ss-auto", "1");
-  }
-
-  return element;
-};
-
-
-const setText = (selector, value = "", translate = true) => {
-  const element = $(selector);
-
-  if (!element) return;
-
-  element.textContent = value;
-
-  if (translate) {
-    markAuto(element);
-  }
-};
-
-
-const setSection = (id, enabled) => {
-  const element = document.getElementById(id);
-
-  if (element) {
-    element.style.display = enabled ? "" : "none";
-  }
-};
-
-
 /* =========================================================
-   ENGLISH / HINDI TRANSLATION
+   FULL ENGLISH / HINDI TRANSLATION
+   English remains the default.
+   User-entered names/photos/URLs are NOT changed.
    ========================================================= */
 
 const I18N = {
 
-  "Home": "होम",
-  "About": "हमारे बारे में",
-  "Services": "सेवाएँ",
-  "Projects": "प्रोजेक्ट्स",
-  "Leadership & Team": "नेतृत्व एवं टीम",
-  "Contact": "संपर्क",
-  "Gallery": "गैलरी",
-  "Credentials": "प्रमाण-पत्र",
-  "Vision": "दृष्टिकोण",
+  /* Navigation */
+  "Home":"होम",
+  "About":"हमारे बारे में",
+  "Services":"सेवाएँ",
+  "Projects":"प्रोजेक्ट्स",
+  "Leadership & Team":"नेतृत्व एवं टीम",
+  "Contact":"संपर्क",
+  "Gallery":"गैलरी",
+  "Credentials":"प्रमाण-पत्र",
+  "Vision":"दृष्टिकोण",
 
-  "Explore Our Work": "हमारा कार्य देखें",
-  "Contact Us": "संपर्क करें",
+  /* Buttons */
+  "Explore Our Work":"हमारा कार्य देखें",
+  "Contact Us":"संपर्क करें",
+  "Learn More":"और जानें",
+  "Open Portal ↗":"पोर्टल खोलें ↗",
 
-  "🔱 Udyam Registered": "🔱 उद्यम पंजीकृत",
+  /* Registration */
+  "🔱 Udyam Registered":"🔱 उद्यम पंजीकृत",
 
-  "OUR PROJECTS": "हमारे प्रोजेक्ट्स",
-  "Active work.": "चल रहा कार्य।",
-  "Upcoming opportunities.": "आगामी अवसर।",
+  /* Projects */
+  "OUR PROJECTS":"हमारे प्रोजेक्ट्स",
+  "Active work.":"चल रहा कार्य।",
+  "Upcoming opportunities.":"आगामी अवसर।",
+  "Our ongoing and upcoming projects reflect our commitment to reliable execution and responsible service.":"हमारे चल रहे और आगामी प्रोजेक्ट विश्वसनीय कार्यान्वयन और जिम्मेदार सेवा के प्रति हमारी प्रतिबद्धता को दर्शाते हैं।",
 
-  "Our ongoing and upcoming projects reflect our commitment to reliable execution and responsible service.":
-    "हमारे चल रहे और आगामी प्रोजेक्ट विश्वसनीय कार्यान्वयन और जिम्मेदार सेवा के प्रति हमारी प्रतिबद्धता को दर्शाते हैं।",
+  "All":"सभी",
+  "Ongoing":"चल रहे",
+  "Upcoming":"आगामी",
+  "Completed":"पूर्ण",
 
-  "All": "सभी",
-  "Ongoing": "चल रहे",
-  "Upcoming": "आगामी",
-  "Completed": "पूर्ण",
+  "FEATURED PROJECT":"प्रमुख प्रोजेक्ट",
+  "Featured Project":"प्रमुख प्रोजेक्ट",
 
-  "FEATURED PROJECT": "प्रमुख प्रोजेक्ट",
-  "Featured Project": "प्रमुख प्रोजेक्ट",
+  "PROJECT":"प्रोजेक्ट",
+  "Active":"सक्रिय",
 
-  "Open Portal ↗": "पोर्टल खोलें ↗",
+  "No published projects in this category yet.":"इस श्रेणी में अभी कोई प्रकाशित प्रोजेक्ट नहीं है।",
 
-  "LEADERSHIP & OUR TEAM": "नेतृत्व एवं हमारी टीम",
-  "Meet the people": "उन लोगों से मिलिए",
-  "behind the work.": "जो इस कार्य के पीछे हैं।",
-  "Leadership and field coordination team.":
-    "नेतृत्व एवं फील्ड समन्वय टीम।",
+  /* Team */
+  "LEADERSHIP & OUR TEAM":"नेतृत्व एवं हमारी टीम",
+  "Meet the people":"उन लोगों से मिलिए",
+  "behind the work.":"जो इस कार्य के पीछे हैं।",
+  "Leadership and field coordination team.":"नेतृत्व एवं फील्ड समन्वय टीम।",
 
-  "CREDENTIALS": "प्रमाण-पत्र",
-  "Professional identity,": "व्यावसायिक पहचान,",
-  "verified honestly.": "ईमानदारी से सत्यापित।",
+  /* Credentials */
+  "CREDENTIALS":"प्रमाण-पत्र",
+  "Professional identity,":"व्यावसायिक पहचान,",
+  "verified honestly.":"ईमानदारी से सत्यापित।",
+  "GST":"GST",
+  "PAN":"PAN",
+  "Other registrations":"अन्य पंजीकरण",
+  "Udyam / MSME":"उद्यम / MSME",
+  "To be added when applicable/available":"उपलब्ध होने पर जोड़ा जाएगा",
+  "Not publicly displayed unless required.":"आवश्यकता होने तक सार्वजनिक रूप से प्रदर्शित नहीं किया जाता।",
+  "Add only valid registrations and certifications.":"केवल वैध पंजीकरण और प्रमाण-पत्र जोड़ें।",
 
-  "OUR APPROACH": "हमारा दृष्टिकोण",
+  /* Vision */
+  "OUR APPROACH":"हमारा दृष्टिकोण",
+  "Reliable people. Responsible execution. A growing company with a long-term vision.":"विश्वसनीय लोग। जिम्मेदार कार्यान्वयन। दीर्घकालिक दृष्टि के साथ बढ़ती कंपनी।",
 
-  "Reliable people. Responsible execution. A growing company with a long-term vision.":
-    "विश्वसनीय लोग। जिम्मेदार कार्यान्वयन। दीर्घकालिक दृष्टि के साथ बढ़ती कंपनी।",
+  /* Gallery */
+  "GALLERY":"गैलरी",
+  "Our work,":"हमारा कार्य,",
+  "in pictures.":"तस्वीरों में।",
+  "See our projects, team and work highlights in pictures.":"हमारे प्रोजेक्ट, टीम और कार्य की झलकियाँ तस्वीरों में देखें।",
+  "Gallery photos will appear here.":"गैलरी की तस्वीरें यहाँ दिखाई देंगी।",
 
-  "GALLERY": "गैलरी",
-  "Our work,": "हमारा कार्य,",
-  "in pictures.": "तस्वीरों में।",
+  /* Contact */
+  "LET'S WORK TOGETHER":"आइए साथ काम करें",
+  "Have a project in mind?":"क्या आपके मन में कोई प्रोजेक्ट है?",
+  "For business enquiries, project discussions and work opportunities, contact SS Enterprises directly.":"व्यावसायिक पूछताछ, प्रोजेक्ट चर्चा और कार्य अवसरों के लिए SS Enterprises से सीधे संपर्क करें।",
 
-  "See our projects, team and work highlights in pictures.":
-    "हमारे प्रोजेक्ट, टीम और कार्य की झलकियाँ तस्वीरों में देखें।",
+  /* Common */
+  "📍":"📍",
+  "Aapki Seva Mein Hamari Khushi":"आपकी सेवा में हमारी खुशी",
+  "All rights reserved.":"सर्वाधिकार सुरक्षित।",
 
-  "Aapki Seva Mein Hamari Khushi":
-    "आपकी सेवा में हमारी खुशी",
+  /* Services / About */
+  "Tender Work":"टेंडर कार्य",
+  "Project Execution":"प्रोजेक्ट कार्यान्वयन",
+  "Skilled Manpower":"कुशल जनशक्ति",
+  "Workforce Expansion":"कार्यबल विस्तार",
 
-  "All rights reserved.": "सर्वाधिकार सुरक्षित।",
+  "Tender & Contract Work":"टेंडर एवं अनुबंध कार्य",
+  "Project Manpower":"प्रोजेक्ट जनशक्ति",
+  "Digital Service Projects":"डिजिटल सेवा प्रोजेक्ट्स",
 
-  "PROJECT": "प्रोजेक्ट",
+  /* Team roles */
+  "Founder":"संस्थापक",
+  "CEO & Managing Director":"सीईओ एवं प्रबंध निदेशक",
+  "State Head":"राज्य प्रमुख",
+  "District Coordinator":"जिला समन्वयक",
+  "Director":"निदेशक",
+  "Project Manager":"प्रोजेक्ट मैनेजर",
+  "Site Engineer":"साइट इंजीनियर",
+  "Engineer":"इंजीनियर",
+  "Accountant":"अकाउंटेंट",
+  "Manager":"मैनेजर",
+  "Team Member":"टीम सदस्य",
 
-  "Active": "सक्रिय",
+  /* Project information */
+  "Health / Digital Health Services":"स्वास्थ्य / डिजिटल स्वास्थ्य सेवाएँ",
+  "Ayushman Bharat":"आयुष्मान भारत",
+  "Bihar":"बिहार",
+  "Donar Road, Darbhanga":"डोनार रोड, दरभंगा",
 
-  "No published projects in this category yet.":
-    "इस श्रेणी में अभी कोई प्रकाशित प्रोजेक्ट नहीं है।",
+  "ABHA Card Project":"आभा कार्ड प्रोजेक्ट",
+  "Ayushman Card KYC Project":"आयुष्मान कार्ड KYC प्रोजेक्ट",
 
-  "Gallery photos will appear here.":
-    "गैलरी की तस्वीरें यहाँ दिखाई देंगी।",
+  "ABHA Card service work through the existing SS Enterprises digital service workflow.":"SS Enterprises की मौजूदा डिजिटल सेवा प्रक्रिया के माध्यम से आभा कार्ड सेवा कार्य।",
 
-  "Learn More": "और जानें",
+  "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.":"आयुष्मान कार्ड KYC से संबंधित प्रोजेक्ट, जिसमें प्रोजेक्ट की आवश्यकताओं के अनुसार फील्ड समन्वय और सेवा कार्य शामिल हैं।",
 
-  "LET'S WORK TOGETHER":
-    "आइए साथ काम करें",
+  /* About cards */
+  "Responsible execution of awarded and contracted work with clear coordination.":"प्राप्त एवं अनुबंधित कार्य का स्पष्ट समन्वय के साथ जिम्मेदार कार्यान्वयन।",
 
-  "Have a project in mind?":
-    "क्या आपके मन में कोई प्रोजेक्ट है?",
+  "Organised manpower, supervision and on-ground coordination for project delivery.":"प्रोजेक्ट पूरा करने के लिए व्यवस्थित जनशक्ति, निगरानी और जमीनी समन्वय।",
 
-  "For business enquiries, project discussions and work opportunities, contact SS Enterprises directly.":
-    "व्यावसायिक पूछताछ, प्रोजेक्ट चर्चा और कार्य अवसरों के लिए SS Enterprises से सीधे संपर्क करें।",
+  "Building dependable teams suited to the requirements of each project.":"प्रत्येक प्रोजेक्ट की आवश्यकताओं के अनुसार भरोसेमंद टीम तैयार करना।",
 
-  "Tender Work": "टेंडर कार्य",
-  "Project Execution": "प्रोजेक्ट कार्यान्वयन",
-  "Skilled Manpower": "कुशल जनशक्ति",
-  "Workforce Expansion": "कार्यबल विस्तार",
+  "Scalable staffing as project volume and operational requirements increase.":"प्रोजेक्ट और संचालन की आवश्यकताओं के बढ़ने के साथ कार्यबल का विस्तार।",
 
-  "Tender & Contract Work":
-    "टेंडर एवं अनुबंध कार्य",
+  /* Service cards */
+  "Execution support for awarded tenders and contracted assignments.":"प्राप्त टेंडर और अनुबंधित कार्यों के लिए कार्यान्वयन सहायता।",
 
-  "Project Manpower":
-    "प्रोजेक्ट जनशक्ति",
+  "Reliable staffing, supervision and field coordination for active projects.":"चल रहे प्रोजेक्ट्स के लिए भरोसेमंद स्टाफ, निगरानी और फील्ड समन्वय।",
 
-  "Digital Service Projects":
-    "डिजिटल सेवा प्रोजेक्ट्स",
+  "Operational support for digital service workflows and citizen-facing projects.":"डिजिटल सेवा प्रक्रियाओं और नागरिक-केंद्रित प्रोजेक्ट्स के लिए संचालन सहायता।",
 
-  "Founder": "संस्थापक",
-  "CEO & Managing Director": "सीईओ एवं प्रबंध निदेशक",
-  "State Head": "राज्य प्रमुख",
-  "District Coordinator": "जिला समन्वयक",
-  "Director": "निदेशक",
-  "Project Manager": "प्रोजेक्ट मैनेजर",
-  "Site Engineer": "साइट इंजीनियर",
-  "Engineer": "इंजीनियर",
-  "Accountant": "अकाउंटेंट",
-  "Manager": "मैनेजर",
-  "Team Member": "टीम सदस्य",
+  "Professional services for tender work, project execution, manpower coordination and reliable field support.":"टेंडर कार्य, प्रोजेक्ट एक्जीक्यूशन, मैनपावर समन्वय और विश्वसनीय फील्ड सहायता के लिए पेशेवर सेवाएँ।",
 
-  "Health / Digital Health Services":
-    "स्वास्थ्य / डिजिटल स्वास्थ्य सेवाएँ",
+  /* About */
+  "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.":"हम उपयुक्त अनुबंधित और टेंडर आधारित कार्य लेते हैं तथा जवाबदेही, समन्वय और सेवा भावना के साथ उसे पूरा करने के लिए भरोसेमंद टीम तैयार करते हैं।",
 
-  "Ayushman Bharat":
-    "आयुष्मान भारत",
+  "People, projects &":"लोग, प्रोजेक्ट और",
+  "professional execution.":"पेशेवर कार्यान्वयन।",
 
-  "Bihar":
-    "बिहार",
+  "ABOUT SS ENTERPRISES":"SS ENTERPRISES के बारे में",
 
-  "Donar Road, Darbhanga":
-    "डोनार रोड, दरभंगा",
+  /* Services */
+  "OUR SERVICES":"हमारी सेवाएँ",
+  "What we":"हम",
+  "do best.":"सबसे अच्छा क्या करते हैं।",
+
+  /* HERO — important */
+  "PROJECT EXECUTION • TENDER WORK • MANPOWER":"प्रोजेक्ट कार्यान्वयन • टेंडर कार्य • जनशक्ति",
+
+  "Building Work.":"निर्माण कार्य।",
+
+  "Delivering Trust.":"विश्वास के साथ कार्य।",
+
+  "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination.":"SS Enterprises भरोसेमंद जनशक्ति, अनुशासित निगरानी और जिम्मेदार समन्वय के साथ अनुबंधित एवं टेंडर आधारित प्रोजेक्ट्स के पेशेवर कार्यान्वयन पर केंद्रित है।",
+
+  /* Team responsibilities */
+  "Overall vision, strategic decisions, business direction and major operations.":"समग्र दृष्टि, रणनीतिक निर्णय, व्यवसाय की दिशा और प्रमुख संचालन।",
+
+  "Day-to-day operations, project and tender coordination, team management and organisational growth.":"दैनिक संचालन, प्रोजेक्ट एवं टेंडर समन्वय, टीम प्रबंधन और संगठनात्मक विकास।",
+
+  "State-level project coordination, field operations and monitoring of district teams.":"राज्य स्तर पर प्रोजेक्ट समन्वय, फील्ड संचालन और जिला टीमों की निगरानी।",
+
+  "District project implementation, field staff coordination and monitoring of assigned work.":"जिला स्तर पर प्रोजेक्ट कार्यान्वयन, फील्ड स्टाफ समन्वय और सौंपे गए कार्य की निगरानी।"
+};
+
+
+/* =========================================================
+   EXTRA DYNAMIC TRANSLATIONS
+   Admin Panel से आने वाले वही known English texts भी
+   Hindi में दिखेंगे।
+   ========================================================= */
+
+const AUTO_TRANSLATIONS = {
+
+  "Building Work.":"निर्माण कार्य।",
+  "Delivering Trust.":"विश्वास के साथ कार्य।",
+
+  "PROJECT EXECUTION • TENDER WORK • MANPOWER":
+    "प्रोजेक्ट कार्यान्वयन • टेंडर कार्य • जनशक्ति",
+
+  "ABHA Card service work through the existing SS Enterprises digital service workflow.":
+    "SS Enterprises की मौजूदा डिजिटल सेवा प्रक्रिया के माध्यम से आभा कार्ड सेवा कार्य।",
+
+  "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.":
+    "आयुष्मान कार्ड KYC से संबंधित प्रोजेक्ट, जिसमें प्रोजेक्ट की आवश्यकताओं के अनुसार फील्ड समन्वय और सेवा कार्य शामिल हैं।",
+
+  "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination.":
+    "SS Enterprises भरोसेमंद जनशक्ति, अनुशासित निगरानी और जिम्मेदार समन्वय के साथ अनुबंधित एवं टेंडर आधारित प्रोजेक्ट्स के पेशेवर कार्यान्वयन पर केंद्रित है।",
 
   "ABHA Card Project":
     "आभा कार्ड प्रोजेक्ट",
@@ -404,482 +402,94 @@ const I18N = {
   "Ayushman Card KYC Project":
     "आयुष्मान कार्ड KYC प्रोजेक्ट",
 
-  "ABHA Card service work through the existing SS Enterprises digital service workflow.":
-    "SS Enterprises की मौजूदा डिजिटल सेवा प्रक्रिया के माध्यम से आभा कार्ड सेवा कार्य।",
-
-  "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.":
-    "आयुष्मान कार्ड KYC से संबंधित प्रोजेक्ट, जिसमें प्रोजेक्ट की आवश्यकताओं के अनुसार फील्ड समन्वय और सेवा कार्य किया जाता है।",
-
-  "Responsible execution of awarded and contracted work with clear coordination.":
-    "प्राप्त एवं अनुबंधित कार्य का स्पष्ट समन्वय के साथ जिम्मेदार कार्यान्वयन।",
-
-  "Organised manpower, supervision and on-ground coordination for project delivery.":
-    "प्रोजेक्ट पूरा करने के लिए व्यवस्थित जनशक्ति, निगरानी और जमीनी समन्वय।",
-
-  "Building dependable teams suited to the requirements of each project.":
-    "प्रत्येक प्रोजेक्ट की आवश्यकताओं के अनुसार भरोसेमंद टीम तैयार करना।",
-
-  "Scalable staffing as project volume and operational requirements increase.":
-    "प्रोजेक्ट और संचालन की आवश्यकताओं के बढ़ने के साथ कार्यबल का विस्तार।",
-
-  "Execution support for awarded tenders and contracted assignments.":
-    "प्राप्त टेंडर और अनुबंधित कार्यों के लिए कार्यान्वयन सहायता।",
-
-  "Reliable staffing, supervision and field coordination for active projects.":
-    "चल रहे प्रोजेक्ट्स के लिए भरोसेमंद स्टाफ, निगरानी और फील्ड समन्वय।",
-
-  "Operational support for digital service workflows and citizen-facing projects.":
-    "डिजिटल सेवा प्रक्रियाओं और नागरिक-केंद्रित प्रोजेक्ट्स के लिए संचालन सहायता।",
+  "Health / Digital Health Services":
+    "स्वास्थ्य / डिजिटल स्वास्थ्य सेवाएँ",
 
   "Professional services for tender work, project execution, manpower coordination and reliable field support.":
     "टेंडर कार्य, प्रोजेक्ट एक्जीक्यूशन, मैनपावर समन्वय और विश्वसनीय फील्ड सहायता के लिए पेशेवर सेवाएँ।",
 
-  "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.":
-    "हम उपयुक्त अनुबंधित और टेंडर आधारित कार्य लेते हैं तथा जवाबदेही, समन्वय और सेवा भावना के साथ उसे पूरा करने के लिए भरोसेमंद टीम तैयार करते हैं।",
-
-  "People, projects &":
-    "लोग, प्रोजेक्ट और",
-
-  "professional execution.":
-    "पेशेवर कार्यान्वयन।",
-
-  "ABOUT SS ENTERPRISES":
-    "SS ENTERPRISES के बारे में",
-
-  "OUR SERVICES":
-    "हमारी सेवाएँ",
-
-  "What we":
-    "हम",
-
-  "do best.":
-    "सबसे अच्छा क्या करते हैं।",
-
-  "PROJECT EXECUTION • TENDER WORK • MANPOWER":
-    "प्रोजेक्ट कार्यान्वयन • टेंडर कार्य • जनशक्ति",
-
-  "Building Work.":
-    "निर्माण कार्य।",
-
-  "Delivering Trust.":
-    "विश्वास के साथ कार्य।",
-
-  "SS Enterprises is focused on professional execution of contracted and tender-based projects with reliable manpower, disciplined supervision and responsible coordination.":
-    "SS Enterprises भरोसेमंद जनशक्ति, अनुशासित निगरानी और जिम्मेदार समन्वय के साथ अनुबंधित एवं टेंडर आधारित प्रोजेक्ट्स के पेशेवर कार्यान्वयन पर केंद्रित है।",
-
-  "Overall vision, strategic decisions, business direction and major operations.":
-    "समग्र दृष्टि, रणनीतिक निर्णय, व्यवसाय की दिशा और प्रमुख संचालन।",
-
-  "Day-to-day operations, project and tender coordination, team management and organisational growth.":
-    "दैनिक संचालन, प्रोजेक्ट एवं टेंडर समन्वय, टीम प्रबंधन और संगठनात्मक विकास।",
-
-  "State-level project coordination, field operations and monitoring of district teams.":
-    "राज्य स्तर पर प्रोजेक्ट समन्वय, फील्ड संचालन और जिला टीमों की निगरानी।",
-
-  "District project implementation, field staff coordination and monitoring of assigned work.":
-    "जिला स्तर पर प्रोजेक्ट कार्यान्वयन, फील्ड स्टाफ समन्वय और सौंपे गए कार्य की निगरानी।",
-
-  "Professional identity,":
-    "व्यावसायिक पहचान,",
-
-  "GST":
-    "GST",
-
-  "PAN":
-    "PAN",
-
-  "Other registrations":
-    "अन्य पंजीकरण",
-
-  "Udyam / MSME":
-    "उद्यम / MSME",
-
-  "To be added when applicable/available":
-    "उपलब्ध होने पर जोड़ा जाएगा",
-
-  "Not publicly displayed unless required.":
-    "आवश्यकता होने तक सार्वजनिक रूप से प्रदर्शित नहीं किया जाता।",
-
-  "Add only valid registrations and certifications.":
-    "केवल वैध पंजीकरण और प्रमाण-पत्र जोड़ें।"
+  "For business enquiries, project discussions and work opportunities, contact SS Enterprises directly.":
+    "व्यावसायिक पूछताछ, प्रोजेक्ट चर्चा और कार्य अवसरों के लिए SS Enterprises से सीधे संपर्क करें."
 };
 
 
 /* =========================================================
-   AUTO TRANSLATION MAP
-   Existing I18N remains the first and safest translation.
+   TRANSLATION HELPERS
    ========================================================= */
 
-const AUTO_TRANSLATIONS = {
-  ...I18N,
-
-  "Home": "होम",
-  "About Us": "हमारे बारे में",
-  "About": "हमारे बारे में",
-  "Our Services": "हमारी सेवाएँ",
-  "Services": "सेवाएँ",
-  "Our Projects": "हमारे प्रोजेक्ट्स",
-  "Projects": "प्रोजेक्ट्स",
-  "Contact Us": "संपर्क करें",
-  "Contact": "संपर्क",
-  "Gallery": "गैलरी",
-  "Team": "टीम",
-  "Leadership & Team": "नेतृत्व एवं टीम",
-
-  "Learn More": "और जानें",
-  "Read More": "और पढ़ें",
-  "View More": "और देखें",
-  "View Project": "प्रोजेक्ट देखें",
-  "Open Portal": "पोर्टल खोलें",
-  "Open Portal ↗": "पोर्टल खोलें ↗",
-
-  "Ongoing": "चल रहा",
-  "Upcoming": "आगामी",
-  "Completed": "पूर्ण",
-  "Active": "सक्रिय",
-
-  "Founder": "संस्थापक",
-  "Director": "निदेशक",
-  "Manager": "मैनेजर",
-  "Engineer": "इंजीनियर",
-  "Accountant": "अकाउंटेंट",
-  "Team Member": "टीम सदस्य",
-
-  "Tender Work": "टेंडर कार्य",
-  "Project Execution": "प्रोजेक्ट कार्यान्वयन",
-  "Skilled Manpower": "कुशल जनशक्ति",
-  "Workforce Expansion": "कार्यबल विस्तार",
-  "Tender & Contract Work": "टेंडर एवं अनुबंध कार्य",
-  "Project Manpower": "प्रोजेक्ट जनशक्ति",
-  "Digital Service Projects": "डिजिटल सेवा प्रोजेक्ट्स"
-};
-
-
-/* =========================================================
-   TEXT TRANSLATION
-   ========================================================= */
-
-function escapeRegExp(text) {
-  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeRegExp(value=""){
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 }
 
+function autoTranslate(original=""){
 
-function autoTranslate(text = "") {
-
-  const original = String(text);
-
-  if (!original.trim()) {
-    return original;
+  if(original === null || original === undefined){
+    return "";
   }
 
-  if (currentLang !== "hi") {
-    return original;
+  const text = String(original);
+
+  if(currentLang !== "hi"){
+    return text;
   }
 
-  const exact =
-    AUTO_TRANSLATIONS[original] ??
-    AUTO_TRANSLATIONS[original.trim()];
-
-  if (exact !== undefined) {
-    return exact;
+  /* Exact translation first */
+  if(I18N[text] !== undefined){
+    return I18N[text];
   }
 
-  let result = original;
+  if(AUTO_TRANSLATIONS[text] !== undefined){
+    return AUTO_TRANSLATIONS[text];
+  }
 
-  const entries = Object.entries(AUTO_TRANSLATIONS)
-    .sort((a, b) => b[0].length - a[0].length);
+  /*
+    Some Admin Panel content can contain multiple known
+    English phrases in one sentence. Replace those phrases
+    without touching unknown/user-entered content.
+  */
+  let result = text;
 
-  entries.forEach(([en, hi]) => {
+  Object.entries(I18N).forEach(([en,hi])=>{
+    if(!en || !hi) return;
 
-    if (!en || !en.trim()) return;
+    if(result.includes(en)){
+      result = result.replace(
+        new RegExp(escapeRegExp(en),"g"),
+        hi
+      );
+    }
+  });
 
-    const regex = new RegExp(
-      escapeRegExp(en),
-      "gi"
-    );
+  Object.entries(AUTO_TRANSLATIONS).forEach(([en,hi])=>{
+    if(!en || !hi) return;
 
-    result = result.replace(regex, hi);
+    if(result.includes(en)){
+      result = result.replace(
+        new RegExp(escapeRegExp(en),"g"),
+        hi
+      );
+    }
   });
 
   return result;
 }
 
-
-function t(text = "") {
+function t(text=""){
   return autoTranslate(text);
 }
 
+function displayText(text=""){
+  return currentLang === "hi"
+    ? autoTranslate(text)
+    : text;
+}
 
-function translateRole(role = "") {
+function translateRole(role){
   return t(role);
 }
 
-
-function translateStatus(status = "") {
+function translateStatus(status){
   return t(statusLabel(status));
-}
-
-
-/* =========================================================
-   ONLINE TRANSLATION FOR NEW ADMIN CONTENT
-   ---------------------------------------------------------
-   Fixed translations above work immediately.
-
-   If Admin Panel contains a new English sentence which is
-   not present in I18N, the browser will try to translate it
-   when Hindi is selected.
-
-   If online translation is unavailable, original English
-   text remains visible instead of breaking the website.
-   ========================================================= */
-
-const TRANSLATION_CACHE_KEY = "ss_translation_cache_hi_v2";
-
-
-let translationCache = {};
-
-try {
-  translationCache =
-    JSON.parse(
-      localStorage.getItem(TRANSLATION_CACHE_KEY) || "{}"
-    ) || {};
-} catch (e) {
-  translationCache = {};
-}
-
-
-function saveTranslationCache() {
-  try {
-    localStorage.setItem(
-      TRANSLATION_CACHE_KEY,
-      JSON.stringify(translationCache)
-    );
-  } catch (e) {
-    /* Ignore localStorage errors */
-  }
-}
-
-
-async function translateOnline(text = "") {
-
-  const original = String(text).trim();
-
-  if (!original) {
-    return original;
-  }
-
-  if (currentLang !== "hi") {
-    return original;
-  }
-
-  const known = AUTO_TRANSLATIONS[original];
-
-  if (known !== undefined) {
-    return known;
-  }
-
-  if (translationCache[original]) {
-    return translationCache[original];
-  }
-
-  /*
-   * Very short numeric / URL / email / phone text should not
-   * be sent for translation.
-   */
-  if (
-    /^https?:\/\//i.test(original) ||
-    /^mailto:/i.test(original) ||
-    /^tel:/i.test(original) ||
-    /^\+?[\d\s().-]+$/.test(original) ||
-    original.length < 2
-  ) {
-    return original;
-  }
-
-  try {
-
-    const endpoint =
-      "https://translate.googleapis.com/translate_a/single" +
-      "?client=gtx" +
-      "&sl=en" +
-      "&tl=hi" +
-      "&dt=t" +
-      "&q=" +
-      encodeURIComponent(original);
-
-    const response = await fetch(endpoint, {
-      method: "GET",
-      mode: "cors",
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        "Translation request failed: " + response.status
-      );
-    }
-
-    const json = await response.json();
-
-    const translated =
-      Array.isArray(json?.[0])
-        ? json[0]
-            .map(part => part?.[0] || "")
-            .join("")
-            .trim()
-        : "";
-
-    if (translated) {
-
-      translationCache[original] = translated;
-
-      saveTranslationCache();
-
-      return translated;
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "Online Hindi translation unavailable:",
-      error
-    );
-  }
-
-  return original;
-}
-
-
-/* =========================================================
-   TRANSLATE NEW DYNAMIC CONTENT
-   Only elements marked data-ss-auto are processed.
-
-   This prevents:
-   - project names from changing
-   - team names from changing
-   - image URLs from changing
-   - links from changing
-   ========================================================= */
-
-let translationRunId = 0;
-
-
-async function translateDynamicContent() {
-
-  if (currentLang !== "hi") {
-    return;
-  }
-
-  const runId = ++translationRunId;
-
-  const elements =
-    Array.from(
-      document.querySelectorAll(
-        '[data-ss-auto="1"]'
-      )
-    );
-
-  const textNodes = [];
-
-  elements.forEach(element => {
-
-    if (
-      !element ||
-      element.closest(
-        "script,style,noscript,input,textarea,select"
-      )
-    ) {
-      return;
-    }
-
-    const walker = document.createTreeWalker(
-      element,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode(node) {
-
-          if (!node.nodeValue?.trim()) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          if (
-            node.parentElement?.closest(
-              "script,style,noscript,input,textarea,select"
-            )
-          ) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      }
-    );
-
-    let node;
-
-    while ((node = walker.nextNode())) {
-      textNodes.push(node);
-    }
-  });
-
-
-  const unique = new Map();
-
-  textNodes.forEach(node => {
-
-    const value = node.nodeValue.trim();
-
-    if (
-      value &&
-      !AUTO_TRANSLATIONS[value] &&
-      !unique.has(value)
-    ) {
-      unique.set(value, []);
-    }
-
-    if (value) {
-      unique.get(value)?.push(node);
-    }
-  });
-
-
-  for (const [text, nodes] of unique.entries()) {
-
-    if (runId !== translationRunId) {
-      return;
-    }
-
-    const translated =
-      await translateOnline(text);
-
-    if (
-      currentLang !== "hi" ||
-      runId !== translationRunId
-    ) {
-      return;
-    }
-
-    nodes.forEach(node => {
-
-      const leading =
-        node.nodeValue.match(/^\s*/)?.[0] || "";
-
-      const trailing =
-        node.nodeValue.match(/\s*$/)?.[0] || "";
-
-      node.nodeValue =
-        leading +
-        translated +
-        trailing;
-    });
-
-    /*
-     * Small delay prevents too many immediate requests.
-     */
-    await new Promise(resolve =>
-      setTimeout(resolve, 80)
-    );
-  }
 }
 
 
@@ -887,123 +497,104 @@ async function translateDynamicContent() {
    NORMALISE DATA
    ========================================================= */
 
-function normalise(raw) {
-
-  const source = raw || {};
+function normalise(raw){
 
   const merged = {
-    ...JSON.parse(
-      JSON.stringify(DEFAULT_DATA)
-    ),
-    ...source
+    ...JSON.parse(JSON.stringify(DEFAULT_DATA)),
+    ...(raw||{})
   };
-
 
   merged.settings = {
     ...DEFAULT_DATA.settings,
-    ...(source.settings || {})
+    ...(raw?.settings||{})
   };
-
 
   merged.settings.homepage = {
     ...DEFAULT_DATA.settings.homepage,
-    ...(source.settings?.homepage || {})
+    ...(raw?.settings?.homepage||{})
   };
-
 
   merged.settings.announcement = {
     ...DEFAULT_DATA.settings.announcement,
-    ...(source.settings?.announcement || {})
+    ...(raw?.settings?.announcement||{})
   };
-
 
   merged.settings.sections = {
     ...DEFAULT_DATA.settings.sections,
-    ...(source.settings?.sections || {})
+    ...(raw?.settings?.sections||{})
   };
-
 
   merged.settings.about = {
     ...DEFAULT_DATA.settings.about,
-    ...(source.settings?.about || {})
+    ...(raw?.settings?.about||{})
   };
-
 
   merged.settings.services = {
     ...DEFAULT_DATA.settings.services,
-    ...(source.settings?.services || {})
+    ...(raw?.settings?.services||{})
   };
-
 
   merged.settings.contact = {
     ...DEFAULT_DATA.settings.contact,
-    ...(source.settings?.contact || {})
+    ...(raw?.settings?.contact||{})
   };
 
-
   merged.settings.gallery =
-    Array.isArray(source.settings?.gallery)
-      ? source.settings.gallery
+    Array.isArray(raw?.settings?.gallery)
+      ? raw.settings.gallery
       : [];
 
-
   merged.settings.about.cards =
-    Array.isArray(
-      merged.settings.about.cards
-    )
+    Array.isArray(merged.settings.about.cards)
       ? merged.settings.about.cards
       : DEFAULT_DATA.settings.about.cards;
 
-
   merged.settings.services.cards =
-    Array.isArray(
-      merged.settings.services.cards
-    )
+    Array.isArray(merged.settings.services.cards)
       ? merged.settings.services.cards
       : DEFAULT_DATA.settings.services.cards;
 
-
   merged.settings.contact.socials =
-    Array.isArray(
-      merged.settings.contact.socials
-    )
+    Array.isArray(merged.settings.contact.socials)
       ? merged.settings.contact.socials
       : DEFAULT_DATA.settings.contact.socials;
 
-
   merged.projects =
-    Array.isArray(source.projects)
-      ? source.projects
+    Array.isArray(raw?.projects)
+      ? raw.projects
       : DEFAULT_DATA.projects;
 
-
   merged.team =
-    Array.isArray(source.team)
-      ? source.team
+    Array.isArray(raw?.team)
+      ? raw.team
       : DEFAULT_DATA.team;
 
-
   merged.projects =
-    merged.projects.map(project => ({
-      ...project,
-
-      location:
-        project.location || "Bihar",
-
-      published:
-        project.published !== false,
-
+    merged.projects.map(p=>({
+      ...p,
+      location:p.location||"Bihar",
+      published:p.published!==false,
       status:
-        project.status === "active"
+        p.status==="active"
           ? "ongoing"
-          : (
-              project.status ||
-              "upcoming"
-            )
+          : (p.status||"upcoming")
     }));
 
-
   return merged;
+}
+
+
+/* =========================================================
+   SECTION VISIBILITY
+   ========================================================= */
+
+function setSection(id,on){
+
+  const el = document.getElementById(id);
+
+  if(el){
+    el.style.display = on ? "" : "none";
+  }
 }
 
 
@@ -1011,67 +602,37 @@ function normalise(raw) {
    ANNOUNCEMENT
    ========================================================= */
 
-function renderAnnouncement() {
+function renderAnnouncement(){
 
-  const settings =
-    data.settings.announcement || {};
+  const s = data.settings.announcement || {};
 
-  const element =
-    $("#announcement");
+  const el = $("#announcement");
 
-  if (!element) return;
+  if(!el) return;
 
-
-  if (
-    !settings.enabled ||
-    (
-      !settings.title &&
-      !settings.text
-    )
-  ) {
-
-    element.style.display = "none";
-
+  if(!s.enabled || (!s.title && !s.text)){
+    el.style.display = "none";
     return;
   }
 
+  el.style.display = "";
 
-  element.style.display = "";
-
-
-  const title =
-    settings.title || "";
-
-  const text =
-    settings.text || "";
-
-  const link =
-    safeUrl(settings.link);
-
-
-  element.innerHTML = `
+  el.innerHTML = `
     <div>
-      <strong data-ss-auto="1">
-        ${escapeHtml(t(title))}
-      </strong>
-
-      <span data-ss-auto="1">
-        ${escapeHtml(t(text))}
-      </span>
+      <strong>${escapeHtml(displayText(s.title))}</strong>
+      <span>${escapeHtml(displayText(s.text))}</span>
     </div>
 
     ${
-      link
+      safeUrl(s.link)
         ? `
           <a
             class="btn ghost"
-            href="${escapeHtml(link)}"
+            href="${escapeHtml(safeUrl(s.link))}"
             target="_blank"
             rel="noopener"
           >
-            ${escapeHtml(
-              t(settings.linkLabel || "Learn More")
-            )} ↗
+            ${escapeHtml(t(s.linkLabel||"Learn More"))} ↗
           </a>
         `
         : ""
@@ -1084,32 +645,29 @@ function renderAnnouncement() {
    HOMEPAGE
    ========================================================= */
 
-function renderHomepage() {
+function renderHomepage(){
 
-  const homepage =
-    data.settings.homepage || {};
+  const h = data.settings.homepage || {};
 
+  if($("#heroEyebrow")){
+    $("#heroEyebrow").textContent =
+      displayText(h.eyebrow||"");
+  }
 
-  setText(
-    "#heroEyebrow",
-    homepage.eyebrow || ""
-  );
+  if($("#heroTitle")){
+    $("#heroTitle").textContent =
+      displayText(h.title||"");
+  }
 
-  setText(
-    "#heroTitle",
-    homepage.title || ""
-  );
+  if($("#heroAccent")){
+    $("#heroAccent").textContent =
+      displayText(h.accent||"");
+  }
 
-  setText(
-    "#heroAccent",
-    homepage.accent || ""
-  );
-
-  setText(
-    "#heroLead",
-    homepage.lead || ""
-  );
-
+  if($("#heroLead")){
+    $("#heroLead").textContent =
+      displayText(h.lead||"");
+  }
 
   renderAnnouncement();
 }
@@ -1119,74 +677,62 @@ function renderHomepage() {
    ABOUT
    ========================================================= */
 
-function renderAbout() {
+function renderAbout(){
 
-  const settings =
-    data.settings.about || {};
+  const s = data.settings.about || {};
 
-  const section =
-    $("#about");
+  const el = $("#about");
 
-  if (!section) return;
-
+  if(!el) return;
 
   setSection(
     "about",
     data.settings.sections.about
   );
 
+  if($("#aboutEyebrow")){
+    $("#aboutEyebrow").textContent =
+      displayText(s.eyebrow||"");
+  }
 
-  setText(
-    "#aboutEyebrow",
-    settings.eyebrow || ""
-  );
+  if($("#aboutTitle")){
+    $("#aboutTitle").textContent =
+      displayText(s.title||"");
+  }
 
-  setText(
-    "#aboutTitle",
-    settings.title || ""
-  );
+  if($("#aboutAccent")){
+    $("#aboutAccent").textContent =
+      displayText(s.accent||"");
+  }
 
-  setText(
-    "#aboutAccent",
-    settings.accent || ""
-  );
+  if($("#aboutText")){
+    $("#aboutText").textContent =
+      displayText(s.text||"");
+  }
 
-  setText(
-    "#aboutText",
-    settings.text || ""
-  );
+  if($("#aboutGrid")){
 
+    $("#aboutGrid").innerHTML =
+      (s.cards||[])
+        .map((c,i)=>`
+          <article>
 
-  const grid =
-    $("#aboutGrid");
+            <div class="icon">
+              ${String(i+1).padStart(2,"0")}
+            </div>
 
-  if (!grid) return;
+            <h3>
+              ${escapeHtml(displayText(c.title))}
+            </h3>
 
+            <p>
+              ${escapeHtml(displayText(c.text))}
+            </p>
 
-  grid.innerHTML =
-    (settings.cards || [])
-      .map((card, index) => `
-        <article>
-
-          <div class="icon">
-            ${String(index + 1).padStart(2, "0")}
-          </div>
-
-          <h3 data-ss-auto="1">
-            ${escapeHtml(
-              t(card.title || "")
-            )}
-          </h3>
-
-          <p data-ss-auto="1">
-            ${escapeHtml(
-              t(card.text || "")
-            )}
-          </p>
-
-        </article>
-      `)
-      .join("");
+          </article>
+        `)
+        .join("");
+  }
 }
 
 
@@ -1194,74 +740,62 @@ function renderAbout() {
    SERVICES
    ========================================================= */
 
-function renderServices() {
+function renderServices(){
 
-  const settings =
-    data.settings.services || {};
+  const s = data.settings.services || {};
 
-  const section =
-    $("#services");
+  const el = $("#services");
 
-  if (!section) return;
-
+  if(!el) return;
 
   setSection(
     "services",
     data.settings.sections.services
   );
 
+  if($("#servicesEyebrow")){
+    $("#servicesEyebrow").textContent =
+      displayText(s.eyebrow||"");
+  }
 
-  setText(
-    "#servicesEyebrow",
-    settings.eyebrow || ""
-  );
+  if($("#servicesTitle")){
+    $("#servicesTitle").textContent =
+      displayText(s.title||"");
+  }
 
-  setText(
-    "#servicesTitle",
-    settings.title || ""
-  );
+  if($("#servicesAccent")){
+    $("#servicesAccent").textContent =
+      displayText(s.accent||"");
+  }
 
-  setText(
-    "#servicesAccent",
-    settings.accent || ""
-  );
+  if($("#servicesText")){
+    $("#servicesText").textContent =
+      displayText(s.text||"");
+  }
 
-  setText(
-    "#servicesText",
-    settings.text || ""
-  );
+  if($("#servicesGrid")){
 
+    $("#servicesGrid").innerHTML =
+      (s.cards||[])
+        .map((c,i)=>`
+          <article>
 
-  const grid =
-    $("#servicesGrid");
+            <div class="icon">
+              ${String(i+1).padStart(2,"0")}
+            </div>
 
-  if (!grid) return;
+            <h3>
+              ${escapeHtml(displayText(c.title))}
+            </h3>
 
+            <p>
+              ${escapeHtml(displayText(c.text))}
+            </p>
 
-  grid.innerHTML =
-    (settings.cards || [])
-      .map((card, index) => `
-        <article>
-
-          <div class="icon">
-            ${String(index + 1).padStart(2, "0")}
-          </div>
-
-          <h3 data-ss-auto="1">
-            ${escapeHtml(
-              t(card.title || "")
-            )}
-          </h3>
-
-          <p data-ss-auto="1">
-            ${escapeHtml(
-              t(card.text || "")
-            )}
-          </p>
-
-        </article>
-      `)
-      .join("");
+          </article>
+        `)
+        .join("");
+  }
 }
 
 
@@ -1269,136 +803,108 @@ function renderServices() {
    PROJECTS
    ========================================================= */
 
-function renderProjects(filter = "all") {
+function renderProjects(filter="all"){
 
-  const grid =
-    $("#projectGrid");
+  const grid = $("#projectGrid");
 
-  if (!grid) return;
-
+  if(!grid) return;
 
   setSection(
     "projects",
     data.settings.sections.projects
   );
 
-
-  const list =
-    (
-      filter === "all"
-        ? data.projects
-        : data.projects.filter(project => {
-
-            if (filter === "ongoing") {
-              return (
-                project.status === "ongoing" ||
-                project.status === "active"
-              );
-            }
-
-            return project.status === filter;
-          })
-    )
-    .filter(
-      project =>
-        project.published !== false
-    );
-
+  const list = (
+    filter==="all"
+      ? data.projects
+      : data.projects.filter(p =>
+          filter==="ongoing"
+            ? (
+                p.status==="ongoing" ||
+                p.status==="active"
+              )
+            : p.status===filter
+        )
+  ).filter(
+    p=>p.published!==false
+  );
 
   const featuredId =
     data.settings.featuredProjectId;
 
-
   grid.innerHTML =
-    list.map(project => {
+    list.map(p=>{
 
-      const link =
-        safeUrl(project.link);
+      const link = safeUrl(p.link);
 
       const featured =
-        project.id === featuredId;
-
+        p.id===featuredId;
 
       return `
         <article
-          class="project-card ${
-            featured ? "featured" : ""
-          }"
+          class="project-card ${featured?"featured":""}"
         >
 
           ${
-            safeUrl(project.photo)
+            safeUrl(p.photo)
               ? `
                 <img
                   class="project-photo"
-                  src="${escapeHtml(
-                    safeUrl(project.photo)
-                  )}"
-                  alt="${escapeHtml(
-                    project.name || "Project"
-                  )}"
+                  src="${escapeHtml(safeUrl(p.photo))}"
+                  alt="${escapeHtml(p.name)}"
                 >
               `
               : ""
           }
 
-
-          <span data-ss-auto="1">
-            ${escapeHtml(
-              t("PROJECT")
-            )}
+          <span>
+            ${escapeHtml(t("PROJECT"))}
             •
             ${escapeHtml(
-              translateStatus(
-                project.status
-              ).toUpperCase()
+              translateStatus(p.status).toUpperCase()
             )}
           </span>
 
-
-          <!-- Project NAME is intentionally NOT auto-translated -->
           <h3>
             ${escapeHtml(
-              project.name || ""
+              displayText(p.name)
             )}
           </h3>
 
-
           <p class="project-meta">
 
-            <strong data-ss-auto="1">
+            <strong>
               ${escapeHtml(
-                t(project.department || "")
+                displayText(p.department||"")
               )}
             </strong>
 
             <br>
 
-            <span data-ss-auto="1">
-              📍
-              ${escapeHtml(
-                t(project.location || "Bihar")
-              )}
-            </span>
+            📍
+            ${escapeHtml(
+              displayText(
+                p.location||"Bihar"
+              )
+            )}
 
           </p>
 
-
-          <p data-ss-auto="1">
+          <p>
             ${escapeHtml(
-              t(project.description || "")
+              displayText(
+                p.description||""
+              )
             )}
           </p>
 
-
           <div class="project-bottom">
 
-            <b data-ss-auto="1">
+            <b>
               ${escapeHtml(
-                t(project.date || "")
+                displayText(p.date||"")
               )}
             </b>
-
 
             ${
               link
@@ -1421,14 +927,11 @@ function renderProjects(filter = "all") {
 
         </article>
       `;
-    })
-    .join("");
 
-
-  if (!list.length) {
-
-    grid.innerHTML = `
-      <div class="empty" data-ss-auto="1">
+    }).join("")
+    ||
+    `
+      <div class="empty">
         ${escapeHtml(
           t(
             "No published projects in this category yet."
@@ -1436,56 +939,48 @@ function renderProjects(filter = "all") {
         )}
       </div>
     `;
-  }
 
 
   const featured =
     data.projects.find(
-      project =>
-        project.id === featuredId &&
-        project.published !== false
+      p =>
+        p.id===featuredId &&
+        p.published!==false
     );
 
+  const panel = $("#portalPanel");
 
-  const panel =
-    $("#portalPanel");
+  if(panel){
 
+    panel.style.display =
+      featured?.link
+        ? ""
+        : "none";
 
-  if (!panel) return;
+    if(featured?.link){
 
+      if($("#portalTitle")){
+        $("#portalTitle").textContent =
+          displayText(featured.name);
+      }
 
-  panel.style.display =
-    featured?.link
-      ? ""
-      : "none";
+      if($("#portalText")){
 
+        $("#portalText").textContent =
+          displayText(
+            featured.description ||
+            "Open the featured digital service portal directly from SS Enterprises."
+          );
+      }
 
-  if (featured?.link) {
+      if($("#portalLink")){
 
-    setText(
-      "#portalTitle",
-      featured.name || "",
-      false
-    );
+        $("#portalLink").href =
+          safeUrl(featured.link)||"#";
 
-
-    setText(
-      "#portalText",
-      featured.description ||
-      "Open the featured digital service portal directly from SS Enterprises."
-    );
-
-
-    const portalLink =
-      $("#portalLink");
-
-    if (portalLink) {
-
-      portalLink.href =
-        safeUrl(featured.link) || "#";
-
-      portalLink.textContent =
-        t("Open Portal ↗");
+        $("#portalLink").textContent =
+          t("Open Portal ↗");
+      }
     }
   }
 }
@@ -1495,112 +990,95 @@ function renderProjects(filter = "all") {
    TEAM
    ========================================================= */
 
-function renderTeam() {
+function renderTeam(){
 
-  const grid =
-    $("#teamGrid");
+  const grid = $("#teamGrid");
 
-  if (!grid) return;
-
+  if(!grid) return;
 
   setSection(
     "team",
     data.settings.sections.team
   );
 
-
   grid.innerHTML =
-    data.team
-      .map(member => `
+    data.team.map(tMember=>`
 
-        <article class="person-card">
+      <article class="person-card">
+
+        ${
+          safeUrl(tMember.photo)
+            ? `
+              <img
+                src="${escapeHtml(
+                  safeUrl(tMember.photo)
+                )}"
+                alt="${escapeHtml(
+                  tMember.name
+                )}"
+              >
+            `
+            : `
+              <div class="person-placeholder">
+                ♙
+              </div>
+            `
+        }
+
+        <div>
+
+          <span class="role">
+            ${escapeHtml(
+              translateRole(tMember.role)
+            )}
+          </span>
+
+          <h3>
+            ${escapeHtml(
+              displayText(tMember.name)
+            )}
+          </h3>
+
+          <p>
+            📍
+            ${escapeHtml(
+              displayText(
+                tMember.location||"Bihar"
+              )
+            )}
+          </p>
+
+          <p>
+            ${escapeHtml(
+              displayText(
+                tMember.responsibilities||""
+              )
+            )}
+          </p>
 
           ${
-            safeUrl(member.photo)
+            tMember.contact
               ? `
-                <img
-                  src="${escapeHtml(
-                    safeUrl(member.photo)
-                  )}"
-                  alt="${escapeHtml(
-                    member.name || "Team Member"
+                <a
+                  class="person-contact"
+                  href="tel:${escapeHtml(
+                    tMember.contact
                   )}"
                 >
+                  📞
+                  ${escapeHtml(
+                    tMember.contact
+                  )}
+                </a>
               `
-              : `
-                <div class="person-placeholder">
-                  ♙
-                </div>
-              `
+              : ""
           }
 
+        </div>
 
-          <div>
+      </article>
 
-            <span
-              class="role"
-              data-ss-auto="1"
-            >
-              ${escapeHtml(
-                translateRole(
-                  member.role || ""
-                )
-              )}
-            </span>
-
-
-            <!-- Team NAME is intentionally NOT auto-translated -->
-            <h3>
-              ${escapeHtml(
-                member.name || ""
-              )}
-            </h3>
-
-
-            <p data-ss-auto="1">
-              📍
-              ${escapeHtml(
-                t(
-                  member.location ||
-                  "Bihar"
-                )
-              )}
-            </p>
-
-
-            <p data-ss-auto="1">
-              ${escapeHtml(
-                t(
-                  member.responsibilities ||
-                  ""
-                )
-              )}
-            </p>
-
-
-            ${
-              member.contact
-                ? `
-                  <a
-                    class="person-contact"
-                    href="tel:${escapeHtml(
-                      member.contact
-                    )}"
-                  >
-                    📞
-                    ${escapeHtml(
-                      member.contact
-                    )}
-                  </a>
-                `
-                : ""
-            }
-
-          </div>
-
-        </article>
-      `)
-      .join("");
+    `).join("");
 }
 
 
@@ -1608,7 +1086,7 @@ function renderTeam() {
    CREDENTIALS
    ========================================================= */
 
-function renderCredentials() {
+function renderCredentials(){
 
   setSection(
     "credentials",
@@ -1621,7 +1099,7 @@ function renderCredentials() {
    VISION
    ========================================================= */
 
-function renderVision() {
+function renderVision(){
 
   setSection(
     "vision",
@@ -1634,52 +1112,43 @@ function renderVision() {
    CONTACT
    ========================================================= */
 
-function renderContact() {
+function renderContact(){
 
-  const settings =
+  const s =
     data.settings.contact || {};
-
 
   setSection(
     "contact",
     data.settings.sections.contact
   );
 
+  if($("#contactEyebrow")){
+    $("#contactEyebrow").textContent =
+      displayText(s.eyebrow||"");
+  }
 
-  setText(
-    "#contactEyebrow",
-    settings.eyebrow || ""
-  );
+  if($("#contactTitle")){
+    $("#contactTitle").textContent =
+      displayText(s.title||"");
+  }
 
-  setText(
-    "#contactTitle",
-    settings.title || ""
-  );
-
-  setText(
-    "#contactText",
-    settings.text || ""
-  );
-
+  if($("#contactText")){
+    $("#contactText").textContent =
+      displayText(s.text||"");
+  }
 
   const phone =
-    (settings.phone || "").trim();
+    (s.phone||"").trim();
 
-  const whatsapp =
-    (
-      settings.whatsapp ||
-      phone ||
-      ""
-    ).trim();
+  const wa =
+    (s.whatsapp||phone).trim();
 
   const email =
-    (settings.email || "").trim();
-
+    (s.email||"").trim();
 
   const links = [];
 
-
-  if (phone) {
+  if(phone){
 
     links.push(`
       <a
@@ -1691,13 +1160,12 @@ function renderContact() {
     `);
   }
 
-
-  if (whatsapp) {
+  if(wa){
 
     links.push(`
       <a
         href="https://wa.me/${escapeHtml(
-          whatsapp.replace(/\D/g, "")
+          wa.replace(/\D/g,"")
         )}"
         target="_blank"
         rel="noopener"
@@ -1707,8 +1175,7 @@ function renderContact() {
     `);
   }
 
-
-  if (email) {
+  if(email){
 
     links.push(`
       <a
@@ -1720,13 +1187,12 @@ function renderContact() {
     `);
   }
 
-
   links.push(`
-    <span data-ss-auto="1">
+    <span>
       📍
       ${escapeHtml(
-        t(
-          settings.address ||
+        displayText(
+          s.address ||
           data.settings.address ||
           "Bihar"
         )
@@ -1734,38 +1200,33 @@ function renderContact() {
     </span>
   `);
 
-
-  (settings.socials || [])
+  (s.socials||[])
     .filter(
-      social =>
-        social.label &&
-        safeUrl(social.url)
+      x =>
+        x.label &&
+        safeUrl(x.url)
     )
-    .forEach(social => {
+    .forEach(x=>{
 
       links.push(`
         <a
           href="${escapeHtml(
-            safeUrl(social.url)
+            safeUrl(x.url)
           )}"
           target="_blank"
           rel="noopener"
         >
           🔗
           ${escapeHtml(
-            t(social.label)
+            displayText(x.label)
           )}
         </a>
       `);
+
     });
 
-
-  const contactCard =
-    $("#contactCard");
-
-
-  if (contactCard) {
-    contactCard.innerHTML =
+  if($("#contactCard")){
+    $("#contactCard").innerHTML =
       links.join("");
   }
 }
@@ -1775,61 +1236,50 @@ function renderContact() {
    GALLERY
    ========================================================= */
 
-function renderGallery() {
+function renderGallery(){
 
-  const section =
-    $("#gallery");
+  const sec = $("#gallery");
 
-  if (!section) return;
-
+  if(!sec) return;
 
   setSection(
     "gallery",
     data.settings.sections.gallery
   );
 
-
   const items =
-    (data.settings.gallery || [])
+    (data.settings.gallery||[])
       .filter(
-        item =>
-          safeUrl(item.url)
+        x=>safeUrl(x.url)
       );
 
+  if(!$("#galleryGrid")) return;
 
-  const grid =
-    $("#galleryGrid");
-
-  if (!grid) return;
-
-
-  if (items.length) {
-
-    grid.innerHTML =
-      items
-        .map(item => `
+  $("#galleryGrid").innerHTML =
+    items.length
+      ? items.map(x=>`
 
           <figure>
 
             <img
               src="${escapeHtml(
-                safeUrl(item.url)
+                safeUrl(x.url)
               )}"
               alt="${escapeHtml(
-                item.caption ||
+                x.caption ||
                 "SS Enterprises"
               )}"
               loading="lazy"
             >
 
             ${
-              item.caption
+              x.caption
                 ? `
-                  <figcaption
-                    data-ss-auto="1"
-                  >
+                  <figcaption>
                     ${escapeHtml(
-                      t(item.caption)
+                      displayText(
+                        x.caption
+                      )
                     )}
                   </figcaption>
                 `
@@ -1838,24 +1288,16 @@ function renderGallery() {
 
           </figure>
 
-        `)
-        .join("");
-
-  } else {
-
-    grid.innerHTML = `
-      <div
-        class="empty"
-        data-ss-auto="1"
-      >
-        ${escapeHtml(
-          t(
-            "Gallery photos will appear here."
-          )
-        )}
-      </div>
-    `;
-  }
+        `).join("")
+      : `
+        <div class="empty">
+          ${escapeHtml(
+            t(
+              "Gallery photos will appear here."
+            )
+          )}
+        </div>
+      `;
 }
 
 
@@ -1863,65 +1305,56 @@ function renderGallery() {
    LANGUAGE SWITCHER
    ========================================================= */
 
-function createLanguageSwitcher() {
+function createLanguageSwitcher(){
 
   const wrap =
     document.querySelector(
       ".lang-switch"
-    ) ||
+    )
+    ||
     document.getElementById(
       "ss-language-switcher"
     );
 
-
-  if (!wrap) {
-    return;
-  }
-
+  if(!wrap) return;
 
   wrap
     .querySelectorAll(
       "[data-lang], .lang-btn, .ss-lang-btn"
     )
-    .forEach(button => {
+    .forEach(btn=>{
 
-      if (
-        button.dataset.ssBound === "1"
-      ) {
+      if(
+        btn.dataset.ssBound === "1"
+      ){
         return;
       }
 
+      btn.dataset.ssBound = "1";
 
-      button.dataset.ssBound = "1";
-
-
-      button.addEventListener(
+      btn.addEventListener(
         "click",
-        () => {
-
+        ()=>{
           ssApplyLanguage(
-            button.dataset.lang ||
-            "en"
+            btn.dataset.lang || "en"
           );
-
         }
       );
     });
 
-
   wrap
     .querySelectorAll(
       "[data-lang], .lang-btn, .ss-lang-btn"
     )
-    .forEach(button => {
+    .forEach(btn=>{
 
-      button.classList.toggle(
+      btn.classList.toggle(
         "active",
         (
-          button.dataset.lang ||
-          "en"
+          btn.dataset.lang || "en"
         ) === currentLang
       );
+
     });
 }
 
@@ -1930,45 +1363,36 @@ function createLanguageSwitcher() {
    STATIC HTML TRANSLATION
    ========================================================= */
 
-function applyLanguageToStaticHTML() {
+function applyLanguageToStaticHTML(){
 
   /*
-   * Elements explicitly marked data-i18n.
-   */
+    Static elements with data-i18n.
+    English source is stored permanently in data-ss-en.
+  */
+
   document
     .querySelectorAll("[data-i18n]")
-    .forEach(element => {
+    .forEach(el=>{
 
       const key =
-        element.getAttribute(
-          "data-i18n"
-        );
+        el.getAttribute("data-i18n");
 
-
-      if (!element.dataset.ssEn) {
-        element.dataset.ssEn =
-          key;
+      if(!el.dataset.ssEn){
+        el.dataset.ssEn = key;
       }
 
-
-      const english =
-        element.dataset.ssEn;
-
-
-      element.textContent =
+      el.textContent =
         currentLang === "hi"
-          ? (
-              I18N[english] ??
-              english
-            )
-          : english;
+          ? autoTranslate(key)
+          : el.dataset.ssEn;
     });
 
 
   /*
-   * Older HTML files may not have data-i18n.
-   * Preserve their original English text.
-   */
+    Older index.html files may not have data-i18n.
+    These common buttons are handled here.
+  */
+
   const fallback = {
 
     "Explore Our Work":
@@ -2004,38 +1428,83 @@ function applyLanguageToStaticHTML() {
     .querySelectorAll(
       ".filter, .actions .btn, #portalLink"
     )
-    .forEach(element => {
+    .forEach(el=>{
 
-      if (
-        !element.dataset.ssEn
-      ) {
-
-        element.dataset.ssEn =
-          element.textContent.trim();
+      if(!el.dataset.ssEn){
+        el.dataset.ssEn =
+          el.textContent.trim();
       }
 
+      const en =
+        el.dataset.ssEn;
 
-      const english =
-        element.dataset.ssEn;
-
-
-      element.textContent =
+      el.textContent =
         currentLang === "hi"
           ? (
-              I18N[english] ||
-              fallback[english] ||
-              english
+              autoTranslate(en) ||
+              fallback[en] ||
+              en
             )
-          : english;
+          : en;
     });
+
+
+  /*
+    Extra support for old HTML where
+    the hero text was not marked with data-i18n.
+  */
+
+  const staticSelectors = [
+
+    "#heroEyebrow",
+    "#heroTitle",
+    "#heroAccent",
+    "#heroLead",
+
+    "#aboutEyebrow",
+    "#aboutTitle",
+    "#aboutAccent",
+    "#aboutText",
+
+    "#servicesEyebrow",
+    "#servicesTitle",
+    "#servicesAccent",
+    "#servicesText",
+
+    "#contactEyebrow",
+    "#contactTitle",
+    "#contactText"
+  ];
+
+  staticSelectors.forEach(selector=>{
+
+    document
+      .querySelectorAll(selector)
+      .forEach(el=>{
+
+        if(!el.dataset.ssEn){
+          el.dataset.ssEn =
+            el.textContent.trim();
+        }
+
+        const original =
+          el.dataset.ssEn;
+
+        el.textContent =
+          currentLang === "hi"
+            ? autoTranslate(original)
+            : original;
+      });
+
+  });
 }
 
 
 /* =========================================================
-   RESET STATIC HTML TO ENGLISH
+   RESET ENGLISH
    ========================================================= */
 
-function resetStaticHTMLToEnglish() {
+function resetStaticHTMLToEnglish(){
 
   currentLang = "en";
 
@@ -2047,114 +1516,76 @@ function resetStaticHTMLToEnglish() {
    APPLY LANGUAGE
    ========================================================= */
 
-async function ssApplyLanguage(lang) {
+function ssApplyLanguage(lang){
 
   currentLang =
     lang === "hi"
       ? "hi"
       : "en";
 
-
   localStorage.setItem(
     "ss_language",
     currentLang
   );
 
-
   document.documentElement.lang =
     currentLang;
 
+  if(currentLang === "en"){
+    resetStaticHTMLToEnglish();
+  }
 
-  /*
-   * Cancel older online translation run.
-   */
-  translationRunId++;
-
-
-  /*
-   * Render everything again from original data.
-   */
   applyAll();
-
-
-  /*
-   * Static HTML.
-   */
-  applyLanguageToStaticHTML();
-
 
   createLanguageSwitcher();
 
-
   document
     .querySelectorAll(".ss-lang-btn")
-    .forEach(button => {
+    .forEach(b=>{
 
-      button.classList.toggle(
+      b.classList.toggle(
         "active",
-        button.dataset.lang ===
-        currentLang
+        b.dataset.lang === currentLang
       );
+
     });
 
-
-  /*
-   * Hindi:
-   * First fixed translations are shown.
-   * Then unknown Admin-entered English
-   * content is translated online.
-   */
-  if (currentLang === "hi") {
-
-    await translateDynamicContent();
-
-  } else {
-
-    /*
-     * English is rendered directly from
-     * original Supabase data by applyAll().
-     */
+  if(currentLang === "hi"){
     applyLanguageToStaticHTML();
   }
 }
 
 
 /* =========================================================
-   LEGACY DATA CLEANUP
-   ---------------------------------------------------------
-   Does NOT delete data from Supabase.
-   Only fixes old unwanted text in memory before rendering.
+   LEGACY CUSTOMER TEXT CLEANUP
    ========================================================= */
 
-function cleanLegacyCustomerText() {
+function cleanLegacyCustomerText(){
 
-  const settings =
+  const s =
     data.settings || {};
 
-
-  if (
-    settings.services &&
-    settings.services.text ===
+  if(
+    s.services &&
+    s.services.text ===
       "Professional services for tender work, project execution, manpower coordination and reliable field support."
-  ) {
+  ){
 
-    settings.services.text =
+    s.services.text =
       "Professional services for tender work, project execution, manpower coordination and reliable field support.";
   }
 
 
-  if (
-    Array.isArray(data.projects)
-  ) {
+  if(Array.isArray(data.projects)){
 
-    data.projects.forEach(project => {
+    data.projects.forEach(p=>{
 
-      if (
-        project.description ===
+      if(
+        p.description ===
           "Ayushman Card KYC related project. Details can be updated from the Admin Panel when confirmed."
-      ) {
+      ){
 
-        project.description =
+        p.description =
           "Ayushman Card KYC related project supporting field coordination and service delivery as per project requirements.";
       }
 
@@ -2164,13 +1595,19 @@ function cleanLegacyCustomerText() {
 
 
 /* =========================================================
-   RENDER EVERYTHING
+   RENDER ALL
    ========================================================= */
 
-function applyAll() {
+function applyAll(){
+
+  /*
+    Important:
+    This does NOT delete Supabase data.
+    It only cleans old customer-facing legacy text
+    before rendering the website.
+  */
 
   cleanLegacyCustomerText();
-
 
   renderHomepage();
 
@@ -2191,72 +1628,45 @@ function applyAll() {
   renderGallery();
 
 
-  /*
-   * Address elements in existing HTML.
-   */
   const address =
     data.settings.address ||
     "Donar Road, Darbhanga";
 
-
   document
-    .querySelectorAll(
-      "[data-address]"
-    )
-    .forEach(element => {
+    .querySelectorAll("[data-address]")
+    .forEach(x=>{
 
-      element.textContent =
-        t(address);
+      x.textContent =
+        displayText(address);
 
-      markAuto(element);
     });
 
 
-  /*
-   * Project filters.
-   */
   document
     .querySelectorAll(".filter")
-    .forEach(button => {
+    .forEach(b=>{
 
-      button.onclick = () => {
+      b.onclick = ()=>{
 
         document
           .querySelectorAll(".filter")
-          .forEach(item =>
-            item.classList.remove(
-              "active"
-            )
+          .forEach(x=>
+            x.classList.remove("active")
           );
 
-
-        button.classList.add(
-          "active"
-        );
-
+        b.classList.add("active");
 
         renderProjects(
-          button.dataset.filter
+          b.dataset.filter
         );
-
-
-        if (
-          currentLang === "hi"
-        ) {
-          translateDynamicContent();
-        }
       };
+
     });
 
 
-  /*
-   * Current year.
-   */
-  const year =
-    $("#year");
+  const year = $("#year");
 
-
-  if (year) {
+  if(year){
     year.textContent =
       new Date().getFullYear();
   }
@@ -2266,49 +1676,54 @@ function applyAll() {
 
 
   document
-    .querySelectorAll(
-      ".ss-lang-btn"
-    )
-    .forEach(button => {
+    .querySelectorAll(".ss-lang-btn")
+    .forEach(b=>{
 
-      button.classList.toggle(
+      b.classList.toggle(
         "active",
-        button.dataset.lang ===
-        currentLang
+        b.dataset.lang === currentLang
       );
+
     });
 }
 
 
 /* =========================================================
-   LOAD DATA
+   LOAD DATA FROM SUPABASE
    ========================================================= */
 
-async function loadData() {
+async function loadData(){
 
-  if (sb) {
+  if(sb){
 
-    try {
+    try{
 
-      const result =
-        await sb
-          .from("site_data")
-          .select("content")
-          .eq("id", 1)
-          .maybeSingle();
+      const {
+        data:row,
+        error
+      } = await sb
+        .from("site_data")
+        .select("content")
+        .eq("id",1)
+        .maybeSingle();
 
 
-      if (
-        !result.error &&
-        result.data?.content
-      ) {
+      if(
+        !error &&
+        row?.content
+      ){
+
+        /*
+          Existing Supabase content is preserved.
+          normalise only fills missing structure.
+        */
 
         data =
           normalise(
-            result.data.content
+            row.content
           );
 
-      } else {
+      }else{
 
         data =
           normalise(
@@ -2316,13 +1731,12 @@ async function loadData() {
           );
       }
 
-    } catch (error) {
+    }catch(e){
 
       console.warn(
         "Supabase load failed:",
-        error
+        e
       );
-
 
       data =
         normalise(
@@ -2330,7 +1744,7 @@ async function loadData() {
         );
     }
 
-  } else {
+  }else{
 
     data =
       normalise(
@@ -2339,27 +1753,11 @@ async function loadData() {
   }
 
 
-  /*
-   * First render the complete website.
-   * Nothing is removed here.
-   */
   applyAll();
 
 
-  /*
-   * Restore saved language.
-   */
-  if (
-    currentLang === "hi"
-  ) {
-
+  if(currentLang === "hi"){
     applyLanguageToStaticHTML();
-
-    /*
-     * Translate any new content
-     * which is not in I18N.
-     */
-    translateDynamicContent();
   }
 }
 
@@ -2370,11 +1768,11 @@ async function loadData() {
 
 window.addEventListener(
   "load",
-  () => {
-
+  ()=>{
     setTimeout(
-      () =>
-        $("#intro")?.remove(),
+      ()=>{
+        $("#intro")?.remove();
+      },
       3200
     );
   }
@@ -2387,24 +1785,18 @@ window.addEventListener(
 
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
+  ()=>{
 
     createLanguageSwitcher();
 
 
-    /*
-     * Mobile menu.
-     */
-    const menu =
-      $(".menu");
+    const menu = $(".menu");
 
-
-    if (menu) {
+    if(menu){
 
       menu.addEventListener(
         "click",
-        () => {
-
+        ()=>{
           document
             .querySelector("nav")
             ?.classList.toggle(
@@ -2415,20 +1807,13 @@ document.addEventListener(
     }
 
 
-    /*
-     * Close mobile menu after
-     * navigation click.
-     */
     document
-      .querySelectorAll(
-        "nav a"
-      )
-      .forEach(anchor => {
+      .querySelectorAll("nav a")
+      .forEach(a=>{
 
-        anchor.addEventListener(
+        a.addEventListener(
           "click",
-          () => {
-
+          ()=>{
             document
               .querySelector("nav")
               ?.classList.remove(
@@ -2436,24 +1821,28 @@ document.addEventListener(
               );
           }
         );
+
       });
 
 
     /*
-     * Saved language.
-     */
+      Always start with saved language.
+      English is default.
+    */
+
     currentLang =
       localStorage.getItem(
         "ss_language"
       ) === "hi"
         ? "hi"
         : "en";
+
   }
 );
 
 
 /* =========================================================
-   START WEBSITE
+   START
    ========================================================= */
 
 loadData();
@@ -2461,16 +1850,15 @@ loadData();
 
 /* =========================================================
    LANGUAGE SWITCHER STYLE
-   No styles.css change required.
+   No styles.css change is required.
    ========================================================= */
 
-(function () {
+(function(){
 
   const style =
     document.createElement(
       "style"
     );
-
 
   style.textContent = `
 
@@ -2483,22 +1871,35 @@ loadData();
     }
 
     .ss-lang-btn{
-      border:1px solid rgba(255,255,255,.28);
+      border:1px solid
+        rgba(255,255,255,.28);
+
       background:transparent;
+
       color:inherit;
+
       padding:7px 10px;
+
       border-radius:999px;
+
       font:inherit;
+
       font-size:12px;
+
       line-height:1;
+
       cursor:pointer;
+
       white-space:nowrap;
     }
 
     .ss-lang-btn.active{
       background:#b7df73;
+
       color:#071a3a;
+
       border-color:#b7df73;
+
       font-weight:700;
     }
 
@@ -2506,21 +1907,19 @@ loadData();
 
       .ss-language-switcher{
         margin:12px 0 0;
+
         justify-content:flex-start;
       }
 
-      header.nav nav.open
+      header.nav
+      nav.open
       .ss-language-switcher{
         display:flex;
       }
-
     }
 
   `;
 
-
-  document.head.appendChild(
-    style
-  );
+  document.head.appendChild(style);
 
 })();

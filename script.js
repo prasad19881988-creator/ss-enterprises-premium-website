@@ -509,10 +509,8 @@ const I18N = {
 
   "We take up suitable contracted and tender-based work and build dependable teams to execute it with accountability, coordination and service.":
     "हम उपयुक्त अनुबंधित और टेंडर आधारित कार्य लेते हैं तथा जवाबदेही, समन्वय और सेवा भावना के साथ उसे पूरा करने के लिए भरोसेमंद टीम तैयार करते हैं।",
-   "Professional Execution":
-  "पेशेवर कार्यान्वयन",
+   
 
-"Building Trust Through Responsible Work.":
   "जिम्मेदार कार्य के साथ विश्वास का निर्माण।",
 
 "Professional Execution Building Trust Through Responsible Work.":

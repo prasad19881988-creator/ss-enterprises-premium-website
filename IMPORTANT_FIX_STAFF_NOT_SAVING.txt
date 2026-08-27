@@ -1,0 +1,12 @@
+WHY STAFF WAS NOT SAVING
+The updated admin.js sends salary component fields (basic_salary, ta_travel, da_daily, rent_allowance, other_allowance) to Supabase. If these columns were not added to the existing Supabase database, Supabase rejects the insert and no staff is saved.
+
+FIX
+1. Open Supabase Dashboard for this project.
+2. Open SQL Editor.
+3. Open RUN_THIS_IN_SUPABASE_SQL_EDITOR.sql from this package.
+4. Copy all SQL and Run it.
+5. Then refresh the deployed admin page and add staff again.
+
+SAFE
+This SQL only adds missing columns and preserves existing data. It does not drop or delete tables.

@@ -20,7 +20,10 @@ async function fetchWithTimeout(
   ms: number,
 ) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ms);
+
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, ms);
 
   try {
     return await fetch(url, {
@@ -50,9 +53,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // --------------------------------------------------
-    // 1. AUTHENTICATION
-    // --------------------------------------------------
+    // --------------------------------
+    // AUTHENTICATION
+    // --------------------------------
 
     const auth = req.headers.get("Authorization") || "";
 
@@ -69,18 +72,19 @@ Deno.serve(async (req) => {
       );
     }
 
-    // --------------------------------------------------
-    // 2. SERVER SECRETS
-    // --------------------------------------------------
+    // --------------------------------
+    // SERVER SECRETS
+    // --------------------------------
 
-    const supabaseUrl =
-      Deno.env.get("SUPABASE_URL");
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
 
-    const serviceRole =
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const serviceRole = Deno.env.get(
+      "SUPABASE_SERVICE_ROLE_KEY",
+    );
 
-    const resendKey =
-      Deno.env.get("RESEND_API_KEY");
+    const resendKey = Deno.env.get(
+      "RESEND_API_KEY",
+    );
 
     if (
       !supabaseUrl ||
@@ -96,26 +100,21 @@ Deno.serve(async (req) => {
       );
     }
 
-    // --------------------------------------------------
-    // 3. VERIFY CURRENT LOGGED-IN USER
-    // --------------------------------------------------
+    // --------------------------------
+    // VERIFY SUPABASE USER
+    // --------------------------------
 
-    const authResponse =
-      await fetchWithTimeout(
-        `${supabaseUrl}/auth/v1/user`,
-        {
-          method: "GET",
-
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-
-            apikey: serviceRole,
-          },
+    const authResponse = await fetchWithTimeout(
+      `${supabaseUrl}/auth/v1/user`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          apikey: serviceRole,
         },
-
-        8000,
-      );
+      },
+      8000,
+    );
 
     if (!authResponse.ok) {
       return json(
@@ -127,8 +126,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const user =
-      await authResponse.json();
+    const user = await authResponse.json();
 
     if (!user?.id) {
       return json(
@@ -140,52 +138,50 @@ Deno.serve(async (req) => {
       );
     }
 
-    // --------------------------------------------------
-    // 4. READ REQUEST
-    // --------------------------------------------------
+    // --------------------------------
+    // READ REQUEST
+    // --------------------------------
 
-    const body =
-      await req.json();
+    const body = await req.json();
 
-    const to =
-      String(body?.to || "").trim();
+    const to = String(
+      body?.to || "",
+    ).trim();
 
-    const subject =
-      String(
-        body?.subject ||
-          "SS Enterprises Letter",
-      ).trim();
+    const subject = String(
+      body?.subject ||
+        "SS Enterprises Letter",
+    ).trim();
 
-    const employeeName =
-      String(
-        body?.employeeName ||
-          "Employee",
-      ).trim();
+    const employeeName = String(
+      body?.employeeName ||
+        "Employee",
+    ).trim();
 
-    const employeeCode =
-      String(
-        body?.employeeCode || "",
-      ).trim();
+    const employeeCode = String(
+      body?.employeeCode || "",
+    ).trim();
 
-    const letterType =
-      String(
-        body?.letterType ||
-          "letter",
-      ).trim();
+    const letterType = String(
+      body?.letterType ||
+        "letter",
+    ).trim();
 
-    const attachments =
-      Array.isArray(body?.attachments)
-        ? body.attachments
-        : [];
+    const attachments = Array.isArray(
+      body?.attachments,
+    )
+      ? body.attachments
+      : [];
 
-    const termsUrl =
-      String(
-        body?.termsUrl || "",
-      ).trim();
+    // Original T&C PDF is sent as Base64
+    // directly from the admin panel.
+    const termsContent = String(
+      body?.termsContent || "",
+    ).trim();
 
-    // --------------------------------------------------
-    // 5. VALIDATE EMAIL
-    // --------------------------------------------------
+    // --------------------------------
+    // VALIDATE EMAIL
+    // --------------------------------
 
     if (
       !/^\S+@\S+\.\S+$/.test(to)
@@ -199,10 +195,9 @@ Deno.serve(async (req) => {
       );
     }
 
-    // --------------------------------------------------
-    // 6. ONLY ONE BASE64 ATTACHMENT
-    //    = GENERATED LETTER PDF
-    // --------------------------------------------------
+    // --------------------------------
+    // VALIDATE LETTER
+    // --------------------------------
 
     if (attachments.length !== 1) {
       return json(
@@ -214,13 +209,11 @@ Deno.serve(async (req) => {
       );
     }
 
-    const letter =
-      attachments[0];
+    const letter = attachments[0];
 
-    const letterContent =
-      String(
-        letter?.content || "",
-      );
+    const letterContent = String(
+      letter?.content || "",
+    );
 
     if (!letterContent) {
       return json(
@@ -232,63 +225,57 @@ Deno.serve(async (req) => {
       );
     }
 
+    // --------------------------------
+    // PREPARE LETTER PDF
+    // --------------------------------
+
     const safeAttachments: any[] = [
       {
-        filename:
-          String(
-            letter?.filename ||
-              "letter.pdf",
-          ).replace(
-            /[^a-zA-Z0-9._-]/g,
-            "-",
-          ),
+        filename: String(
+          letter?.filename ||
+            "letter.pdf",
+        ).replace(
+          /[^a-zA-Z0-9._-]/g,
+          "-",
+        ),
 
-        content:
-          letterContent,
+        content: letterContent,
 
         content_type:
           "application/pdf",
       },
     ];
 
-    // --------------------------------------------------
-    // 7. OFFER LETTER
-    //    ADD ORIGINAL 5-PAGE T&C PDF
-    //
-    //    IMPORTANT:
-    //    T&C is NOT sent as Base64 from browser.
-    //    Resend fetches it directly from public URL.
-    // --------------------------------------------------
+    // --------------------------------
+    // OFFER LETTER
+    // ADD ORIGINAL 5-PAGE T&C PDF
+    // --------------------------------
 
     if (letterType === "offer") {
-      if (
-        !/^https:\/\//i.test(
-          termsUrl,
-        )
-      ) {
+      if (!termsContent) {
         return json(
           {
             error:
-              "Original Terms & Conditions PDF URL is missing.",
+              "Original Terms & Conditions PDF content is missing.",
           },
           400,
         );
       }
 
       safeAttachments.push({
-        path: termsUrl,
-
         filename:
           "SS-Enterprises-Terms-and-Conditions.pdf",
+
+        content: termsContent,
 
         content_type:
           "application/pdf",
       });
     }
 
-    // --------------------------------------------------
-    // 8. EMAIL TYPE
-    // --------------------------------------------------
+    // --------------------------------
+    // LETTER TYPE
+    // --------------------------------
 
     const typeLabel =
       letterType === "offer"
@@ -297,9 +284,9 @@ Deno.serve(async (req) => {
         ? "Joining Letter"
         : "Employee Letter";
 
-    // --------------------------------------------------
-    // 9. EMAIL BODY
-    // --------------------------------------------------
+    // --------------------------------
+    // EMAIL HTML
+    // --------------------------------
 
     const html = `
       <div
@@ -318,7 +305,6 @@ Deno.serve(async (req) => {
             margin-bottom:20px;
           "
         >
-
           <div
             style="
               font-size:22px;
@@ -338,21 +324,16 @@ Deno.serve(async (req) => {
           >
             HR &amp; Administration
           </div>
-
         </div>
 
         <p>
           Dear
-          <b>
-            ${escapeHtml(employeeName)}
-          </b>,
+          <b>${escapeHtml(employeeName)}</b>,
         </p>
 
         <p>
           Please find attached your
-          <b>
-            ${escapeHtml(typeLabel)}
-          </b>
+          <b>${escapeHtml(typeLabel)}</b>
           issued by SS Enterprises.
         </p>
 
@@ -381,7 +362,6 @@ Deno.serve(async (req) => {
           Regards,<br>
           <b>HR &amp; Administration</b><br>
           SS Enterprises<br>
-
           <span style="color:#607086">
             ssenterprisesservice@poton.me
           </span>
@@ -405,14 +385,13 @@ Deno.serve(async (req) => {
       </div>
     `;
 
-    // --------------------------------------------------
-    // 10. SEND THROUGH RESEND
-    // --------------------------------------------------
+    // --------------------------------
+    // SEND THROUGH RESEND
+    // --------------------------------
 
     const resendResponse =
       await fetchWithTimeout(
         "https://api.resend.com/emails",
-
         {
           method: "POST",
 
@@ -442,9 +421,9 @@ Deno.serve(async (req) => {
         20000,
       );
 
-    // --------------------------------------------------
-    // 11. READ RESEND RESPONSE
-    // --------------------------------------------------
+    // --------------------------------
+    // RESEND RESPONSE
+    // --------------------------------
 
     let result: any = {};
 
@@ -452,13 +431,8 @@ Deno.serve(async (req) => {
       result =
         await resendResponse.json();
     } catch (_) {
-      // Keep empty result if provider
-      // doesn't return JSON.
+      result = {};
     }
-
-    // --------------------------------------------------
-    // 12. RESEND ERROR
-    // --------------------------------------------------
 
     if (!resendResponse.ok) {
       return json(
@@ -468,26 +442,25 @@ Deno.serve(async (req) => {
             result?.error ||
             `Resend returned HTTP ${resendResponse.status}.`,
         },
-
         resendResponse.status,
       );
     }
 
-    // --------------------------------------------------
-    // 13. SUCCESS
-    // --------------------------------------------------
+    // --------------------------------
+    // SUCCESS
+    // --------------------------------
 
     return json({
       ok: true,
-
-      id:
-        result?.id ||
-        null,
+      id: result?.id || null,
     });
 
   } catch (error) {
 
-    // Timeout
+    // --------------------------------
+    // TIMEOUT
+    // --------------------------------
+
     if (
       error instanceof DOMException &&
       error.name === "AbortError"
@@ -500,6 +473,10 @@ Deno.serve(async (req) => {
         504,
       );
     }
+
+    // --------------------------------
+    // OTHER ERROR
+    // --------------------------------
 
     console.error(
       "send-letter-email error:",
@@ -518,9 +495,9 @@ Deno.serve(async (req) => {
   }
 });
 
-// --------------------------------------------------
-// HTML SECURITY
-// --------------------------------------------------
+// --------------------------------
+// HTML ESCAPE
+// --------------------------------
 
 function escapeHtml(
   value: string,
@@ -536,4 +513,4 @@ function escapeHtml(
         '"': "&quot;",
       }[ch] || ch),
   );
-  }
+}

@@ -5,25 +5,36 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const json = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), {
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
     status,
     headers: {
       ...corsHeaders,
       "Content-Type": "application/json",
     },
   });
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'"]/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;",
+  }[ch] || ch));
+}
 
 async function fetchWithTimeout(
   url: string,
   init: RequestInit,
-  ms: number,
+  timeoutMs: number,
 ) {
   const controller = new AbortController();
 
   const timer = setTimeout(() => {
     controller.abort();
-  }, ms);
+  }, timeoutMs);
 
   try {
     return await fetch(url, {
@@ -36,7 +47,6 @@ async function fetchWithTimeout(
 }
 
 Deno.serve(async (req) => {
-  // CORS
   if (req.method === "OPTIONS") {
     return new Response("ok", {
       headers: corsHeaders,
@@ -46,24 +56,26 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") {
     return json(
       {
-        error: "Method not allowed",
+        error: "Method not allowed.",
       },
       405,
     );
   }
 
   try {
-    // --------------------------------
-    // AUTHENTICATION
-    // --------------------------------
+    /*
+      IMPORTANT:
+      Supabase Function JWT verification is handled before
+      this function. Therefore we do NOT make another
+      /auth/v1/user network request here.
+    */
 
-    const auth = req.headers.get("Authorization") || "";
+    const authorization =
+      req.headers.get("Authorization") ||
+      req.headers.get("authorization") ||
+      "";
 
-    const token = auth
-      .replace(/^Bearer\s+/i, "")
-      .trim();
-
-    if (!token) {
+    if (!authorization) {
       return json(
         {
           error: "Authentication required.",
@@ -72,90 +84,30 @@ Deno.serve(async (req) => {
       );
     }
 
-    // --------------------------------
-    // SERVER SECRETS
-    // --------------------------------
+    const resendKey = Deno.env.get("RESEND_API_KEY");
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-
-    const serviceRole = Deno.env.get(
-      "SUPABASE_SERVICE_ROLE_KEY",
-    );
-
-    const resendKey = Deno.env.get(
-      "RESEND_API_KEY",
-    );
-
-    if (
-      !supabaseUrl ||
-      !serviceRole ||
-      !resendKey
-    ) {
+    if (!resendKey) {
       return json(
         {
-          error:
-            "Email service is not configured on the server.",
+          error: "RESEND_API_KEY is not configured.",
         },
         500,
       );
     }
 
-    // --------------------------------
-    // VERIFY SUPABASE USER
-    // --------------------------------
-
-    const authResponse = await fetchWithTimeout(
-      `${supabaseUrl}/auth/v1/user`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          apikey: serviceRole,
-        },
-      },
-      8000,
-    );
-
-    if (!authResponse.ok) {
-      return json(
-        {
-          error:
-            "Invalid or expired admin session. Please log in again.",
-        },
-        401,
-      );
-    }
-
-    const user = await authResponse.json();
-
-    if (!user?.id) {
-      return json(
-        {
-          error:
-            "Invalid or expired admin session.",
-        },
-        401,
-      );
-    }
-
-    // --------------------------------
-    // READ REQUEST
-    // --------------------------------
-
+    /*
+      Read the complete request body BEFORE calling Resend.
+    */
     const body = await req.json();
 
-    const to = String(
-      body?.to || "",
-    ).trim();
+    const to = String(body?.to || "").trim();
 
     const subject = String(
-      body?.subject ||
-        "SS Enterprises Letter",
+      body?.subject || "SS Enterprises Letter",
     ).trim();
 
     const employeeName = String(
-      body?.employeeName ||
-        "Employee",
+      body?.employeeName || "Employee",
     ).trim();
 
     const employeeCode = String(
@@ -163,47 +115,30 @@ Deno.serve(async (req) => {
     ).trim();
 
     const letterType = String(
-      body?.letterType ||
-        "letter",
+      body?.letterType || "letter",
     ).trim();
 
-    const attachments = Array.isArray(
-      body?.attachments,
-    )
+    const attachments = Array.isArray(body?.attachments)
       ? body.attachments
       : [];
 
-    // Original T&C PDF is sent as Base64
-    // directly from the admin panel.
     const termsContent = String(
       body?.termsContent || "",
     ).trim();
 
-    // --------------------------------
-    // VALIDATE EMAIL
-    // --------------------------------
-
-    if (
-      !/^\S+@\S+\.\S+$/.test(to)
-    ) {
+    if (!/^\S+@\S+\.\S+$/.test(to)) {
       return json(
         {
-          error:
-            "Invalid staff email address.",
+          error: "Invalid staff email address.",
         },
         400,
       );
     }
 
-    // --------------------------------
-    // VALIDATE LETTER
-    // --------------------------------
-
     if (attachments.length !== 1) {
       return json(
         {
-          error:
-            "Letter PDF attachment is missing or invalid.",
+          error: "Letter PDF attachment is missing or invalid.",
         },
         400,
       );
@@ -213,44 +148,37 @@ Deno.serve(async (req) => {
 
     const letterContent = String(
       letter?.content || "",
-    );
+    ).trim();
 
     if (!letterContent) {
       return json(
         {
-          error:
-            "Letter PDF is empty.",
+          error: "Letter PDF is empty.",
         },
         400,
       );
     }
 
-    // --------------------------------
-    // PREPARE LETTER PDF
-    // --------------------------------
-
     const safeAttachments: any[] = [
       {
         filename: String(
-          letter?.filename ||
-            "letter.pdf",
-        ).replace(
-          /[^a-zA-Z0-9._-]/g,
-          "-",
-        ),
+          letter?.filename || "SS-Enterprises-Letter.pdf",
+        ).replace(/[^a-zA-Z0-9._-]/g, "-"),
 
         content: letterContent,
 
-        content_type:
-          "application/pdf",
+        content_type: "application/pdf",
       },
     ];
 
-    // --------------------------------
-    // OFFER LETTER
-    // ADD ORIGINAL 5-PAGE T&C PDF
-    // --------------------------------
+    /*
+      Offer Letter:
+      attach the ORIGINAL 5-page Terms & Conditions PDF
+      as Base64.
 
+      No remote PDF URL.
+      No Resend path download.
+    */
     if (letterType === "offer") {
       if (!termsContent) {
         return json(
@@ -268,25 +196,21 @@ Deno.serve(async (req) => {
 
         content: termsContent,
 
-        content_type:
-          "application/pdf",
+        content_type: "application/pdf",
       });
     }
 
-    // --------------------------------
-    // LETTER TYPE
-    // --------------------------------
+    let typeLabel = "Employee Letter";
 
-    const typeLabel =
-      letterType === "offer"
-        ? "Offer Letter"
-        : letterType === "joining"
-        ? "Joining Letter"
-        : "Employee Letter";
-
-    // --------------------------------
-    // EMAIL HTML
-    // --------------------------------
+    if (letterType === "offer") {
+      typeLabel = "Offer Letter";
+    } else if (letterType === "joining") {
+      typeLabel = "Joining Letter";
+    } else if (letterType === "warning") {
+      typeLabel = "Warning Letter";
+    } else if (letterType === "termination") {
+      typeLabel = "Termination Letter";
+    }
 
     const html = `
       <div
@@ -341,11 +265,9 @@ Deno.serve(async (req) => {
           letterType === "offer"
             ? `
               <p>
-                The email also includes the
-                company's original
+                The email also includes the company's original
                 <b>
-                  5-page Terms &amp; Conditions
-                  of Employment
+                  5-page Terms &amp; Conditions of Employment
                 </b>
                 attachment for your records.
               </p>
@@ -354,8 +276,8 @@ Deno.serve(async (req) => {
         }
 
         <p>
-          Please review the documents carefully
-          and retain them for your records.
+          Please review the documents carefully and retain them
+          for your records.
         </p>
 
         <p style="margin-top:28px">
@@ -377,90 +299,70 @@ Deno.serve(async (req) => {
           "
         >
           Employee Code:
-          ${escapeHtml(
-            employeeCode || "—",
-          )}
+          ${escapeHtml(employeeCode || "—")}
         </div>
 
       </div>
     `;
 
-    // --------------------------------
-    // SEND THROUGH RESEND
-    // --------------------------------
+    /*
+      ONLY ONE external network call now:
+      Browser → Supabase Function → Resend
+    */
 
-    const resendResponse =
-      await fetchWithTimeout(
-        "https://api.resend.com/emails",
-        {
-          method: "POST",
+    const resendResponse = await fetchWithTimeout(
+      "https://api.resend.com/emails",
+      {
+        method: "POST",
 
-          headers: {
-            Authorization:
-              `Bearer ${resendKey}`,
-
-            "Content-Type":
-              "application/json",
-          },
-
-          body: JSON.stringify({
-            from:
-              "SS Enterprises <ssenterprisesservice@poton.me>",
-
-            to: [to],
-
-            subject,
-
-            html,
-
-            attachments:
-              safeAttachments,
-          }),
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
         },
 
-        20000,
-      );
+        body: JSON.stringify({
+          from:
+            "SS Enterprises <ssenterprisesservice@poton.me>",
 
-    // --------------------------------
-    // RESEND RESPONSE
-    // --------------------------------
+          to: [to],
 
-    let result: any = {};
+          subject,
+
+          html,
+
+          attachments: safeAttachments,
+        }),
+      },
+
+      25000,
+    );
+
+    let resendResult: any = {};
 
     try {
-      result =
-        await resendResponse.json();
+      resendResult = await resendResponse.json();
     } catch (_) {
-      result = {};
+      resendResult = {};
     }
 
     if (!resendResponse.ok) {
       return json(
         {
           error:
-            result?.message ||
-            result?.error ||
+            resendResult?.message ||
+            resendResult?.error ||
             `Resend returned HTTP ${resendResponse.status}.`,
         },
         resendResponse.status,
       );
     }
 
-    // --------------------------------
-    // SUCCESS
-    // --------------------------------
-
     return json({
       ok: true,
-      id: result?.id || null,
+      id: resendResult?.id || null,
+      message: "Email sent successfully.",
     });
-
   } catch (error) {
-
-    // --------------------------------
-    // TIMEOUT
-    // --------------------------------
-
     if (
       error instanceof DOMException &&
       error.name === "AbortError"
@@ -468,15 +370,11 @@ Deno.serve(async (req) => {
       return json(
         {
           error:
-            "Email service timed out. Please try again.",
+            "Resend email service timed out. Please try again.",
         },
         504,
       );
     }
-
-    // --------------------------------
-    // OTHER ERROR
-    // --------------------------------
 
     console.error(
       "send-letter-email error:",
@@ -494,23 +392,3 @@ Deno.serve(async (req) => {
     );
   }
 });
-
-// --------------------------------
-// HTML ESCAPE
-// --------------------------------
-
-function escapeHtml(
-  value: string,
-) {
-  return value.replace(
-    /[&<>'"]/g,
-    (ch) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;",
-      }[ch] || ch),
-  );
-}

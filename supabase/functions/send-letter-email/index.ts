@@ -30,7 +30,10 @@ function escapeHtml(value: string) {
   });
 }
 
-function cleanFilename(value: string, fallback: string) {
+function cleanFilename(
+  value: string,
+  fallback: string,
+) {
   const name = String(value || fallback)
     .trim()
     .replace(/[^a-zA-Z0-9._-]/g, "-");
@@ -42,12 +45,17 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function isValidBase64(value: string) {
-  if (!value) return false;
-
-  const cleaned = value
-    .replace(/^data:application\/pdf;base64,/i, "")
+function normalizeBase64(value: string) {
+  return String(value || "")
+    .replace(
+      /^data:application\/pdf;base64,/i,
+      "",
+    )
     .replace(/\s/g, "");
+}
+
+function isValidBase64(value: string) {
+  const cleaned = normalizeBase64(value);
 
   if (!cleaned || cleaned.length < 100) {
     return false;
@@ -61,18 +69,13 @@ function isValidBase64(value: string) {
   }
 }
 
-function normalizeBase64(value: string) {
-  return String(value || "")
-    .replace(/^data:application\/pdf;base64,/i, "")
-    .replace(/\s/g, "");
-}
-
 async function fetchWithTimeout(
   url: string,
   init: RequestInit,
   timeoutMs: number,
 ) {
-  const controller = new AbortController();
+  const controller =
+    new AbortController();
 
   const timer = setTimeout(() => {
     controller.abort();
@@ -90,10 +93,10 @@ async function fetchWithTimeout(
 
 Deno.serve(async (req) => {
   /*
-    ----------------------------------------
-    CORS
-    ----------------------------------------
-  */
+   * ---------------------------------------
+   * CORS
+   * ---------------------------------------
+   */
 
   if (req.method === "OPTIONS") {
     return new Response("ok", {
@@ -103,10 +106,10 @@ Deno.serve(async (req) => {
   }
 
   /*
-    ----------------------------------------
-    ONLY POST ALLOWED
-    ----------------------------------------
-  */
+   * ---------------------------------------
+   * ONLY POST
+   * ---------------------------------------
+   */
 
   if (req.method !== "POST") {
     return json(
@@ -120,10 +123,10 @@ Deno.serve(async (req) => {
 
   try {
     /*
-      ----------------------------------------
-      AUTH CHECK
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * AUTHORIZATION
+     * ---------------------------------------
+     */
 
     const authorization =
       req.headers.get("Authorization") ||
@@ -134,26 +137,23 @@ Deno.serve(async (req) => {
       return json(
         {
           ok: false,
-          error: "Authentication required. Please login again.",
+          error:
+            "Authentication required. Please login again.",
         },
         401,
       );
     }
 
     /*
-      ----------------------------------------
-      RESEND API KEY
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * RESEND API KEY
+     * ---------------------------------------
+     */
 
     const resendKey =
       Deno.env.get("RESEND_API_KEY") || "";
 
     if (!resendKey) {
-      console.error(
-        "RESEND_API_KEY is missing.",
-      );
-
       return json(
         {
           ok: false,
@@ -165,10 +165,10 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      READ REQUEST BODY
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * READ BODY
+     * ---------------------------------------
+     */
 
     let body: any;
 
@@ -178,17 +178,18 @@ Deno.serve(async (req) => {
       return json(
         {
           ok: false,
-          error: "Invalid JSON request body.",
+          error:
+            "Invalid request body.",
         },
         400,
       );
     }
 
     /*
-      ----------------------------------------
-      MAIN VALUES
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * DATA
+     * ---------------------------------------
+     */
 
     const to = String(
       body?.to || "",
@@ -223,10 +224,10 @@ Deno.serve(async (req) => {
     ).trim();
 
     /*
-      ----------------------------------------
-      VALIDATE EMAIL
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * VALIDATE STAFF EMAIL
+     * ---------------------------------------
+     */
 
     if (!isValidEmail(to)) {
       return json(
@@ -240,14 +241,12 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      LETTER PDF REQUIRED
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * LETTER ATTACHMENT
+     * ---------------------------------------
+     */
 
-    if (
-      !attachmentsInput.length
-    ) {
+    if (!attachmentsInput.length) {
       return json(
         {
           ok: false,
@@ -257,11 +256,6 @@ Deno.serve(async (req) => {
         400,
       );
     }
-
-    /*
-      The frontend normally sends
-      exactly one main Letter PDF.
-    */
 
     const letter =
       attachmentsInput[0];
@@ -283,23 +277,25 @@ Deno.serve(async (req) => {
     }
 
     if (
-      !isValidBase64(letterContent)
+      !isValidBase64(
+        letterContent,
+      )
     ) {
       return json(
         {
           ok: false,
           error:
-            "Letter PDF attachment is not valid Base64.",
+            "Letter PDF is not valid Base64.",
         },
         400,
       );
     }
 
     /*
-      ----------------------------------------
-      PREPARE LETTER ATTACHMENT
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * PREPARE ATTACHMENTS
+     * ---------------------------------------
+     */
 
     const safeAttachments: any[] = [];
 
@@ -319,13 +315,12 @@ Deno.serve(async (req) => {
     });
 
     /*
-      ----------------------------------------
-      OFFER LETTER
-      ----------------------------------------
-
-      Offer Letter requires the
-      Terms & Conditions PDF too.
-    */
+     * ---------------------------------------
+     * OFFER LETTER
+     *
+     * Add Terms & Conditions PDF
+     * ---------------------------------------
+     */
 
     if (
       letterType === "offer"
@@ -335,7 +330,7 @@ Deno.serve(async (req) => {
           {
             ok: false,
             error:
-              "Terms & Conditions PDF is missing. Please generate the Offer Letter again.",
+              "Terms & Conditions PDF is missing.",
           },
           400,
         );
@@ -371,74 +366,53 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      LETTER TYPE LABEL
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * LETTER TYPE
+     * ---------------------------------------
+     */
 
     let typeLabel =
       "Employee Letter";
 
-    switch (letterType) {
-      case "offer":
-        typeLabel =
-          "Offer Letter";
-        break;
-
-      case "joining":
-        typeLabel =
-          "Joining Letter";
-        break;
-
-      case "warning":
-        typeLabel =
-          "Warning Letter";
-        break;
-
-      case "termination":
-        typeLabel =
-          "Termination Letter";
-        break;
-
-      case "terms":
-        typeLabel =
-          "Terms & Conditions";
-        break;
-
-      default:
-        typeLabel =
-          "Employee Letter";
+    if (
+      letterType === "offer"
+    ) {
+      typeLabel =
+        "Offer Letter";
+    } else if (
+      letterType === "joining"
+    ) {
+      typeLabel =
+        "Joining Letter";
+    } else if (
+      letterType === "warning"
+    ) {
+      typeLabel =
+        "Warning Letter";
+    } else if (
+      letterType === "termination"
+    ) {
+      typeLabel =
+        "Termination Letter";
+    } else if (
+      letterType === "terms"
+    ) {
+      typeLabel =
+        "Terms & Conditions";
     }
 
     /*
-      ----------------------------------------
-      EMAIL HTML
-      ----------------------------------------
-    */
-
-    const safeEmployeeName =
-      escapeHtml(
-        employeeName ||
-          "Employee",
-      );
-
-    const safeEmployeeCode =
-      escapeHtml(
-        employeeCode || "—",
-      );
-
-    const safeSubject =
-      escapeHtml(
-        subject ||
-          "SS Enterprises Letter",
-      );
+     * ---------------------------------------
+     * EMAIL HTML
+     * ---------------------------------------
+     */
 
     const html = `
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${safeSubject}</title>
+<title>SS Enterprises</title>
 </head>
 
 <body
@@ -467,8 +441,6 @@ Deno.serve(async (req) => {
       overflow:hidden;
     "
   >
-
-    <!-- HEADER -->
 
     <div
       style="
@@ -500,9 +472,6 @@ Deno.serve(async (req) => {
 
     </div>
 
-
-    <!-- BODY -->
-
     <div
       style="
         padding:25px 24px;
@@ -515,7 +484,7 @@ Deno.serve(async (req) => {
       <p>
         Dear
         <strong>
-          ${safeEmployeeName}
+          ${escapeHtml(employeeName)}
         </strong>,
       </p>
 
@@ -534,27 +503,23 @@ Deno.serve(async (req) => {
         letterType === "offer"
           ? `
       <p>
-        Your email also contains the
-        company's original
-        <strong>
-          Terms &amp; Conditions of Employment
-        </strong>
-        as a separate PDF attachment.
+        The email also contains the
+        company's Terms &amp; Conditions
+        of Employment as a PDF attachment.
       </p>
       `
           : ""
       }
 
       <p>
-        Please review the attached document(s)
-        carefully and keep them safely for
-        your records.
+        Please review the attached
+        document(s) carefully and keep
+        them safely for your records.
       </p>
 
       <p
         style="
           margin-top:28px;
-          margin-bottom:0;
         "
       >
         Regards,<br>
@@ -565,29 +530,19 @@ Deno.serve(async (req) => {
 
         SS Enterprises<br>
 
-        <span
-          style="
-            color:#65748a;
-          "
-        >
-          Donar Road, Darbhanga
-        </span>
-        <br>
+        Donar Road, Darbhanga<br>
 
         <span
           style="
             color:#65748a;
           "
         >
-          ssenterprisesservice@poton.me
+          ssenterprisesservice@proton.me
         </span>
 
       </p>
 
     </div>
-
-
-    <!-- FOOTER -->
 
     <div
       style="
@@ -601,7 +556,9 @@ Deno.serve(async (req) => {
 
       Employee Code:
       <strong>
-        ${safeEmployeeCode}
+        ${escapeHtml(
+          employeeCode || "—",
+        )}
       </strong>
 
     </div>
@@ -615,14 +572,21 @@ Deno.serve(async (req) => {
 `;
 
     /*
-      ----------------------------------------
-      RESEND PAYLOAD
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * RESEND
+     *
+     * IMPORTANT:
+     * No poton.me here.
+     * ---------------------------------------
+     */
 
     const resendPayload = {
       from:
-        "SS Enterprises <ssenterprisesservice@poton.me>",
+        "SS Enterprises <onboarding@resend.dev>",
+
+      reply_to: [
+        "ssenterprisesservice@proton.me",
+      ],
 
       to: [
         to,
@@ -639,7 +603,7 @@ Deno.serve(async (req) => {
     };
 
     console.log(
-      "Sending employee letter:",
+      "SS Enterprises letter email:",
       {
         to,
         employeeName,
@@ -651,10 +615,10 @@ Deno.serve(async (req) => {
     );
 
     /*
-      ----------------------------------------
-      SEND EMAIL
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * SEND THROUGH RESEND
+     * ---------------------------------------
+     */
 
     const resendResponse =
       await fetchWithTimeout(
@@ -684,10 +648,10 @@ Deno.serve(async (req) => {
       );
 
     /*
-      ----------------------------------------
-      READ RESEND RESPONSE
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * RESEND RESPONSE
+     * ---------------------------------------
+     */
 
     let resendResult: any = {};
 
@@ -709,10 +673,10 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      RESEND ERROR
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * RESEND ERROR
+     * ---------------------------------------
+     */
 
     if (
       !resendResponse.ok
@@ -727,7 +691,7 @@ Deno.serve(async (req) => {
         },
       );
 
-      const resendError =
+      const errorMessage =
         resendResult?.message ||
         resendResult?.error ||
         resendResult?.name ||
@@ -738,7 +702,7 @@ Deno.serve(async (req) => {
           ok: false,
           error:
             String(
-              resendError,
+              errorMessage,
             ),
         },
         resendResponse.status,
@@ -746,13 +710,13 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      SUCCESS
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * SUCCESS
+     * ---------------------------------------
+     */
 
     console.log(
-      "Employee letter email sent successfully:",
+      "SS Enterprises email sent:",
       resendResult?.id || null,
     );
 
@@ -782,10 +746,10 @@ Deno.serve(async (req) => {
   } catch (error) {
 
     /*
-      ----------------------------------------
-      TIMEOUT
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * TIMEOUT
+     * ---------------------------------------
+     */
 
     if (
       error instanceof DOMException &&
@@ -803,10 +767,10 @@ Deno.serve(async (req) => {
     }
 
     /*
-      ----------------------------------------
-      UNKNOWN ERROR
-      ----------------------------------------
-    */
+     * ---------------------------------------
+     * OTHER ERROR
+     * ---------------------------------------
+     */
 
     console.error(
       "send-letter-email error:",

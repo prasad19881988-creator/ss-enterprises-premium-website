@@ -539,7 +539,7 @@ Deno.serve(async (req) => {
     // ============================================================
 
     const resendPayload = {
-      from: "SS Enterprises <onboarding@resend.dev>",
+     from: "SS Enterprises <no-reply@ssenterprisesservice.online>" ,
       reply_to: ["ssenterprisesservice@proton.me"],
       to: [to],
       subject,

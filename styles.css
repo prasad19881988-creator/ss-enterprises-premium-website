@@ -411,3 +411,53 @@ body.qr-page{background:radial-gradient(circle at 50% 0,rgba(168,216,107,.10),tr
 .app-download-card:before{content:"";position:absolute;width:360px;height:360px;right:-140px;top:-170px;border-radius:50%;background:radial-gradient(circle,rgba(214,166,65,.2),transparent 65%);pointer-events:none}
 .app-download-copy{position:relative;z-index:1}.app-download-copy h2{margin:8px 0 12px}.app-download-points{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.app-download-points span{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#dce7f3;font-size:12px;font-weight:800}.app-download-btn{margin-top:4px;display:inline-flex;align-items:center;justify-content:center}.app-download-note{display:block;margin-top:12px;color:#9fb0c5;font-size:11px;line-height:1.5}.app-download-visual{display:flex;justify-content:center;position:relative;z-index:1}.app-phone{width:170px;min-height:280px;padding:18px 14px;border:7px solid rgba(255,255,255,.12);border-radius:30px;background:linear-gradient(160deg,#0d2e54,#06162d);box-shadow:0 24px 55px rgba(0,0,0,.35),0 0 50px rgba(214,166,65,.08);text-align:center;transform:rotate(3deg)}.app-phone-top{font-size:9px;letter-spacing:2px;color:#d6a641;font-weight:900}.app-phone img{width:82px;height:82px;object-fit:contain;margin:42px auto 18px;display:block;border-radius:18px}.app-phone-line{height:8px;border-radius:999px;background:rgba(255,255,255,.09);margin:0 18px 14px}.app-phone-chip{display:inline-block;padding:7px 10px;border-radius:999px;background:rgba(214,166,65,.12);border:1px solid rgba(214,166,65,.28);font-size:9px;font-weight:900;letter-spacing:1px;color:#f0d47b}
 @media(max-width:700px){.app-download-card{grid-template-columns:1fr;padding:26px}.app-download-visual{order:-1}.app-phone{min-height:220px;width:145px}.app-phone img{margin:25px auto 14px;width:68px;height:68px}.app-download-btn{width:100%}}
+
+/* SS ENTERPRISES — visible 3D / animated premium layer */
+.hero-visual-card{
+  animation:ssCardFloat 5.5s ease-in-out infinite;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.hero-visual-card:after{
+  content:"";
+  position:absolute;
+  top:-20%;left:-70%;width:45%;height:150%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:rotate(18deg);
+  animation:ssLightSweep 5s ease-in-out infinite;
+  pointer-events:none;
+}
+.hero-visual-card>img{
+  animation:ssLogoFloat 4.5s ease-in-out infinite;
+}
+.hero-orbit{animation:ssOrbit 18s linear infinite}
+.orbit-two{animation-duration:26s;animation-direction:reverse}
+.visual-badges span{box-shadow:inset 0 0 18px rgba(255,255,255,.035),0 6px 18px rgba(0,0,0,.12)}
+.app-download-card{transform-style:preserve-3d}
+.app-phone{animation:ssPhoneFloat 4.8s ease-in-out infinite;transform-style:preserve-3d;box-shadow:0 28px 55px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.18)!important}
+@keyframes ssCardFloat{0%,100%{transform:rotate(2deg) translate3d(0,0,0)}50%{transform:rotate(0deg) translate3d(0,-10px,0)}}
+@keyframes ssLogoFloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-8px,8px) scale(1.025)}}
+@keyframes ssLightSweep{0%,55%{left:-70%;opacity:0}65%{opacity:1}82%,100%{left:125%;opacity:0}}
+@keyframes ssOrbit{from{transform:rotate(0deg) scale(1)}to{transform:rotate(360deg) scale(1)}}
+@keyframes ssPhoneFloat{0%,100%{transform:translateY(0) rotateY(-4deg)}50%{transform:translateY(-8px) rotateY(4deg)}}
+@media(prefers-reduced-motion:reduce){.hero-visual-card,.hero-visual-card>img,.hero-orbit,.app-phone{animation:none!important}}
+
+
+/* =========================================================
+   SS ENTERPRISES — VISIBLE PREMIUM 3D MOTION LAYER
+   Bihar-wide branding; lightweight and mobile-safe.
+   ========================================================= */
+.hero-visual-card{animation:ssVisibleFloat 4.8s ease-in-out infinite!important;transform-style:preserve-3d!important;will-change:transform;}
+.hero-visual-card::before{animation:ssGlowPulse 3.8s ease-in-out infinite!important;}
+.hero-visual-card::after{content:"";position:absolute;inset:-2px;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 0%,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%,transparent 100%);background-size:220% 100%;animation:ss3DLight 4.6s linear infinite;mix-blend-mode:screen;}
+.hero-mark img{animation:ssVisibleLogo 4.2s ease-in-out infinite!important;filter:drop-shadow(0 20px 26px rgba(0,0,0,.34)) drop-shadow(0 0 22px rgba(214,166,65,.16));}
+.project-card,.career-card,.contact-card,.person-card,.credential-grid>div,.vision-box,.app-download-card{transform-style:preserve-3d;}
+.project-card:hover,.career-card:hover,.contact-card:hover,.person-card:hover,.credential-grid>div:hover,.app-download-card:hover{transform:translateY(-7px) rotateX(1deg) rotateY(-1deg)!important;box-shadow:0 28px 70px rgba(3,18,38,.20),inset 0 1px rgba(255,255,255,.10)!important;}
+@keyframes ssVisibleFloat{0%,100%{transform:perspective(1100px) rotateY(-2deg) rotateX(1deg) translateY(0)}50%{transform:perspective(1100px) rotateY(2deg) rotateX(-1deg) translateY(-11px)}}
+@keyframes ssVisibleLogo{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-9px,14px) scale(1.045)}}
+@keyframes ss3DLight{0%{background-position:220% 0}100%{background-position:-20% 0}}
+@keyframes ssGlowPulse{0%,100%{opacity:.7;transform:scale(.98)}50%{opacity:1;transform:scale(1.04)}}
+@media(max-width:700px){.hero-visual-card{animation:ssVisibleFloatMobile 5.4s ease-in-out infinite!important}.hero-mark img{animation:ssVisibleLogoMobile 4.8s ease-in-out infinite!important}}
+@keyframes ssVisibleFloatMobile{0%,100%{transform:perspective(900px) rotateY(-1deg) translateY(0)}50%{transform:perspective(900px) rotateY(1deg) translateY(-7px)}}
+@keyframes ssVisibleLogoMobile{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px) scale(1.02)}}
+@media(prefers-reduced-motion:reduce){.hero-visual-card,.hero-mark img,.hero-visual-card::after{animation:none!important}}

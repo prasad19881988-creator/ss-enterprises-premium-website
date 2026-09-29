@@ -195,7 +195,7 @@ const DEFAULT_DATA = {
       id: "district-coordinator",
       role: "District Coordinator",
       name: "District Coordinator",
-      location: "Darbhanga, Bihar",
+      location: "Bihar",
       responsibilities:
         "District project implementation, field staff coordination and monitoring of assigned work.",
       photo: "",
@@ -486,7 +486,29 @@ const I18N = {
     "व्यावसायिक पूछताछ, प्रोजेक्ट चर्चा और कार्य अवसरों के लिए SS Enterprises से सीधे संपर्क करें।",
 
 
+  /* App / visual interface */
+  "SS ENTERPRISES APP": "SS ENTERPRISES ऐप",
+  "Our official app,": "हमारा आधिकारिक ऐप,",
+  "available here.": "यहाँ उपलब्ध है।",
+  "Download the SS Enterprises Android app directly from our official website.": "SS Enterprises का Android ऐप हमारी आधिकारिक वेबसाइट से सीधे डाउनलोड करें।",
+  "✓ Official SS Enterprises app": "✓ आधिकारिक SS Enterprises ऐप",
+  "✓ Android download": "✓ Android डाउनलोड",
+  "✓ Direct website download": "✓ वेबसाइट से सीधे डाउनलोड",
+  "Download SS Enterprises App ↓": "SS Enterprises ऐप डाउनलोड करें ↓",
+  "Android APK • Please allow installation from your browser/file source if Android asks for permission.": "Android APK • यदि Android अनुमति मांगे तो अपने ब्राउज़र/फ़ाइल स्रोत से इंस्टॉलेशन की अनुमति दें।",
+  "Professional Project Execution": "पेशेवर प्रोजेक्ट कार्यान्वयन",
+  "Professional Project Execution Across Bihar": "पूरे बिहार में पेशेवर प्रोजेक्ट कार्यान्वयन",
+  "Tender Work • Manpower • Digital Services": "टेंडर कार्य • जनशक्ति • डिजिटल सेवाएँ",
+  "Tender Work • Manpower • Digital Services • Bihar": "टेंडर कार्य • जनशक्ति • डिजिटल सेवाएँ • बिहार",
+  "BIHAR": "बिहार",
+  "TRUST": "विश्वास",
+  "EXECUTION": "कार्यान्वयन",
+
   /* Common */
+
+  "SS Enterprises Bihar": "SS Enterprises बिहार",
+  "Professional services across Bihar": "पूरे बिहार में पेशेवर सेवाएँ",
+  "Across Bihar": "पूरे बिहार में",
 
   "Aapki Seva Mein Hamari Khushi":
     "आपकी सेवा में हमारी खुशी",

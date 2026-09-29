@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ssenterprisesservice.online/</loc>
-    <lastmod>2026-09-29</lastmod>
-  </url>
+  <url><loc>https://ssenterprisesservice.online/</loc></url>
+  <url><loc>https://ssenterprisesservice.online/admin.html</loc></url>
+  <url><loc>https://ssenterprisesservice.online/employee.html</loc></url>
 </urlset>

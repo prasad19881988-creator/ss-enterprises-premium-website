@@ -2788,3 +2788,35 @@ window.addEventListener(
 try {
   if (typeof translateCareerForm === "function") translateCareerForm();
 } catch (e) {}
+
+/* SS ENTERPRISES — lightweight pointer 3D tilt for desktop only */
+(function(){
+  function initPremiumTilt(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if(window.matchMedia('(hover: none)').matches) return;
+    const items=document.querySelectorAll('.hero-visual-card, .app-download-card');
+    items.forEach(function(el){
+      let raf=0;
+      el.addEventListener('pointermove',function(e){
+        const r=el.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        cancelAnimationFrame(raf);
+        raf=requestAnimationFrame(function(){
+          el.style.setProperty('--tilt-x',(y*-5).toFixed(2)+'deg');
+          el.style.setProperty('--tilt-y',(x*7).toFixed(2)+'deg');
+          el.style.setProperty('--tilt-z',(x*2).toFixed(2)+'deg');
+          el.classList.add('pointer-tilt');
+        });
+      },{passive:true});
+      el.addEventListener('pointerleave',function(){
+        cancelAnimationFrame(raf);
+        el.style.setProperty('--tilt-x','0deg');
+        el.style.setProperty('--tilt-y','0deg');
+        el.style.setProperty('--tilt-z','0deg');
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPremiumTilt,{once:true});
+  else initPremiumTilt();
+})();

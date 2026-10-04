@@ -40,17 +40,16 @@
     backs.forEach(back=>{
       const body = back.querySelector('.id-back-body') || back;
       let box = body.querySelector('.ss-id-company-details');
-      if(!box){
-        box = document.createElement('div');
-        box.className = 'ss-id-company-details';
-        body.insertBefore(box, body.firstChild || null);
-      }
+      if(box) return;
+      box = document.createElement('div');
+      box.className = 'ss-id-company-details';
       box.innerHTML = '<strong>SS ENTERPRISES</strong>'+
         '<span>Donar Road, Darbhanga, Bihar</span>'+
         '<span>Mob: +91 73600 25302</span>'+
         '<span>Email: info@ssenterprisesservice.online</span>'+
         '<span>Website: ssenterprisesservice.online</span>'+
         '<span>Udyam/MSME: BR-10-0011079</span>';
+      body.insertBefore(box, body.firstChild || null);
     });
   }
 

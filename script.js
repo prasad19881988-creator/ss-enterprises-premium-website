@@ -104,7 +104,7 @@ const DEFAULT_DATA = {
 
       phone: "+91 73600 25302",
       whatsapp: "+91 73600 25302",
-      email: "ssenterprisesservice@poton.me",
+      email: "info@ssenterprisesservice.online",
       address: "Donar Road, Darbhanga",
 
       socials: [

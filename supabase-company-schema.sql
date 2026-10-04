@@ -9,7 +9,8 @@ create table if not exists public.company_profile (
   company_name text not null default 'SS ENTERPRISES',
   address text not null default 'Donar Road, Darbhanga',
   phone text default '+91 73600 25302',
-  email text default 'ssenterprisesservice@poton.me',
+  email text default 'info@ssenterprisesservice.online',
+  udyam_number text default 'BR-10-0011079',
   logo_url text default '',
   signature_url text default '',
   stamp_url text default '',
@@ -219,6 +220,10 @@ alter table public.payroll add column if not exists rent_allowance numeric(12,2)
 alter table public.payroll add column if not exists other_allowance numeric(12,2) not null default 0;
 
 
+-- Keep official company contact/registration details synchronized.
+alter table public.company_profile add column if not exists udyam_number text default 'BR-10-0011079';
+update public.company_profile set email='info@ssenterprisesservice.online', udyam_number='BR-10-0011079' where id=1;
+
 -- PUBLIC EMPLOYEE QR DIRECTORY
 -- QR codes open employee.html?employee=<employee_code>.
 -- Only non-sensitive employment/company fields are exposed; bank details and notes are never public.
@@ -228,7 +233,7 @@ select
   s.joining_date,
   s.status, s.photo_url, s.phone, s.email, s.address,
   c.company_name, c.address as company_address, c.phone as company_phone, c.email as company_email,
-  c.logo_url
+  c.logo_url, c.udyam_number
 from public.staff s
 cross join public.company_profile c
 where s.employee_code is not null;

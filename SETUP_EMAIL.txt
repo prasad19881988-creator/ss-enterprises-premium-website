@@ -5,7 +5,7 @@ What this package adds:
 2. Offer Letter PDF is generated from the currently selected employee.
 3. The original 5-page Terms & Conditions PDF is attached unchanged.
 4. Email is sent directly to the employee's email stored in Staff Management.
-5. Sender is: SS Enterprises <ssenterprisesservice@poton.me>
+5. Sender is: SS Enterprises <info@ssenterprisesservice.online>
 6. API key is kept server-side in a Supabase Edge Function; it is NOT placed in admin.js.
 7. Non-offer letters are sent as one PDF. Offer letters are sent with two PDF attachments.
 
@@ -27,7 +27,7 @@ RESEND_API_KEY = your Resend API key
 SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are normally available to Supabase Edge Functions automatically. Do not put the service-role key in admin.js or the browser.
 
 RESEND DOMAIN
-Before production sending from ssenterprisesservice@poton.me, add and verify poton.me in Resend. Resend will provide the DNS records that must be added at your domain/DNS provider. Do not invent DNS values; use the exact records shown in your Resend dashboard.
+Before production sending from info@ssenterprisesservice.online, add and verify ssenterprisesservice.online in Resend. Resend will provide the DNS records that must be added at your domain/DNS provider. Do not invent DNS values; use the exact records shown in your Resend dashboard.
 
 HOW STAFF EMAIL WORKS
 1. Open Admin Panel.

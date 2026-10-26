@@ -1,0 +1,28 @@
+SS ENTERPRISES — FIX FOR OLD TERMS & CONDITIONS PDF IN STAFF EMAIL
+
+CAUSE FOUND
+The Supabase Edge Function in this package accepted termsContent sent by the admin page first. If an older/cached admin page sent an old PDF as termsContent, that old PDF took priority over the newly uploaded website PDF.
+
+FIX INCLUDED
+supabase/functions/send-letter-email/index.ts now fetches the current PDF directly from:
+https://ss-enterprises-website.onrender.com/SS_Enterprises_Terms_and_Conditions.pdf
+It checks that the response is a real PDF and will return an error instead of silently attaching an old/invalid file.
+
+IMPORTANT — TWO DEPLOYS ARE REQUIRED
+1) GitHub/Render deploy only updates the website files. It does NOT automatically update the already deployed Supabase Edge Function unless your project has a configured deployment pipeline.
+2) You must also update/deploy the function named send-letter-email in Supabase with the modified index.ts included here.
+
+PHONE-FRIENDLY SUPABASE STEPS
+1. Open Supabase Dashboard and select the SS Enterprises project.
+2. Open Edge Functions > send-letter-email.
+3. Open its code editor (if available) and replace the function code with the complete contents of:
+   supabase/functions/send-letter-email/index.ts
+4. Save/Deploy the function.
+5. Open this website PDF in your phone browser:
+   https://ss-enterprises-website.onrender.com/SS_Enterprises_Terms_and_Conditions.pdf
+   Check that the displayed/downloaded PDF is the updated one.
+6. From the Admin Panel, send a test Offer Letter to your own email first.
+7. Open the email attachment SS_Enterprises_Terms_and_Conditions.pdf and verify the new per-card clarification is present on its final page.
+
+DO NOT share or change RESEND_API_KEY or other secrets. This package does not contain secret keys.
+The website URL in the Edge Function is the existing URL found in the supplied project. If your production website uses a different URL, update publicTermsUrl to that exact public PDF URL before deploying.

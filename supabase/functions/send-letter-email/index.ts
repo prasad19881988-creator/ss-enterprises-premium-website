@@ -30,7 +30,6 @@ function normalizeBase64(value: unknown): string {
 
   let s = value.trim();
 
-  // Remove data URL prefix if present
   if (s.startsWith("data:")) {
     const comma = s.indexOf(",");
     if (comma >= 0) {
@@ -38,15 +37,12 @@ function normalizeBase64(value: unknown): string {
     }
   }
 
-  // Remove whitespace/newlines
   return s.replace(/\s+/g, "");
 }
 
 function isValidBase64(value: string) {
-  if (!value) return false;
-  if (value.length < 100) return false;
+  if (!value || value.length < 100) return false;
 
-  // Basic Base64 validation
   return /^[A-Za-z0-9+/]*={0,2}$/.test(value);
 }
 
@@ -84,9 +80,7 @@ async function fetchWithTimeout(
 }
 
 Deno.serve(async (req) => {
-  // -----------------------------
   // CORS
-  // -----------------------------
   if (req.method === "OPTIONS") {
     return new Response("ok", {
       status: 200,
@@ -94,14 +88,10 @@ Deno.serve(async (req) => {
     });
   }
 
-  // -----------------------------
-  // METHOD
-  // -----------------------------
+  // Only POST is allowed
   if (req.method !== "POST") {
     return json(
-      {
-        error: "Only POST requests are allowed.",
-      },
+      { error: "Only POST requests are allowed." },
       405,
     );
   }
@@ -109,131 +99,94 @@ Deno.serve(async (req) => {
   try {
     console.log("send-letter-email: request received");
 
-    // -----------------------------
-    // AUTHORIZATION
-    // -----------------------------
+    // Authorization header
     const authHeader = req.headers.get("Authorization");
 
     if (!authHeader) {
-      console.error("AUTH ERROR: Authorization header missing");
-
       return json(
-        {
-          error: "Authorization header is missing.",
-        },
+        { error: "Authorization header is missing." },
         401,
       );
     }
 
-    // -----------------------------
-    // RESEND KEY
-    // -----------------------------
+    // Resend API key must be configured in Supabase Secrets
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
     if (!resendApiKey) {
-      console.error("CONFIG ERROR: RESEND_API_KEY is missing");
+      console.error("RESEND_API_KEY is missing");
 
       return json(
         {
-          error: "Email service is not configured. RESEND_API_KEY is missing.",
+          error:
+            "Email service is not configured. RESEND_API_KEY is missing.",
         },
         500,
       );
     }
 
-    // -----------------------------
-    // READ BODY
-    // -----------------------------
+    // Read request body
     let body: any;
 
     try {
       body = await req.json();
-    } catch (err) {
-      console.error("JSON ERROR:", err);
-
+    } catch {
       return json(
-        {
-          error: "Invalid JSON request body.",
-        },
+        { error: "Invalid JSON request body." },
         400,
       );
     }
 
     const to = String(body?.to || "").trim();
-    const subject =
-      String(body?.subject || "SS Enterprises Letter").trim();
 
-    const employeeName =
-      String(body?.employeeName || "Employee").trim();
+    const subject = String(
+      body?.subject || "SS Enterprises Letter",
+    ).trim();
 
-    const employeeCode =
-      String(body?.employeeCode || "").trim();
+    const employeeName = String(
+      body?.employeeName || "Employee",
+    ).trim();
 
-    const letterType =
-      String(body?.letterType || "letter").trim().toLowerCase();
+    const employeeCode = String(
+      body?.employeeCode || "",
+    ).trim();
+
+    const letterType = String(
+      body?.letterType || "letter",
+    ).trim().toLowerCase();
 
     const attachmentsInput = Array.isArray(body?.attachments)
       ? body.attachments
       : [];
 
-    /*
-      Existing admin.js sends termsContent.
-      Newer admin.js may send termsUrl.
-      We support both.
-    */
-    const termsContentInput =
-      typeof body?.termsContent === "string"
-        ? body.termsContent
-        : "";
-
-    const termsUrl =
-      typeof body?.termsUrl === "string"
-        ? body.termsUrl.trim()
-        : "";
-
-    console.log("REQUEST INFO:", {
-      to,
+    console.log("Request details:", {
       employeeName,
       employeeCode,
       letterType,
       attachmentCount: attachmentsInput.length,
-      termsContentLength: termsContentInput.length,
-      termsUrl: termsUrl ? "provided" : "not provided",
     });
 
-    // -----------------------------
-    // EMAIL VALIDATION
-    // -----------------------------
+    // Validate recipient
     if (!isValidEmail(to)) {
-      console.error("VALIDATION ERROR: Invalid recipient email");
-
       return json(
-        {
-          error: `Invalid employee email address: ${to || "empty"}`,
-        },
+        { error: "Invalid employee email address." },
         400,
       );
     }
 
-    // -----------------------------
-    // LETTER ATTACHMENT
-    // -----------------------------
+    // Letter PDF is mandatory
     if (attachmentsInput.length === 0) {
-      console.error("VALIDATION ERROR: No letter attachment");
-
       return json(
-        {
-          error: "Letter PDF attachment is missing.",
-        },
+        { error: "Letter PDF attachment is missing." },
         400,
       );
     }
 
-    const safeAttachments: any[] = [];
+    const safeAttachments: Array<{
+      filename: string;
+      content: string;
+    }> = [];
 
-    // -----------------------------
-    // PROCESS LETTER PDF
-    // -----------------------------
+    // Process the letter attachment(s)
     for (const item of attachmentsInput) {
       const filename = cleanFilename(
         item?.filename || "SS-Enterprises-Letter.pdf",
@@ -242,16 +195,10 @@ Deno.serve(async (req) => {
       const content = normalizeBase64(item?.content);
 
       if (!isValidBase64(content)) {
-        console.error(
-          "VALIDATION ERROR: Invalid PDF Base64",
-          filename,
-          content.length,
-        );
+        console.error("Invalid attachment:", filename);
 
         return json(
-          {
-            error: `Invalid PDF attachment: ${filename}`,
-          },
+          { error: `Invalid PDF attachment: ${filename}` },
           400,
         );
       }
@@ -262,156 +209,164 @@ Deno.serve(async (req) => {
       });
     }
 
-    // ============================================================
+    // =========================================================
     // TERMS & CONDITIONS
-    // ============================================================
+    // Always download the current PDF from the company website.
+    // Do not use old termsContent supplied by admin.js.
+    // =========================================================
 
     if (letterType === "offer") {
-      let finalTermsBase64 = "";
+      const publicTermsUrl =
+        "https://ss-enterprises-website.onrender.com/SS_Enterprises_Terms_and_Conditions.pdf";
 
-      /*
-        OPTION 1:
-        Existing admin.js already sends termsContent.
-      */
-      if (isValidBase64(normalizeBase64(termsContentInput))) {
-        finalTermsBase64 = normalizeBase64(termsContentInput);
+      console.log("Downloading current Terms & Conditions PDF");
 
-        console.log(
-          "T&C source: termsContent from frontend",
-          finalTermsBase64.length,
-        );
-      }
-
-      /*
-        OPTION 2:
-        If termsContent is not supplied, fetch original PDF
-        directly from SS Enterprises website.
-      */
-      if (!finalTermsBase64) {
-        const publicTermsUrl =
-          termsUrl ||
-          "https://ss-enterprises-website.onrender.com/SS_Enterprises_Terms_and_Conditions.pdf";
-
-        console.log(
-          "T&C source: website",
+      try {
+        const tcResponse = await fetchWithTimeout(
           publicTermsUrl,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/pdf",
+              "Cache-Control": "no-cache",
+              Pragma: "no-cache",
+            },
+          },
+          30000,
         );
 
-        try {
-          const tcResponse = await fetchWithTimeout(
-            publicTermsUrl,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/pdf,*/*",
-              },
-            },
-            30000,
+        if (!tcResponse.ok) {
+          console.error(
+            "Terms PDF download failed:",
+            tcResponse.status,
+            tcResponse.statusText,
           );
-
-          if (!tcResponse.ok) {
-            console.error(
-              "T&C FETCH ERROR:",
-              tcResponse.status,
-              tcResponse.statusText,
-            );
-
-            return json(
-              {
-                error:
-                  `Terms & Conditions PDF could not be fetched. ` +
-                  `Website returned HTTP ${tcResponse.status}.`,
-              },
-              502,
-            );
-          }
-
-          const contentType =
-            tcResponse.headers.get("content-type") || "";
-
-          const buffer = await tcResponse.arrayBuffer();
-
-          if (!buffer || buffer.byteLength < 100) {
-            console.error(
-              "T&C FETCH ERROR: Empty or invalid PDF",
-              buffer?.byteLength,
-            );
-
-            return json(
-              {
-                error:
-                  "Terms & Conditions PDF downloaded from website is empty or invalid.",
-              },
-              502,
-            );
-          }
-
-          const bytes = new Uint8Array(buffer);
-
-          finalTermsBase64 = uint8ArrayToBase64(bytes);
-
-          console.log(
-            "T&C downloaded successfully:",
-            {
-              bytes: buffer.byteLength,
-              base64Length: finalTermsBase64.length,
-              contentType,
-            },
-          );
-        } catch (err) {
-          console.error("T&C FETCH EXCEPTION:", err);
 
           return json(
             {
               error:
-                "Could not download the Terms & Conditions PDF from the SS Enterprises website.",
+                `Terms & Conditions PDF download failed. ` +
+                `Website returned HTTP ${tcResponse.status}.`,
             },
             502,
           );
         }
-      }
 
-      if (!isValidBase64(finalTermsBase64)) {
+        const buffer = await tcResponse.arrayBuffer();
+
+        if (buffer.byteLength < 100) {
+          return json(
+            {
+              error:
+                "Terms & Conditions PDF is empty or invalid.",
+            },
+            502,
+          );
+        }
+
+        const bytes = new Uint8Array(buffer);
+
+        // Check PDF signature
+        const signature = String.fromCharCode(
+          bytes[0],
+          bytes[1],
+          bytes[2],
+          bytes[3],
+          bytes[4],
+        );
+
+        if (signature !== "%PDF-") {
+          console.error(
+            "Downloaded file is not a PDF:",
+            signature,
+          );
+
+          return json(
+            {
+              error:
+                "The website did not return a valid PDF. Check the uploaded company PDF.",
+            },
+            502,
+          );
+        }
+
+        const termsBase64 = uint8ArrayToBase64(bytes);
+
+        if (!isValidBase64(termsBase64)) {
+          return json(
+            {
+              error:
+                "Terms & Conditions PDF could not be prepared.",
+            },
+            502,
+          );
+        }
+
+        // Attach only the PDF fetched above.
+        safeAttachments.push({
+          filename: "SS_Enterprises_Terms_and_Conditions.pdf",
+          content: termsBase64,
+        });
+
+        console.log("Current Terms PDF attached:", {
+          bytes: buffer.byteLength,
+          attachmentCount: safeAttachments.length,
+        });
+      } catch (error) {
         console.error(
-          "T&C ERROR: Final Terms PDF Base64 is invalid",
+          "Terms PDF download exception:",
+          error,
         );
 
         return json(
           {
             error:
-              "Terms & Conditions PDF is invalid or could not be prepared.",
+              "Could not download the Terms & Conditions PDF from the company website.",
           },
-          400,
+          502,
         );
       }
+    }
 
-      safeAttachments.push({
-        filename: "SS_Enterprises_Terms_and_Conditions.pdf",
-        content: finalTermsBase64,
+    // =========================================================
+    // EMAIL CONTENT
+    // =========================================================
+
+    const typeLabels: Record<string, string> = {
+      offer: "Offer Letter",
+      joining: "Joining Letter",
+      warning: "Warning Letter",
+      termination: "Termination Letter",
+    };
+
+    const typeLabel =
+      typeLabels[letterType] || "Official Letter";
+
+    // Escape user-supplied values before inserting into HTML
+    function escapeHtml(value: string) {
+      return value.replace(/[&<>"']/g, (character) => {
+        const entities: Record<string, string> = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        };
+
+        return entities[character];
       });
     }
 
-    // ============================================================
-    // EMAIL HTML
-    // ============================================================
-
-    const typeLabel =
-      letterType === "offer"
-        ? "Offer Letter"
-        : letterType === "joining"
-          ? "Joining Letter"
-          : letterType === "warning"
-            ? "Warning Letter"
-            : letterType === "termination"
-              ? "Termination Letter"
-              : "Official Letter";
+    const safeEmployeeName = escapeHtml(employeeName);
+    const safeEmployeeCode = escapeHtml(employeeCode);
+    const safeTypeLabel = escapeHtml(typeLabel);
 
     const html = `
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SS Enterprises - ${typeLabel}</title>
+<title>SS Enterprises - ${safeTypeLabel}</title>
 </head>
 
 <body style="
@@ -420,7 +375,6 @@ Deno.serve(async (req) => {
   background:#f4f6f8;
   font-family:Arial,Helvetica,sans-serif;
 ">
-
 <div style="
   max-width:680px;
   margin:30px auto;
@@ -429,93 +383,58 @@ Deno.serve(async (req) => {
   border-radius:10px;
   overflow:hidden;
 ">
-
   <div style="
     background:#08234a;
     color:#ffffff;
     padding:22px 26px;
   ">
-    <div style="
-      font-size:22px;
-      font-weight:700;
-    ">
+    <div style="font-size:22px;font-weight:700;">
       SS ENTERPRISES
     </div>
-
-    <div style="
-      margin-top:5px;
-      font-size:13px;
-      opacity:.9;
-    ">
+    <div style="margin-top:5px;font-size:13px;">
       Official Employee Communication
     </div>
   </div>
 
-  <div style="
-    padding:28px 26px;
-    color:#222222;
-  ">
-
+  <div style="padding:28px 26px;color:#222222;">
     <p style="font-size:15px;">
-      Dear <strong>${employeeName}</strong>,
+      Dear <strong>${safeEmployeeName}</strong>,
     </p>
 
-    <p style="
-      font-size:15px;
-      line-height:1.7;
-    ">
+    <p style="font-size:15px;line-height:1.7;">
       Please find attached your
-      <strong>${typeLabel}</strong>
+      <strong>${safeTypeLabel}</strong>
       issued by SS Enterprises.
     </p>
 
     ${
-      employeeCode
-        ? `
-    <p style="
-      font-size:14px;
-      line-height:1.7;
-    ">
-      <strong>Employee Code:</strong>
-      ${employeeCode}
-    </p>
-    `
+      safeEmployeeCode
+        ? `<p style="font-size:14px;line-height:1.7;">
+             <strong>Employee Code:</strong>
+             ${safeEmployeeCode}
+           </p>`
         : ""
     }
 
     ${
       letterType === "offer"
-        ? `
-    <p style="
-      font-size:14px;
-      line-height:1.7;
-    ">
-      The original
-      <strong>Terms & Conditions PDF</strong>
-      is also attached with this email.
-    </p>
-    `
+        ? `<p style="font-size:14px;line-height:1.7;">
+             The current Terms & Conditions PDF is also attached
+             with this email.
+           </p>`
         : ""
     }
 
-    <p style="
-      font-size:14px;
-      line-height:1.7;
-    ">
-      Kindly keep the attached document for your official records.
+    <p style="font-size:14px;line-height:1.7;">
+      Kindly keep the attached documents for your official records.
     </p>
 
-    <p style="
-      margin-top:28px;
-      font-size:14px;
-      line-height:1.6;
-    ">
+    <p style="margin-top:28px;font-size:14px;line-height:1.6;">
       Regards,<br>
       <strong>SS Enterprises</strong><br>
       Donar Road, Darbhanga<br>
       +91 73600 25302
     </p>
-
   </div>
 
   <div style="
@@ -527,36 +446,30 @@ Deno.serve(async (req) => {
   ">
     This is an official automated communication from SS Enterprises.
   </div>
-
 </div>
-
 </body>
 </html>
 `;
 
-    // ============================================================
-    // RESEND API
-    // ============================================================
+    // =========================================================
+    // SEND EMAIL THROUGH RESEND
+    // =========================================================
 
     const resendPayload = {
-     from: "SS Enterprises <no-reply@ssenterprisesservice.online>" ,
-      reply_to: ["ssenterprisesservice@proton.me"],
+      from: "SS Enterprises <no-reply@ssenterprisesservice.online>",
+      reply_to: ["info@ssenterprisesservice.online"],
       to: [to],
       subject,
       html,
       attachments: safeAttachments,
     };
 
-    console.log(
-      "Sending email through Resend:",
-      {
-        to,
-        attachmentCount: safeAttachments.length,
-        attachmentNames: safeAttachments.map(
-          (x) => x.filename,
-        ),
-      },
-    );
+    console.log("Sending email:", {
+      attachmentCount: safeAttachments.length,
+      attachmentNames: safeAttachments.map(
+        (attachment) => attachment.filename,
+      ),
+    });
 
     const resendResponse = await fetchWithTimeout(
       "https://api.resend.com/emails",
@@ -575,22 +488,15 @@ Deno.serve(async (req) => {
 
     try {
       resendResult = await resendResponse.json();
-    } catch (_) {
+    } catch {
       resendResult = {};
     }
 
-    // ============================================================
-    // RESEND ERROR
-    // ============================================================
-
     if (!resendResponse.ok) {
-      console.error(
-        "RESEND API ERROR:",
-        {
-          status: resendResponse.status,
-          result: resendResult,
-        },
-      );
+      console.error("Resend API error:", {
+        status: resendResponse.status,
+        result: resendResult,
+      });
 
       return json(
         {
@@ -604,31 +510,23 @@ Deno.serve(async (req) => {
       );
     }
 
-    // ============================================================
-    // SUCCESS
-    // ============================================================
-
-    console.log(
-      "EMAIL SENT SUCCESSFULLY:",
-      resendResult,
-    );
+    console.log("Email sent successfully:", {
+      id: resendResult?.id || null,
+    });
 
     return json(
       {
         success: true,
         message:
           letterType === "offer"
-            ? "Offer Letter and Terms & Conditions sent successfully."
+            ? "Offer Letter and current Terms & Conditions sent successfully."
             : `${typeLabel} sent successfully.`,
         id: resendResult?.id || null,
       },
       200,
     );
   } catch (error) {
-    console.error(
-      "SEND LETTER FUNCTION ERROR:",
-      error,
-    );
+    console.error("Send letter function error:", error);
 
     return json(
       {
